@@ -24,6 +24,11 @@ func _ready():
     EnvironmentData.camera = $Camera2D2
     EnvironmentData.worlditems = $YSort/WorldItems
     
+    
+    var _c = null
+    _c = $CanvasLayer/BaseUI.connect("new_action_item_selected", $CanvasLayer/PlacementUI, "_check_placable_selected")
+    #$CanvasLayer/PlacementUI.initialize($CanvasLayer/BaseUI)
+    
     randomize()
     dirt_patch_noise = OpenSimplexNoise.new()
     dirt_patch_noise.seed = randi()

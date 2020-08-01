@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://assets/floor_tiles/combined.tres" type="TileSet" id=1]
 [ext_resource path="res://Autoparcel.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Camera2D2.gd" type="Script" id=9]
 [ext_resource path="res://ui/InventoryUI.tscn" type="PackedScene" id=10]
 [ext_resource path="res://RockNavigationMap.gd" type="Script" id=11]
+[ext_resource path="res://ui/PlacementUI.tscn" type="PackedScene" id=12]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 11.0
@@ -226,3 +227,7 @@ shape = SubResource( 10 )
 
 [node name="InventoryUI" parent="CanvasLayer" instance=ExtResource( 10 )]
 visible = false
+
+[node name="PlacementUI" parent="CanvasLayer" instance=ExtResource( 12 )]
+visible = false
+mouse_filter = 2

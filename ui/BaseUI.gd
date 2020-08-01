@@ -1,7 +1,7 @@
 extends Control
-var Item = load("res://items/Item.gd")
 
-var currently_placing = false
+
+signal new_action_item_selected()
 
 
 func _ready():
@@ -27,16 +27,8 @@ func _ready():
         
     self._update_toolbelt()
     self._set_active_toolbelt_slot(1)
-    set_process(false)
-
-
-func _process(delta) -> void:
-    if currently_placing:
-        var global_pos = self._adjust_mouse_place(EnvironmentData.camera.get_global_mouse_position())
-        var view_pos = self._adjust_mouse_place(get_viewport().get_mouse_position())
-        var offset = view_pos-global_pos
-        var position = self._to_tilepos(global_pos)
-        $SpritePlace.position = position+offset
+    emit_signal('new_action_item_selected')
+    
 
 
 func _display_round(value):
@@ -62,8 +54,7 @@ func show_ui(value):
     self.visible = true
     self._update_toolbelt()
     self._set_action_item(PlayerData.inventory.active_toolbelt_slot)
-    self._check_placable_selected()
-    
+    emit_signal('new_action_item_selected')
     
 func _hide_toolbelt_selection():
     $Toolbelt/s0.visible = false
@@ -73,18 +64,7 @@ func _hide_toolbelt_selection():
     $Toolbelt/s4.visible = false
     $Toolbelt/s5.visible = false
     
-func _to_tilepos(position):
-    return Vector2(round(position.x/32)*32, round(position.y/32)*32)+Vector2(16,16)
-    
-func _adjust_mouse_place(position):
-    return position-Vector2(16,16)
 
-
-func _get_object_under_position(position):
-    var space_state = get_world_2d().get_direct_space_state()
-    var selection = space_state.intersect_ray(position-Vector2(16,16), position+Vector2(16,16), [], 0xFFFFFFFF)
-    #var selection = space_state.intersect_point(mouse_pos, 32, [], 0xFFFFFFFF, true, true)
-    return selection
 
 func _input(event):
     var just_pressed = event.is_pressed() and not event.is_echo()
@@ -103,16 +83,6 @@ func _input(event):
             if Input.is_key_pressed(KEY_6):
                 self._set_active_toolbelt_slot(5)
                 
-    if (event is InputEventMouseButton):
-        if event.is_action_pressed("ui_lmb"):
-            if currently_placing:
-                var mouse_pos = self._adjust_mouse_place(EnvironmentData.camera.get_global_mouse_position())
-                var position = self._to_tilepos(mouse_pos)
-                var obj = _get_object_under_position(position)
-                if len(obj)==0:
-                    var wi = load("res://items/WorldItem.tscn").instance()
-                    wi.initialize(position, PlayerData.inventory.get_active_item())
-                    EnvironmentData.worlditems.add_child(wi)
 
     
 func _set_active_toolbelt_slot(idx):
@@ -122,20 +92,8 @@ func _set_active_toolbelt_slot(idx):
     $Toolbelt/ItemList.select(idx)
     PlayerData.inventory.active_toolbelt_slot = idx
     self._set_action_item(idx)
-    self._check_placable_selected()
+    emit_signal('new_action_item_selected')
     
-func _check_placable_selected():
-    if PlayerData.inventory.get_active_item().type == Item.ITEMTYPE.CONTAINER:
-        print("container")
-        currently_placing = true
-        $SpritePlace.visible = true
-        var icon = ResourceLoader.load(PlayerData.inventory.get_active_item().texture_path)
-        $SpritePlace.texture = icon
-        set_process(true)
-    else:
-        currently_placing = false
-        $SpritePlace.visible = false
-        set_process(false)
     
 func _set_action_item(idx):
     var empty_slot_texture = ResourceLoader.load("res://assets/tools/icon_none.png")
