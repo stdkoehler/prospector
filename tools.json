@@ -86,5 +86,13 @@
 		"bulk": 0.5,
 		"items": 0,
 		"texture_path": "res://assets/tools/container/small_bucket.png"
+	},
+	"chest": {
+		"id": "chest",
+		"type": "container",
+		"name": "Chest",
+		"bulk": 0,
+		"items": 6,
+		"texture_path": "res://assets/tools/container/chest.png"
 	}
 }

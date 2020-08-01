@@ -2,6 +2,7 @@ extends Control
 
 
 signal new_action_item_selected()
+signal placement_enabled(flag)
 
 
 func _ready():
@@ -49,11 +50,13 @@ func set_interactable_text(text):
     
 func hide_ui(value):
     self.visible = false
+    emit_signal('placement_enabled', false)
     
 func show_ui(value):
     self.visible = true
     self._update_toolbelt()
     self._set_action_item(PlayerData.inventory.active_toolbelt_slot)
+    emit_signal('placement_enabled', true)
     emit_signal('new_action_item_selected')
     
 func _hide_toolbelt_selection():

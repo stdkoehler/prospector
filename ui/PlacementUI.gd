@@ -15,11 +15,10 @@ func _process(delta) -> void:
         var offset = view_pos-global_pos
         var position = self._to_tilepos(global_pos)
         $SpritePlace.position = position+offset
-        print(self.visible)
         
 func _input(event):
     if (event is InputEventMouseButton):
-        if event.is_action_pressed("ui_lmb"):
+        if event.is_action_pressed("ui_lmb") and self.visible:
             if currently_placing:
                 var mouse_pos = self._adjust_mouse_place(EnvironmentData.camera.get_global_mouse_position())
                 var position = self._to_tilepos(mouse_pos)
@@ -45,17 +44,25 @@ func _get_object_under_position(position):
     #var selection = space_state.intersect_point(mouse_pos, 32, [], 0xFFFFFFFF, true, true)
     return selection
     
-func _check_placable_selected():
-    if PlayerData.inventory.get_active_item().type == Item.ITEMTYPE.CONTAINER:
-        print("container")
-        currently_placing = true
-        $SpritePlace.visible = true
-        var icon = ResourceLoader.load(PlayerData.inventory.get_active_item().texture_path)
-        $SpritePlace.texture = icon
+func _enable_placement(flag):
+    if flag:
         self.visible = true
-        set_process(true)
     else:
-        currently_placing = false
-        $SpritePlace.visible = false
         self.visible = false
-        set_process(false)
+    
+func _check_placable_selected():
+    if self.visible:
+        if PlayerData.inventory.get_active_item().type == Item.ITEMTYPE.CONTAINER:
+            currently_placing = true
+            $SpritePlace.visible = true
+            var icon = ResourceLoader.load(PlayerData.inventory.get_active_item().texture_path)
+            $SpritePlace.texture = icon
+            #self.visible = true
+            set_process(true)
+        else:
+            currently_placing = false
+            $SpritePlace.visible = false
+            #self.visible = false
+            set_process(false)
+        
+

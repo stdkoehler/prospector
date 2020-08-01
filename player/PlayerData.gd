@@ -107,6 +107,7 @@ func _ready():
     self.inventory.put_item(9, Item.ToolItem.new(tools['blackcast_steel_riffled_pan']))
     
     self.inventory.put_item(10, Item.ContainerItem.new(tools['small_bucket']))
+    self.inventory.put_item(11, Item.ContainerItem.new(tools['chest']))
     
 
 
