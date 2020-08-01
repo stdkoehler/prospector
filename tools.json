@@ -1,0 +1,90 @@
+{
+	"wood_shovel": {
+		"id": "wood_shovel",
+		"type": "shovel",
+		"name": "Wood Shovel",
+		"power": 0.1,
+		"efficiency": 0.1,
+		"texture_path": "res://assets/tools/shovel/icon_shovel_wood.png"
+	},
+	"iron_studded_wood_shovel": {
+		"id": "iron_studded_wood_shovel",
+		"type": "shovel",
+		"name": "Iron Studded Wood Shovel",
+		"power": 0.15,
+		"efficiency": 0.2,
+		"texture_path": "res://assets/tools/shovel/icon_shovel_iron_studded_wood.png"
+	},
+	"iron_shovel": {
+		"id": "iron_shovel",
+		"type": "shovel",
+		"name": "Iron Shovel",
+		"power": 0.3,
+		"efficiency": 0.3,
+		"texture_path": "res://assets/tools/shovel/icon_shovel_full_iron.png"
+	},
+	"steel_shovel": {
+		"id": "steel_shovel",
+		"type": "shovel",
+		"name": "Steel Shovel",
+		"power": 0.5,
+		"efficiency": 0.5,
+		"texture_path": "res://assets/tools/shovel/icon_shovel_steel.png"
+	},
+	"full_steel_shovel": {
+		"id": "full_steel_shovel",
+		"type": "shovel",
+		"name": "Full Steel Shovel",
+		"power": 0.5,
+		"efficiency": 0.5,
+		"texture_path": "res://assets/tools/shovel/icon_shovel_full_steel.png"
+	},
+	"wood_pan": {
+		"id": "wood_pan",
+		"type": "pan",
+		"name": "Wood Pan",
+		"power": 0.1,
+		"efficiency": 0.1,
+		"texture_path": "res://assets/tools/pan/wood_pan.png"
+	},
+	"iron_sheet_pan": {
+		"id": "iron_sheet_pan",
+		"type": "pan",
+		"name": "Iron Sheet Pan",
+		"power": 0.2,
+		"efficiency": 0.2,
+		"texture_path": "res://assets/tools/pan/iron_sheet_pan.png"
+	},
+	"iron_pan": {
+		"id": "iron_pan",
+		"type": "pan",
+		"name": "Iron Pan",
+		"power": 0.3,
+		"efficiency": 0.3,
+		"texture_path": "res://assets/tools/pan/iron_pan.png"
+	},
+	"blackcast_steel_pan": {
+		"id": "blackcast_steel_pan",
+		"type": "pan",
+		"name": "Blackcast Steel Pan",
+		"power": 0.4,
+		"efficiency": 0.4,
+		"texture_path": "res://assets/tools/pan/blackcast_steel_pan.png"
+	},
+	"blackcast_steel_riffled_pan": {
+		"id": "blackcast_steel_riffled_pan",
+		"type": "pan",
+		"name": "Blackcast Steel Riffled Pan",
+		"power": 0.5,
+		"efficiency": 0.5,
+		"texture_path": "res://assets/tools/pan/blackcast_steel_riffled_pan.png"
+	},
+	"small_bucket": {
+		"id": "small_bucket",
+		"type": "container",
+		"name": "Small Bucket",
+		"bulk": 0.5,
+		"items": 0,
+		"texture_path": "res://assets/tools/container/small_bucket.png"
+	}
+}

@@ -1,0 +1,293 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://assets/themes/UI.theme" type="Theme" id=1]
+[ext_resource path="res://ui/BaseUI.gd" type="Script" id=2]
+[ext_resource path="res://assets/ui/mirror_inner.png" type="Texture" id=3]
+[ext_resource path="res://assets/icons/icon_goldbag.png" type="Texture" id=4]
+[ext_resource path="res://assets/ui/mirror.png" type="Texture" id=5]
+[ext_resource path="res://assets/icons/icon_goldbar.png" type="Texture" id=6]
+[ext_resource path="res://assets/tools/shovel/icon_shovel_steel.png" type="Texture" id=7]
+[ext_resource path="res://assets/ui/toolbelt.png" type="Texture" id=8]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="StreamTexture" id=3]
+load_path = "res://.import/toolbelt_select.png-1c477c4756d94eb196fb8cdfa942b4cb.stex"
+
+[node name="BaseUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Interaction" type="Panel" parent="."]
+margin_left = 377.0
+margin_top = 339.0
+margin_right = 633.0
+margin_bottom = 371.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Options" type="VBoxContainer" parent="Interaction"]
+margin_right = 256.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Text" type="RichTextLabel" parent="Interaction/Options"]
+margin_right = 256.0
+margin_bottom = 35.0
+rect_min_size = Vector2( 256, 35 )
+bbcode_enabled = true
+bbcode_text = "[right]INTERACT (E)[/right]"
+text = "INTERACT (E)"
+
+[node name="Currency" type="Panel" parent="."]
+margin_left = 512.0
+margin_top = 16.0
+margin_right = 552.0
+margin_bottom = 56.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Currency" type="GridContainer" parent="Currency"]
+margin_right = 164.0
+margin_bottom = 74.0
+custom_constants/hseparation = 10
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="icon_goldore" type="TextureRect" parent="Currency/Currency"]
+margin_right = 32.0
+margin_bottom = 35.0
+texture = ExtResource( 4 )
+
+[node name="margin_goldore" type="MarginContainer" parent="Currency/Currency"]
+margin_left = 42.0
+margin_right = 138.0
+margin_bottom = 35.0
+custom_constants/margin_top = 7
+custom_constants/margin_bottom = -7
+
+[node name="value_goldore" type="RichTextLabel" parent="Currency/Currency/margin_goldore"]
+margin_top = 7.0
+margin_right = 96.0
+margin_bottom = 42.0
+rect_min_size = Vector2( 96, 35 )
+bbcode_text = "0 oz"
+text = "0 oz"
+
+[node name="icon_goldbar" type="TextureRect" parent="Currency/Currency"]
+margin_top = 39.0
+margin_right = 32.0
+margin_bottom = 74.0
+texture = ExtResource( 6 )
+
+[node name="margin_goldbar" type="MarginContainer" parent="Currency/Currency"]
+margin_left = 42.0
+margin_top = 39.0
+margin_right = 138.0
+margin_bottom = 74.0
+custom_constants/margin_top = 7
+custom_constants/margin_bottom = -7
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="value_goldbar" type="RichTextLabel" parent="Currency/Currency/margin_goldbar"]
+margin_top = 7.0
+margin_right = 96.0
+margin_bottom = 42.0
+rect_min_size = Vector2( 96, 35 )
+bbcode_enabled = true
+bbcode_text = "0 oz"
+text = "0 oz"
+
+[node name="Toolbelt" type="Panel" parent="."]
+margin_left = 51.0
+margin_top = 306.0
+margin_right = 316.0
+margin_bottom = 354.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="toolbelt" type="TextureRect" parent="Toolbelt"]
+margin_left = -1.0
+margin_right = 264.0
+margin_bottom = 49.0
+texture = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemList" type="ItemList" parent="Toolbelt"]
+margin_left = 29.0
+margin_top = 8.0
+margin_right = 320.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 217, 42 )
+focus_mode = 0
+theme = ExtResource( 1 )
+custom_styles/selected_focus = SubResource( 1 )
+custom_styles/selected = SubResource( 2 )
+custom_colors/guide_color = Color( 0, 0, 0, 0 )
+custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
+custom_constants/vseparation = 0
+custom_constants/line_separation = 0
+custom_constants/icon_margin = 0
+custom_constants/hseparation = 5
+auto_height = true
+max_columns = 6
+same_column_width = true
+icon_mode = 0
+fixed_icon_size = Vector2( 32, 32 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="s0" type="TextureRect" parent="Toolbelt"]
+margin_left = 27.0
+margin_top = 7.0
+margin_right = 63.0
+margin_bottom = 47.0
+mouse_filter = 2
+texture = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="s1" type="TextureRect" parent="Toolbelt"]
+margin_left = 64.0
+margin_top = 7.0
+margin_right = 100.0
+margin_bottom = 47.0
+mouse_filter = 2
+texture = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="s2" type="TextureRect" parent="Toolbelt"]
+margin_left = 101.0
+margin_top = 7.0
+margin_right = 137.0
+margin_bottom = 47.0
+mouse_filter = 2
+texture = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="s3" type="TextureRect" parent="Toolbelt"]
+margin_left = 138.0
+margin_top = 7.0
+margin_right = 174.0
+margin_bottom = 47.0
+mouse_filter = 2
+texture = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="s4" type="TextureRect" parent="Toolbelt"]
+margin_left = 175.0
+margin_top = 7.0
+margin_right = 211.0
+margin_bottom = 47.0
+mouse_filter = 2
+texture = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="s5" type="TextureRect" parent="Toolbelt"]
+margin_left = 212.0
+margin_top = 7.0
+margin_right = 248.0
+margin_bottom = 47.0
+mouse_filter = 2
+texture = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ActionItem" type="Panel" parent="."]
+margin_left = 1.0
+margin_top = 291.0
+margin_right = 77.0
+margin_bottom = 359.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ProgressBackground" type="TextureProgress" parent="ActionItem"]
+anchor_right = 0.097
+margin_right = 72.12
+margin_bottom = 68.0
+value = 40.0
+texture_over = ExtResource( 3 )
+texture_progress = ExtResource( 3 )
+fill_mode = 4
+tint_over = Color( 1, 1, 1, 0.196078 )
+tint_progress = Color( 1, 1, 1, 0.352941 )
+radial_center_offset = Vector2( 0, 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Progress" type="TextureProgress" parent="ActionItem"]
+margin_left = 20.0
+margin_top = 23.0
+margin_right = 52.0
+margin_bottom = 55.0
+value = 40.0
+texture_over = ExtResource( 7 )
+texture_progress = ExtResource( 7 )
+fill_mode = 4
+tint_over = Color( 1, 1, 1, 0.196078 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="ActionItem"]
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerStats" type="Panel" parent="."]
+margin_left = 262.0
+margin_top = 1.0
+margin_right = 425.0
+margin_bottom = 41.0
+theme = ExtResource( 1 )
+
+[node name="StaminaBar" type="ProgressBar" parent="PlayerStats"]
+margin_right = 197.0
+margin_bottom = 19.0
+theme = ExtResource( 1 )
+value = 100.0
+rounded = true
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SpritePlace" type="Sprite" parent="."]
+visible = false

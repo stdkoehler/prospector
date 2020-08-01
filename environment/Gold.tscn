@@ -1,0 +1,71 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://environment/Gold.gd" type="Script" id=2]
+
+[sub_resource type="StreamTexture" id=1]
+load_path = "res://.import/gold_medium.png-28b47b4345f08e1069b3ac3942c4ab1b.stex"
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 16, 16 )
+
+[sub_resource type="StreamTexture" id=3]
+load_path = "res://.import/dust.png-772f3f7589a5825a37fae32219f52ba2.stex"
+
+[sub_resource type="Animation" id=4]
+length = 0.45
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite2:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 3, 4, 5, 6, 7, 8, 0 ]
+}
+
+[sub_resource type="Animation" id=5]
+length = 0.45
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite2:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[node name="Gold" type="Area2D"]
+collision_layer = 2
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )
+
+[node name="Line2D" type="Line2D" parent="."]
+visible = false
+points = PoolVector2Array( -16, 16, 16, 16, 16, -16, -16, -16, -16, 16 )
+width = 1.0
+default_color = Color( 0.921875, 0.699918, 0.514954, 0.780392 )
+
+[node name="Sprite2" type="Sprite" parent="."]
+texture = SubResource( 3 )
+hframes = 9
+frame = 1
+
+[node name="DiggingAnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Digging = SubResource( 4 )
+anims/NoDigging = SubResource( 5 )
+[connection signal="area_entered" from="." to="." method="_on_Gold_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_Gold_area_exited"]
+[connection signal="input_event" from="." to="." method="_on_Gold_input_event"]

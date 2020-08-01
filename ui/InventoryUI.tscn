@@ -1,0 +1,146 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/themes/UI.theme" type="Theme" id=1]
+[ext_resource path="res://ui/InventoryUI.gd" type="Script" id=2]
+[ext_resource path="res://assets/ui/inventory.png" type="Texture" id=3]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[node name="InventoryUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 80.0
+margin_top = 88.0
+margin_right = 80.0
+margin_bottom = 88.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Inventory" type="TextureRect" parent="Panel"]
+margin_right = 379.0
+margin_bottom = 175.0
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemListBackpack" type="ItemList" parent="Panel"]
+margin_left = 150.0
+margin_top = 12.0
+margin_right = 400.0
+margin_bottom = 86.0
+rect_min_size = Vector2( 222, 170 )
+custom_styles/selected_focus = SubResource( 1 )
+custom_styles/selected = SubResource( 2 )
+custom_colors/guide_color = Color( 0, 0, 0, 0 )
+custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
+custom_constants/vseparation = 4
+custom_constants/line_separation = 0
+custom_constants/icon_margin = 0
+custom_constants/hseparation = 5
+auto_height = true
+max_columns = 6
+same_column_width = true
+fixed_icon_size = Vector2( 32, 32 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SpriteDrag" type="Sprite" parent="Panel"]
+visible = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+margin_left = 150.0
+margin_top = 11.0
+margin_right = 367.0
+margin_bottom = 51.0
+mouse_filter = 2
+custom_constants/separation = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="1" type="RichTextLabel" parent="Panel/HBoxContainer"]
+self_modulate = Color( 1, 1, 1, 0.509804 )
+margin_right = 32.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 32, 32 )
+mouse_filter = 2
+theme = ExtResource( 1 )
+bbcode_enabled = true
+bbcode_text = "1"
+text = "1"
+
+[node name="2" type="RichTextLabel" parent="Panel/HBoxContainer"]
+self_modulate = Color( 1, 1, 1, 0.509804 )
+margin_left = 37.0
+margin_right = 69.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 32, 32 )
+mouse_filter = 2
+theme = ExtResource( 1 )
+bbcode_enabled = true
+bbcode_text = "2"
+text = "2"
+
+[node name="3" type="RichTextLabel" parent="Panel/HBoxContainer"]
+self_modulate = Color( 1, 1, 1, 0.509804 )
+margin_left = 74.0
+margin_right = 106.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 32, 32 )
+mouse_filter = 2
+theme = ExtResource( 1 )
+bbcode_enabled = true
+bbcode_text = "3"
+text = "3"
+
+[node name="4" type="RichTextLabel" parent="Panel/HBoxContainer"]
+self_modulate = Color( 1, 1, 1, 0.509804 )
+margin_left = 111.0
+margin_right = 143.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 32, 32 )
+mouse_filter = 2
+theme = ExtResource( 1 )
+bbcode_enabled = true
+bbcode_text = "4"
+text = "4"
+
+[node name="5" type="RichTextLabel" parent="Panel/HBoxContainer"]
+self_modulate = Color( 1, 1, 1, 0.509804 )
+margin_left = 148.0
+margin_right = 180.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 32, 32 )
+mouse_filter = 2
+theme = ExtResource( 1 )
+bbcode_enabled = true
+bbcode_text = "5"
+text = "5"
+
+[node name="6" type="RichTextLabel" parent="Panel/HBoxContainer"]
+self_modulate = Color( 1, 1, 1, 0.509804 )
+margin_left = 185.0
+margin_right = 217.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 32, 32 )
+mouse_filter = 2
+theme = ExtResource( 1 )
+bbcode_enabled = true
+bbcode_text = "6"
+text = "6"
+[connection signal="mouse_entered" from="Panel/ItemListBackpack" to="." method="_on_ItemListBackpack_mouse_entered"]
+[connection signal="mouse_exited" from="Panel/ItemListBackpack" to="." method="_on_ItemListBackpack_mouse_exited"]

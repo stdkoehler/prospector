@@ -1,0 +1,228 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://assets/floor_tiles/combined.tres" type="TileSet" id=1]
+[ext_resource path="res://Autoparcel.gd" type="Script" id=2]
+[ext_resource path="res://assets/npc/elvis.png" type="Texture" id=3]
+[ext_resource path="res://player/Player.gd" type="Script" id=4]
+[ext_resource path="res://ui/BaseUI.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/player/prospector_anim_spritesheet.png" type="Texture" id=6]
+[ext_resource path="res://Elvis.gd" type="Script" id=7]
+[ext_resource path="res://assets/floor_tiles/navigationtiles.tres" type="TileSet" id=8]
+[ext_resource path="res://Camera2D2.gd" type="Script" id=9]
+[ext_resource path="res://ui/InventoryUI.tscn" type="PackedScene" id=10]
+[ext_resource path="res://RockNavigationMap.gd" type="Script" id=11]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 11.0
+height = 7.99999
+
+[sub_resource type="Animation" id=2]
+resource_name = "IdleDown"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=3]
+length = 1.05
+step = 0.175
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.175, 0.35, 0.525, 0.7, 0.875 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 7, 8, 9, 10, 11, 12 ]
+}
+
+[sub_resource type="Animation" id=4]
+length = 1.05
+step = 0.175
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.175, 0.35, 0.525, 0.7, 0.875 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 3, 4, 5, 6 ]
+}
+
+[sub_resource type="CapsuleShape2D" id=5]
+radius = 24.0
+height = 0.0
+
+[sub_resource type="Animation" id=6]
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 1 ]
+}
+
+[sub_resource type="Animation" id=7]
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=8]
+length = 0.7
+step = 0.175
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.175, 0.35, 0.525 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 6, 7, 8, 9 ]
+}
+
+[sub_resource type="Animation" id=9]
+length = 0.7
+step = 0.175
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.175, 0.35, 0.525 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 2, 3, 4, 5 ]
+}
+
+[sub_resource type="CapsuleShape2D" id=10]
+radius = 8.0
+height = 0.0
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Camera2D2" type="Camera2D" parent="."]
+current = true
+drag_margin_left = 0.02
+script = ExtResource( 9 )
+
+[node name="GroundMap" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 32, 32 )
+format = 1
+
+[node name="GrassMap" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 32, 32 )
+format = 1
+
+[node name="Navigation2D" type="Navigation2D" parent="."]
+
+[node name="RockNavigationMap" type="TileMap" parent="Navigation2D"]
+tile_set = ExtResource( 8 )
+cell_size = Vector2( 32, 32 )
+format = 1
+script = ExtResource( 11 )
+
+[node name="GoldContainer" type="Node2D" parent="."]
+
+[node name="YSort" type="YSort" parent="."]
+
+[node name="RockContainer" type="YSort" parent="YSort"]
+
+[node name="WorldItems" type="YSort" parent="YSort"]
+
+[node name="Player" type="KinematicBody2D" parent="YSort"]
+script = ExtResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="YSort/Player"]
+texture = ExtResource( 6 )
+hframes = 13
+
+[node name="PhysicsCollisionShape2D" type="CollisionShape2D" parent="YSort/Player"]
+position = Vector2( 0, 21 )
+rotation = -1.5708
+shape = SubResource( 1 )
+
+[node name="RayCast2D" type="RayCast2D" parent="YSort/Player"]
+position = Vector2( 0, 24 )
+enabled = true
+cast_to = Vector2( 64, 0 )
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="ActionTimer" type="Timer" parent="YSort/Player"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="YSort/Player"]
+anims/IdleDown = SubResource( 2 )
+anims/WalkLeft = SubResource( 3 )
+anims/WalkRight = SubResource( 4 )
+
+[node name="InteractionArea2D" type="Area2D" parent="YSort/Player"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="InteractionShape" type="CollisionShape2D" parent="YSort/Player/InteractionArea2D"]
+position = Vector2( 0, 24 )
+shape = SubResource( 5 )
+
+[node name="Elvis" type="KinematicBody2D" parent="YSort"]
+position = Vector2( -120, -48 )
+script = ExtResource( 7 )
+
+[node name="Sprite" type="Sprite" parent="YSort/Elvis"]
+position = Vector2( 0, 8 )
+texture = ExtResource( 3 )
+hframes = 10
+frame = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="YSort/Elvis"]
+anims/IdleLeft = SubResource( 6 )
+anims/IdleRight = SubResource( 7 )
+anims/WalkLeft = SubResource( 8 )
+anims/WalkRight = SubResource( 9 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/Elvis"]
+position = Vector2( 0, 16 )
+rotation = -1.5708
+shape = SubResource( 10 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="BaseUI" parent="CanvasLayer" instance=ExtResource( 5 )]
+
+[node name="InventoryUI" parent="CanvasLayer" instance=ExtResource( 10 )]
+visible = false
