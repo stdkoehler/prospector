@@ -59,7 +59,7 @@ func dig(item):
     self.amount_gold -= gold
     var goldyield = efficiency * gold
     var exhausted = self._update_gold()
-    return [goldyield, exhausted]
+    return [item.power, goldyield, exhausted]
     
 
 signal player_entered(gold)

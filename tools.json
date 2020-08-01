@@ -83,7 +83,7 @@
 		"id": "small_bucket",
 		"type": "container",
 		"name": "Small Bucket",
-		"bulk": 0.5,
+		"bulk": 5,
 		"items": 0,
 		"texture_path": "res://assets/tools/container/small_bucket.png"
 	},

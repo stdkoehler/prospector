@@ -224,9 +224,11 @@ shape = SubResource( 10 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="BaseUI" parent="CanvasLayer" instance=ExtResource( 5 )]
+mouse_filter = 2
 
 [node name="InventoryUI" parent="CanvasLayer" instance=ExtResource( 10 )]
 visible = false
+mouse_filter = 2
 
 [node name="PlacementUI" parent="CanvasLayer" instance=ExtResource( 12 )]
 visible = false

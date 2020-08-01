@@ -24,17 +24,33 @@ func _close_all():
     $ActionTimer.stop()
     
     
+func _get_closest_bulk_storage(group):
+    var nearest_idx = null
+    var shortest_dist = 3.402823e+38
+    for i in len(group):
+        var dist = self.position.distance_to(group[i].position)
+        if dist < shortest_dist and group[i].bulk_storage_avalaible():
+            shortest_dist = dist
+            nearest_idx = i
+    if nearest_idx != null and shortest_dist < 100:
+        return group[nearest_idx]
+    else:
+        return null
+    
 func _on_digging_timeout():
     var item = PlayerData.inventory.get_active_item()
-    if item == null or item.type != Item.ITEMTYPE.SHOVEL or PlayerData.state.stamina<=0:
+    var nearest_bulk_storage = self._get_closest_bulk_storage(EnvironmentData.worlditems.get_children())
+    if item == null or item.type != Item.ITEMTYPE.SHOVEL or PlayerData.state.stamina<=0 or nearest_bulk_storage == null:
         self._close_all()
         return
     
     var res = PlayerData.state.digging_tile.dig(item)
     PlayerData.dec_stamina(1)
-    var gold = res[0]
-    var exhausted = res[1]
+    var amount = res[0]
+    var gold = res[1]
+    var exhausted = res[2]
     
+    nearest_bulk_storage.bulk_storage_add(amount, gold)
     PlayerData.inc_goldore(gold)
     self._show_interaction_options()
     
@@ -54,7 +70,8 @@ func _start_digging(gold_tile):
     self.velocity = Vector2.ZERO
     
     var item = PlayerData.inventory.get_active_item()
-    if item == null or item.type != Item.ITEMTYPE.SHOVEL or PlayerData.state.stamina<=0:
+    var nearest_bulk_storage = self._get_closest_bulk_storage(EnvironmentData.worlditems.get_children())
+    if item == null or item.type != Item.ITEMTYPE.SHOVEL or PlayerData.state.stamina<=0 or nearest_bulk_storage == null:
         return
     
     PlayerData.state.digging_tile = gold_tile
@@ -62,9 +79,11 @@ func _start_digging(gold_tile):
     
     var res = gold_tile.dig(item)
     PlayerData.dec_stamina(1)
-    var gold = res[0]
-    var exhausted = res[1]
+    var amount = res[0]
+    var gold = res[1]
+    var exhausted = res[2]
     
+    nearest_bulk_storage.bulk_storage_add(amount, gold)
     PlayerData.inc_goldore(gold)
 
     if !exhausted:
