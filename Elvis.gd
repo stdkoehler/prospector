@@ -23,7 +23,7 @@ func _walk_to(pos):
     else:
         return Vector2.ZERO
 
-func _physics_process(delta):
+func _physics_process(_delta):
     
     var player_pos = PlayerData.player.global_position
     var dist = self.position.distance_to(player_pos)

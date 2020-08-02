@@ -24,24 +24,9 @@ func _close_all():
     PlayerData.close_inventory("")
     $ActionTimer.stop()
     
-    
-func _get_closest_bulk_storage(group):
-    var nearest_idx = null
-    var shortest_dist = 3.402823e+38
-    for i in len(group):
-        var dist = self.position.distance_to(group[i].position)
-        if dist < shortest_dist and group[i].bulk_storage_avalaible():
-            shortest_dist = dist
-            nearest_idx = i
-    if nearest_idx != null and shortest_dist < 100:
-        return group[nearest_idx]
-    else:
-        return null
-    
 
-    
 func _digging(item):
-    var nearest_bulk_storage = self._get_closest_bulk_storage(EnvironmentData.worlditems.get_children())
+    var nearest_bulk_storage = EnvironmentData.get_closest_bulk_storage(self.position)
     if item == null or item.type != Item.ITEMTYPE.SHOVEL or PlayerData.state.stamina<=0 or nearest_bulk_storage == null:
         self._close_all()
         return null
@@ -52,7 +37,7 @@ func _digging(item):
     var gold = res[1]
     var exhausted = res[2]
 
-    nearest_bulk_storage.bulk_storage_add(amount, gold)
+    nearest_bulk_storage.add(amount, gold)
     var progress = 100*(1-PlayerData.state.digging_tile.amount_dirt)
     
     return [exhausted, progress]
@@ -84,13 +69,13 @@ func _panning(item):
 
     var res = PlayerData.state.panning_item.pan(item)
     PlayerData.dec_stamina(1)
-    var amount = res[0]
+    #var amount = res[0]
     var gold = res[1]
     var exhausted = res[2]
 
     PlayerData.inc_goldore(gold)
     
-    var progress = 100*(1-PlayerData.state.panning_item.bulk_storage.amount/PlayerData.state.panning_item.bulk_storage.bulk_limit)
+    var progress = 100*(1-PlayerData.state.panning_item.amount_dirt/PlayerData.state.panning_item.amount_limit)
     
     return [exhausted, progress]
     
@@ -159,7 +144,7 @@ func _post_action(exhausted, progress):
     
     
 
-func _physics_process(delta):
+func _physics_process(_delta):
     #if $RayCast2D.is_colliding():
     #    var object = $RayCast2D.get_collider()
     #    print(object)
@@ -192,7 +177,8 @@ func _physics_process(delta):
                     self._start_digging(PlayerData.state.interactables[0])
                 elif PlayerData.inventory.get_active_item().type == Item.ITEMTYPE.PAN\
                     and self._panning_possible():
-                    self._start_panning(PlayerData.state.worlditems[0])
+                    var pannables = PlayerData.state.get_pannable_storage()
+                    self._start_panning(pannables[0])
                 else:
                     pass
                 
@@ -247,7 +233,8 @@ func _show_interaction_options():
         options_text.append("Dig (E) " + str(gold))
         
     if self._panning_possible():
-        gold = PlayerData.state.worlditems[0].bulk_storage.gold
+        var pannables = PlayerData.state.get_pannable_storage()
+        gold = pannables[0].amount_gold
         options_text.append("Pan (E) " + str(gold))
         
     var text = ""
@@ -293,8 +280,5 @@ func _panning_possible():
     if item == null:
         return false
     else:
-        return len(PlayerData.state.worlditems)>0 \
-            and PlayerData.state.worlditems[0].type == EnvironmentData.TYPE.PANNABLE \
-            and PlayerData.state.worlditems[0].bulk_storage.amount > 0 \
-            and item.type == Item.ITEMTYPE.PAN
+        return len(PlayerData.state.get_pannable_storage())>0 and item.type == Item.ITEMTYPE.PAN
 

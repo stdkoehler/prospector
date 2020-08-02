@@ -75,10 +75,9 @@ func _on_Gold_input_event(_viewport, event, _shape_idx):
             emit_signal("player_clicked", self)
 
 
-func _on_Gold_area_entered(area: Area2D):
-    print(area.name)
+func _on_Gold_area_entered(_area):
     emit_signal("player_entered", self)
 
 
-func _on_Gold_area_exited(area):
+func _on_Gold_area_exited(_area):
     emit_signal("player_exited", self)

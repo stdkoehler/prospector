@@ -37,10 +37,10 @@ func _ready():
     set_process_input(true)
     
     
-func open_inventory(value):
+func open_inventory(_value):
     self.visible = true
     
-func close_inventory(value):
+func close_inventory(_value):
     self.visible = false
     
     
@@ -65,7 +65,7 @@ func update_slot(idx):
         $Panel/ItemListBackpack.set_item_tooltip(idx, "")
         $Panel/ItemListBackpack.set_item_tooltip_enabled(idx, false)
     
-func _process(delta) -> void:
+func _process(_delta):
     if currently_dragging:
         $Panel/SpriteDrag.global_position = get_viewport().get_mouse_position()
 
@@ -151,5 +151,5 @@ func _on_ItemListBackpack_mouse_exited():
     cursor_inside_itemlist = false
 
 
-func _on_ItemListBackpack_item_selected(index):
+func _on_ItemListBackpack_item_selected(_index):
     print("selected")

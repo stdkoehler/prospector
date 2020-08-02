@@ -34,6 +34,14 @@ class State:
             digging_tile = null
         if state == STATE.INVENTORY:
             digging_tile = null
+           
+    func get_pannable_storage():
+        var available = []
+        for i in len(self.worlditems):
+            var wi = self.worlditems[i]
+            if wi.type==EnvironmentData.TYPE.PANNABLE and wi.amount_dirt>0:
+                available.append(wi)
+        return available
 
 
 class Inventory:
@@ -152,7 +160,10 @@ func close_inventory(value):
     self.state.set_state(self.State.STATE.IDLE)
     emit_signal('inventory_closed', value)
     
-func dec_stamina(value):
+func dec_stamina(_value):
     if self.state.stamina > 0:
         self.state.stamina -= 1
     emit_signal('stamina_changed', self.state.stamina)
+    
+    
+

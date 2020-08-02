@@ -2,7 +2,7 @@ extends Camera2D
 
 
 
-func _process(delta):
+func _process(_delta):
     var radius = 20
     var target = PlayerData.player
     if target:

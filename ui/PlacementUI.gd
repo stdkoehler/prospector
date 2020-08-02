@@ -8,7 +8,7 @@ func _ready():
     set_process(false)
     
 
-func _process(delta) -> void:
+func _process(_delta):
     if currently_placing:
         var global_pos = self._adjust_mouse_place(EnvironmentData.camera.get_global_mouse_position())
         var view_pos = self._adjust_mouse_place(get_viewport().get_mouse_position())
@@ -24,8 +24,14 @@ func _input(event):
                 var position = self._to_tilepos(mouse_pos)
                 var obj = self._get_object_under_position(position)
                 if len(obj)==0:
-                    var wi = load("res://items/WorldItem.tscn").instance()
-                    wi.initialize(position, PlayerData.inventory.get_active_item())
+                    var item = PlayerData.inventory.get_active_item()
+                    var wi = null
+                    if item.bulk>0:
+                        wi = load("res://items/WorldItemBulk.tscn").instance()
+                    else:
+                        wi = load("res://items/WorldItem.tscn").instance()
+                    
+                    wi.initialize(position, item)
                     EnvironmentData.worlditems.add_child(wi)
                     wi.connect("player_entered", PlayerData.player, "_on_worlditem_entered")
                     wi.connect("player_exited", PlayerData.player, "_on_worlditem_exited")

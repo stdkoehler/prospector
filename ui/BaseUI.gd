@@ -22,7 +22,7 @@ func _ready():
     $Toolbelt/ItemList.set_same_column_width(true)
     $Toolbelt/ItemList.set_allow_rmb_select(true)
     
-    for idx in range(6):
+    for _idx in range(6):
         $Toolbelt/ItemList.add_item("", null, false)
         
         
@@ -48,14 +48,14 @@ func set_action_progress(value):
 func set_interactable_text(text):
     $Interaction/Options/Text.bbcode_text = "[right]"+text+"[/right]"
     
-func hide_ui(value):
+func hide_ui(_value):
     self.visible = false
     emit_signal('placement_enabled', false)
     
-func show_ui(value):
+func show_ui(_value):
     self.visible = true
     self._update_toolbelt()
-    self._set_action_item(PlayerData.inventory.active_toolbelt_slot)
+    self._update_action_item_texture()
     emit_signal('placement_enabled', true)
     emit_signal('new_action_item_selected')
     
@@ -94,11 +94,11 @@ func _set_active_toolbelt_slot(idx):
     a.visible = true
     $Toolbelt/ItemList.select(idx)
     PlayerData.inventory.active_toolbelt_slot = idx
-    self._set_action_item(idx)
+    self._update_action_item_texture()
     emit_signal('new_action_item_selected')
     
     
-func _set_action_item(idx):
+func _update_action_item_texture():
     var empty_slot_texture = ResourceLoader.load("res://assets/tools/icon_none.png")
     var active_item = PlayerData.inventory.get_active_item()
     var icon = null

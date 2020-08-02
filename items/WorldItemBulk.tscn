@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://items/WorldItem.tscn" type="PackedScene" id=1]
+[ext_resource path="res://items/WorldItemBulk.gd" type="Script" id=2]
+[ext_resource path="res://assets/themes/UI.theme" type="Theme" id=3]
+
+[node name="WorldItemBulk" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="Panel" type="Panel" parent="." index="4"]
+margin_left = -16.0
+margin_top = -32.0
+margin_right = 16.0
+margin_bottom = 16.0
+theme = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Filled" type="ProgressBar" parent="Panel" index="0"]
+margin_right = 32.0
+margin_bottom = 12.0
+rect_min_size = Vector2( 0, 12 )
+theme = ExtResource( 3 )
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="mouse_entered" from="Panel" to="." method="_on_Panel_mouse_entered"]
+[connection signal="mouse_exited" from="Panel" to="." method="_on_Panel_mouse_exited"]
