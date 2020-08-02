@@ -11,6 +11,10 @@ var amount_dirt = 1
 
 var type = EnvironmentData.TYPE.DIGGABLE
 
+signal player_entered(gold)
+signal player_exited(gold)
+signal player_clicked(gold)
+
 
 func _update_gold():
     $DiggingAnimationPlayer.play("Digging")
@@ -62,9 +66,7 @@ func dig(item):
     return [item.power, goldyield, exhausted]
     
 
-signal player_entered(gold)
-signal player_exited(gold)
-signal player_clicked(gold)
+
 
 
 func _on_Gold_input_event(_viewport, event, _shape_idx):

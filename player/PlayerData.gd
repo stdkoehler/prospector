@@ -6,12 +6,15 @@ class State:
     const STATE = {
     'INVENTORY': 0,
     'DIGGING': 1,
-    'IDLE': 2
+    'PANNING': 2,
+    'IDLE': 3
    }
 
     var current : int = STATE.IDLE setget set_state
     var digging_tile = null
+    var panning_item = null
     var interactables = []
+    var worlditems = []
     
     # Stamina will is a mechanic which somehow should lead to "optimization"
     # 1. day parcel costs N0 > Ni

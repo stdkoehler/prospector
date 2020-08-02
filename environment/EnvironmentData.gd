@@ -1,7 +1,8 @@
 extends Node
 
 const TYPE = {
-    'DIGGABLE': 0
+    'DIGGABLE': 0,
+    'PANNABLE': 1
    }
 
 var HEIGHT = null

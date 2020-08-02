@@ -26,6 +26,7 @@ func _ready():
     
     var _c = null
     _c = $CanvasLayer/BaseUI.connect("new_action_item_selected", $CanvasLayer/PlacementUI, "_check_placable_selected")
+    _c = $CanvasLayer/BaseUI.connect("new_action_item_selected", $YSort/Player, "_show_interaction_options")
     _c = $CanvasLayer/BaseUI.connect("placement_enabled", $CanvasLayer/PlacementUI, "_enable_placement")
     
     randomize()

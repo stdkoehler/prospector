@@ -11,7 +11,8 @@ var last_velocity = Vector2.ZERO
 
 
 func _ready():
-    var _res = $ActionTimer.connect("timeout", self, "_on_digging_timeout")
+    var _c
+    _c = $ActionTimer.connect("timeout", self, "_on_timeout")
     PlayerData.player = self
     
     
@@ -37,66 +38,126 @@ func _get_closest_bulk_storage(group):
     else:
         return null
     
-func _on_digging_timeout():
-    var item = PlayerData.inventory.get_active_item()
+
+    
+func _digging(item):
     var nearest_bulk_storage = self._get_closest_bulk_storage(EnvironmentData.worlditems.get_children())
     if item == null or item.type != Item.ITEMTYPE.SHOVEL or PlayerData.state.stamina<=0 or nearest_bulk_storage == null:
         self._close_all()
-        return
-    
+        return null
+
     var res = PlayerData.state.digging_tile.dig(item)
     PlayerData.dec_stamina(1)
     var amount = res[0]
     var gold = res[1]
     var exhausted = res[2]
-    
+
     nearest_bulk_storage.bulk_storage_add(amount, gold)
+    var progress = 100*(1-PlayerData.state.digging_tile.amount_dirt)
+    
+    return [exhausted, progress]
+    
+func _start_digging(gold_tile):
+    self.velocity = Vector2.ZERO
+    var item = PlayerData.inventory.get_active_item()
+    PlayerData.state.digging_tile = gold_tile
+    
+    var exhausted = false
+    var progress = 0
+    
+    var res = self._digging(item)
+    if res == null:
+        return
+    
+    exhausted = res[0]
+    progress = res[1]
+    
+    PlayerData.state.current = PlayerData.State.STATE.DIGGING
+    
+    self._post_action(exhausted, progress)
+    
+    
+func _panning(item):
+    if item == null or item.type != Item.ITEMTYPE.PAN or PlayerData.state.stamina<=0:
+        self._close_all()
+        return null
+
+    var res = PlayerData.state.panning_item.pan(item)
+    PlayerData.dec_stamina(1)
+    var amount = res[0]
+    var gold = res[1]
+    var exhausted = res[2]
+
     PlayerData.inc_goldore(gold)
+    
+    var progress = 100*(1-PlayerData.state.panning_item.bulk_storage.amount/PlayerData.state.panning_item.bulk_storage.bulk_limit)
+    
+    return [exhausted, progress]
+    
+func _start_panning(panning_item):
+    self.velocity = Vector2.ZERO
+    var item = PlayerData.inventory.get_active_item()
+    PlayerData.state.panning_item = panning_item
+    
+    var exhausted = false
+    var progress = 0
+    
+    var res = self._panning(item)
+    if res == null:
+        return
+    
+    exhausted = res[0]
+    progress = res[1]
+    
+    PlayerData.state.current = PlayerData.State.STATE.PANNING
+    
+    self._post_action(exhausted, progress)
+    
+func _on_timeout():
+    var item = PlayerData.inventory.get_active_item()
+    
+    var exhausted = false
+    var progress = 0
+    
+    match PlayerData.state.current:
+        PlayerData.state.STATE.DIGGING:
+            var res = self._digging(item)
+            if res != null:
+                exhausted = res[0]
+                progress = res[1]
+            else:
+                exhausted = true # this happens when container is full
+            
+
+        PlayerData.state.STATE.PANNING:
+            var res = self._panning(item)
+            if res != null:
+                exhausted = res[0]
+                progress = res[1]
+            else:
+                exhausted = true # this happens when container is full
+                
+            #PlayerData.inc_goldore(gold)
+            
+    self._post_action(exhausted, progress)
+    
+func _post_action(exhausted, progress):
     self._show_interaction_options()
     
     if !exhausted:
-        $ActionTimer.start()
-        # calculate progress: base amount dirt = 1
-        var progress = 100*(1-PlayerData.state.digging_tile.amount_dirt)
         PlayerData.set_action_progress(progress)
-
+        $ActionTimer.set_wait_time(1)
+        $ActionTimer.start()
     else:
         print("Done")
         $ActionTimer.stop()
         PlayerData.set_action_progress(100)
         PlayerData.state.current = PlayerData.State.STATE.IDLE
     
-func _start_digging(gold_tile):
-    self.velocity = Vector2.ZERO
     
-    var item = PlayerData.inventory.get_active_item()
-    var nearest_bulk_storage = self._get_closest_bulk_storage(EnvironmentData.worlditems.get_children())
-    if item == null or item.type != Item.ITEMTYPE.SHOVEL or PlayerData.state.stamina<=0 or nearest_bulk_storage == null:
-        return
-    
-    PlayerData.state.digging_tile = gold_tile
-    PlayerData.state.current = PlayerData.State.STATE.DIGGING
-    
-    var res = gold_tile.dig(item)
-    PlayerData.dec_stamina(1)
-    var amount = res[0]
-    var gold = res[1]
-    var exhausted = res[2]
-    
-    nearest_bulk_storage.bulk_storage_add(amount, gold)
-    PlayerData.inc_goldore(gold)
 
-    if !exhausted:
-        # calculate progress: base amount dirt = 1
-        var progress = 100*(1-PlayerData.state.digging_tile.amount_dirt)
-        PlayerData.set_action_progress(progress)
-        $ActionTimer.set_wait_time(1)
-        $ActionTimer.start()
-    else:
-        PlayerData.set_action_progress(100)
-        PlayerData.state.current = PlayerData.State.STATE.IDLE
     
-    self._show_interaction_options()
+    
 
 func _physics_process(delta):
     #if $RayCast2D.is_colliding():
@@ -115,9 +176,25 @@ func _physics_process(delta):
                 closed_inventory = true
     
         PlayerData.State.STATE.IDLE:
+            
+            if Input.is_action_just_pressed("ui_right"):
+                $RayCast2D.rotation_degrees = 0
+            if Input.is_action_just_pressed("ui_down"):
+                $RayCast2D.rotation_degrees = 90
+            if Input.is_action_just_pressed("ui_left"):
+                $RayCast2D.rotation_degrees = 180
+            if Input.is_action_just_pressed("ui_up"):
+                $RayCast2D.rotation_degrees = 270
         
-            if self._digging_possible() and Input.is_action_just_pressed("ui_interact"):
-                self._start_digging(PlayerData.state.interactables[0])
+            if Input.is_action_just_pressed("ui_interact"):
+                if PlayerData.inventory.get_active_item().type == Item.ITEMTYPE.SHOVEL\
+                    and self._digging_possible():
+                    self._start_digging(PlayerData.state.interactables[0])
+                elif PlayerData.inventory.get_active_item().type == Item.ITEMTYPE.PAN\
+                    and self._panning_possible():
+                    self._start_panning(PlayerData.state.worlditems[0])
+                else:
+                    pass
                 
             var input_vector = Vector2.ZERO
             input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
@@ -149,6 +226,9 @@ func _physics_process(delta):
         PlayerData.state.STATE.DIGGING:
             velocity = velocity.move_toward(Vector2.ZERO, FRICTION)
             $AnimationPlayer.play("IdleDown")
+        PlayerData.state.STATE.PANNING:
+            velocity = velocity.move_toward(Vector2.ZERO, FRICTION)
+            $AnimationPlayer.play("IdleDown")
         
     if Input.is_action_pressed("ui_cancel"):
         self._close_all()
@@ -159,14 +239,25 @@ func _physics_process(delta):
         PlayerData.open_inventory("")
         
         
-        
-    
 func _show_interaction_options():
+    var options_text = []
+    var gold = 0
     if self._digging_possible():
-        var gold = PlayerData.state.interactables[0].amount_gold
-        PlayerData.set_interactable_text("Dig (E) " + str(gold))
-    else:
-        PlayerData.set_interactable_text("")
+        gold = PlayerData.state.interactables[0].amount_gold
+        options_text.append("Dig (E) " + str(gold))
+        
+    if self._panning_possible():
+        gold = PlayerData.state.worlditems[0].bulk_storage.gold
+        options_text.append("Pan (E) " + str(gold))
+        
+    var text = ""
+    for i in range(len(options_text)):
+        if i > 0:
+            text += "\n"
+        text += options_text[i]
+        
+        
+    PlayerData.set_interactable_text(text)
             
 func _on_gold_entered(gold):
     PlayerData.state.interactables.append(gold)
@@ -178,6 +269,15 @@ func _on_gold_exited(gold):
     PlayerData.state.interactables.erase(gold)
     self._show_interaction_options()
     
+func _on_worlditem_entered(worlditem):
+    PlayerData.state.worlditems.append(worlditem)
+    worlditem.get_node("Line2D").visible = true
+    self._show_interaction_options()
+    
+func _on_worlditem_exited(worlditem):
+    worlditem.get_node("Line2D").visible = false
+    PlayerData.state.worlditems.erase(worlditem)
+    self._show_interaction_options()
     
 func _digging_possible():
     var item = PlayerData.inventory.get_active_item()
@@ -187,14 +287,14 @@ func _digging_possible():
         return len(PlayerData.state.interactables)>0 \
             and PlayerData.state.interactables[0].type == EnvironmentData.TYPE.DIGGABLE \
             and item.type == Item.ITEMTYPE.SHOVEL
-#func _on_gold_clicked(gold):
-#    self.player_state = STATE.MenuFreeze
-#    var pos = Vector2(0,0)#gold.position-self.position-Vector2(16,16)
-#    $"../CanvasLayer/UI/Panel".set_position(pos)
-#    var btn = Button.new()
-#    btn.text = "Test"
-#    $"../CanvasLayer/UI/Panel/Options".add_child(btn)
-#    $"../CanvasLayer/UI/Panel".visible = true
-#    var dist = self.position.distance_to(gold.position)
-#    print(dist)
+
+func _panning_possible():
+    var item = PlayerData.inventory.get_active_item()
+    if item == null:
+        return false
+    else:
+        return len(PlayerData.state.worlditems)>0 \
+            and PlayerData.state.worlditems[0].type == EnvironmentData.TYPE.PANNABLE \
+            and PlayerData.state.worlditems[0].bulk_storage.amount > 0 \
+            and item.type == Item.ITEMTYPE.PAN
 

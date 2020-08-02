@@ -182,8 +182,8 @@ shape = SubResource( 1 )
 position = Vector2( 0, 24 )
 enabled = true
 cast_to = Vector2( 64, 0 )
+collision_mask = 4
 collide_with_areas = true
-collide_with_bodies = false
 
 [node name="ActionTimer" type="Timer" parent="YSort/Player"]
 

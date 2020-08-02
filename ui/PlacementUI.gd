@@ -27,6 +27,8 @@ func _input(event):
                     var wi = load("res://items/WorldItem.tscn").instance()
                     wi.initialize(position, PlayerData.inventory.get_active_item())
                     EnvironmentData.worlditems.add_child(wi)
+                    wi.connect("player_entered", PlayerData.player, "_on_worlditem_entered")
+                    wi.connect("player_exited", PlayerData.player, "_on_worlditem_exited")
         
         
     
