@@ -25,6 +25,8 @@ func _ready():
     for _idx in range(6):
         $Toolbelt/ItemList.add_item("", null, false)
         
+    self.set_goldore(PlayerData.inventory.goldore)
+    self.set_goldbar(PlayerData.inventory.goldbar)
         
     self._update_toolbelt()
     self._set_active_toolbelt_slot(1)
@@ -70,20 +72,34 @@ func _hide_toolbelt_selection():
 
 
 func _input(event):
-    var just_pressed = event.is_pressed() and not event.is_echo()
-    if just_pressed:
+#    var just_pressed = event.is_pressed() and not event.is_echo()
+#    if just_pressed:
+#        if PlayerData.state.current == PlayerData.state.STATE.IDLE:
+#            if Input.is_key_pressed(KEY_1):
+#                self._set_active_toolbelt_slot(0)
+#            if Input.is_key_pressed(KEY_2):
+#                self._set_active_toolbelt_slot(1)
+#            if Input.is_key_pressed(KEY_3):
+#                self._set_active_toolbelt_slot(2)
+#            if Input.is_key_pressed(KEY_4):
+#                self._set_active_toolbelt_slot(3)
+#            if Input.is_key_pressed(KEY_5):
+#                self._set_active_toolbelt_slot(4)
+#            if Input.is_key_pressed(KEY_6):
+#                self._set_active_toolbelt_slot(5)
+    if event is InputEventKey:
         if PlayerData.state.current == PlayerData.state.STATE.IDLE:
-            if Input.is_key_pressed(KEY_1):
+            if event.pressed and event.scancode == KEY_1:
                 self._set_active_toolbelt_slot(0)
-            if Input.is_key_pressed(KEY_2):
+            if event.pressed and event.scancode == KEY_2:
                 self._set_active_toolbelt_slot(1)
-            if Input.is_key_pressed(KEY_3):
+            if event.pressed and event.scancode == KEY_3:
                 self._set_active_toolbelt_slot(2)
-            if Input.is_key_pressed(KEY_4):
+            if event.pressed and event.scancode == KEY_4:
                 self._set_active_toolbelt_slot(3)
-            if Input.is_key_pressed(KEY_5):
+            if event.pressed and event.scancode == KEY_5:
                 self._set_active_toolbelt_slot(4)
-            if Input.is_key_pressed(KEY_6):
+            if event.pressed and event.scancode == KEY_6:
                 self._set_active_toolbelt_slot(5)
                 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://assets/floor_tiles/combined.tres" type="TileSet" id=1]
 [ext_resource path="res://Autoparcel.gd" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://ui/InventoryUI.tscn" type="PackedScene" id=10]
 [ext_resource path="res://RockNavigationMap.gd" type="Script" id=11]
 [ext_resource path="res://ui/PlacementUI.tscn" type="PackedScene" id=12]
+[ext_resource path="res://ui/MenuUI.tscn" type="PackedScene" id=13]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 11.0
@@ -135,6 +136,20 @@ height = 0.0
 [node name="Game" type="Node2D"]
 script = ExtResource( 2 )
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PlacementUI" parent="CanvasLayer" instance=ExtResource( 12 )]
+mouse_filter = 2
+
+[node name="BaseUI" parent="CanvasLayer" instance=ExtResource( 5 )]
+mouse_filter = 2
+
+[node name="InventoryUI" parent="CanvasLayer" instance=ExtResource( 10 )]
+visible = false
+mouse_filter = 2
+
+[node name="MenuUI" parent="CanvasLayer" instance=ExtResource( 13 )]
+
 [node name="Camera2D2" type="Camera2D" parent="."]
 current = true
 drag_margin_left = 0.02
@@ -220,16 +235,3 @@ anims/WalkRight = SubResource( 9 )
 position = Vector2( 0, 16 )
 rotation = -1.5708
 shape = SubResource( 10 )
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="BaseUI" parent="CanvasLayer" instance=ExtResource( 5 )]
-mouse_filter = 2
-
-[node name="InventoryUI" parent="CanvasLayer" instance=ExtResource( 10 )]
-visible = false
-mouse_filter = 2
-
-[node name="PlacementUI" parent="CanvasLayer" instance=ExtResource( 12 )]
-visible = false
-mouse_filter = 2

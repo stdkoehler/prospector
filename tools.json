@@ -3,15 +3,15 @@
 		"id": "wood_shovel",
 		"type": "shovel",
 		"name": "Wood Shovel",
-		"power": 0.1,
-		"efficiency": 0.1,
+		"power": 0.15,
+		"efficiency": 0.2,
 		"texture_path": "res://assets/tools/shovel/icon_shovel_wood.png"
 	},
 	"iron_studded_wood_shovel": {
 		"id": "iron_studded_wood_shovel",
 		"type": "shovel",
 		"name": "Iron Studded Wood Shovel",
-		"power": 0.15,
+		"power": 0.2,
 		"efficiency": 0.2,
 		"texture_path": "res://assets/tools/shovel/icon_shovel_iron_studded_wood.png"
 	},
@@ -43,8 +43,8 @@
 		"id": "wood_pan",
 		"type": "pan",
 		"name": "Wood Pan",
-		"power": 0.1,
-		"efficiency": 0.1,
+		"power": 0.15,
+		"efficiency": 0.2,
 		"texture_path": "res://assets/tools/pan/wood_pan.png"
 	},
 	"iron_sheet_pan": {

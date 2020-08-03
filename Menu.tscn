@@ -1,0 +1,102 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/themes/UI.theme" type="Theme" id=1]
+[ext_resource path="res://assets/icons/icon_goldbag.png" type="Texture" id=2]
+[ext_resource path="res://assets/icons/icon_goldbar.png" type="Texture" id=3]
+[ext_resource path="res://Menu.gd" type="Script" id=4]
+
+[node name="Menu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Currency" type="Panel" parent="."]
+margin_left = 512.0
+margin_top = 16.0
+margin_right = 552.0
+margin_bottom = 56.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Currency" type="GridContainer" parent="Currency"]
+margin_right = 164.0
+margin_bottom = 74.0
+custom_constants/hseparation = 10
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="icon_goldore" type="TextureRect" parent="Currency/Currency"]
+margin_right = 32.0
+margin_bottom = 35.0
+texture = ExtResource( 2 )
+
+[node name="margin_goldore" type="MarginContainer" parent="Currency/Currency"]
+margin_left = 42.0
+margin_right = 138.0
+margin_bottom = 35.0
+custom_constants/margin_top = 7
+custom_constants/margin_bottom = -7
+
+[node name="value_goldore" type="RichTextLabel" parent="Currency/Currency/margin_goldore"]
+margin_top = 7.0
+margin_right = 96.0
+margin_bottom = 42.0
+rect_min_size = Vector2( 96, 35 )
+bbcode_text = "0 oz"
+text = "0 oz"
+
+[node name="icon_goldbar" type="TextureRect" parent="Currency/Currency"]
+margin_top = 39.0
+margin_right = 32.0
+margin_bottom = 74.0
+texture = ExtResource( 3 )
+
+[node name="margin_goldbar" type="MarginContainer" parent="Currency/Currency"]
+margin_left = 42.0
+margin_top = 39.0
+margin_right = 138.0
+margin_bottom = 74.0
+custom_constants/margin_top = 7
+custom_constants/margin_bottom = -7
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="value_goldbar" type="RichTextLabel" parent="Currency/Currency/margin_goldbar"]
+margin_top = 7.0
+margin_right = 96.0
+margin_bottom = 42.0
+rect_min_size = Vector2( 96, 35 )
+bbcode_enabled = true
+bbcode_text = "0 oz"
+text = "0 oz"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 248.608
+margin_top = 158.522
+margin_right = 383.608
+margin_bottom = 202.522
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RentParcel" type="Button" parent="VBoxContainer"]
+margin_right = 135.0
+margin_bottom = 17.0
+text = "Rent Parcel (0.1 oz)"
+
+[node name="SmeltOre" type="Button" parent="VBoxContainer"]
+margin_top = 21.0
+margin_right = 135.0
+margin_bottom = 38.0
+text = "Smelt Ore"
+[connection signal="pressed" from="VBoxContainer/RentParcel" to="." method="_on_RentParcel_pressed"]
+[connection signal="pressed" from="VBoxContainer/SmeltOre" to="." method="_on_SmeltOre_pressed"]

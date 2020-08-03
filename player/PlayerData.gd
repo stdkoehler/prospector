@@ -4,10 +4,11 @@ var Item = load("res://items/Item.gd")
 
 class State:
     const STATE = {
-    'INVENTORY': 0,
-    'DIGGING': 1,
-    'PANNING': 2,
-    'IDLE': 3
+    'MENU': 0,
+    'INVENTORY': 1,
+    'DIGGING': 2,
+    'PANNING': 3,
+    'IDLE': 4
    }
 
     var current : int = STATE.IDLE setget set_state
@@ -94,6 +95,9 @@ signal interactable_text_changed(text)
 signal inventory_opened(value)
 signal inventory_closed(value)
 
+signal menu_opened(value)
+signal menu_closed(value)
+
 signal stamina_changed(value)
 
 
@@ -119,6 +123,8 @@ func _ready():
     
     self.inventory.put_item(10, Item.ContainerItem.new(tools['small_bucket']))
     self.inventory.put_item(11, Item.ContainerItem.new(tools['chest']))
+    
+    self.inventory.goldbar = 0.5
     
 
 
@@ -159,6 +165,14 @@ func open_inventory(value):
 func close_inventory(value):
     self.state.set_state(self.State.STATE.IDLE)
     emit_signal('inventory_closed', value)
+    
+func open_menu(value):
+    self.state.set_state(self.State.STATE.MENU)
+    emit_signal('menu_opened', value)
+    
+func close_menu(value):
+    self.state.set_state(self.State.STATE.IDLE)
+    emit_signal('menu_closed', value)
     
 func dec_stamina(_value):
     if self.state.stamina > 0:

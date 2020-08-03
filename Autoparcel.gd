@@ -29,6 +29,7 @@ func _ready():
     _c = $CanvasLayer/BaseUI.connect("new_action_item_selected", $YSort/Player, "_show_interaction_options")
     _c = $CanvasLayer/BaseUI.connect("placement_enabled", $CanvasLayer/PlacementUI, "_enable_placement")
     
+    
     randomize()
     dirt_patch_noise = OpenSimplexNoise.new()
     dirt_patch_noise.seed = randi()
@@ -48,6 +49,7 @@ func _ready():
     gold_noise.persistence = 0.75
     
     _generate_world()
+    
     
 func _generate_world():
     var goldres = load("res://environment/Gold.tscn")

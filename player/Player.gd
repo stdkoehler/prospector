@@ -14,6 +14,8 @@ func _ready():
     var _c
     _c = $ActionTimer.connect("timeout", self, "_on_timeout")
     PlayerData.player = self
+    PlayerData.state.current = PlayerData.state.STATE.IDLE
+    self._close_all()
     
     
     
@@ -22,6 +24,7 @@ func _close_all():
     PlayerData.state.current = PlayerData.State.STATE.IDLE
     PlayerData.set_action_progress(100)
     PlayerData.close_inventory("")
+    PlayerData.close_menu("")
     $ActionTimer.stop()
     
 
@@ -216,8 +219,12 @@ func _physics_process(_delta):
             velocity = velocity.move_toward(Vector2.ZERO, FRICTION)
             $AnimationPlayer.play("IdleDown")
         
-    if Input.is_action_pressed("ui_cancel"):
-        self._close_all()
+    if Input.is_action_just_pressed("ui_cancel"):
+        if PlayerData.state.current == PlayerData.state.STATE.IDLE:
+            PlayerData.open_menu("")
+            PlayerData.state.current = PlayerData.state.STATE.MENU
+        else:
+            self._close_all()
         
     # we have to check if we just closed the inventory otherwise it will close in the state machine and open again here
     if Input.is_action_just_pressed('ui_inventory') and not closed_inventory:

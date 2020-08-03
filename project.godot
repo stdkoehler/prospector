@@ -16,13 +16,14 @@ _global_script_class_icons={
 [application]
 
 config/name="Prospector"
-run/main_scene="res://Autoparcel.tscn"
+run/main_scene="res://Menu.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
 PlayerData="*res://player/PlayerData.gd"
 EnvironmentData="*res://environment/EnvironmentData.gd"
+GlobalManager="*res://GlobalManager.gd"
 
 [display]
 
