@@ -30,6 +30,7 @@ func _update_gold():
         $Sprite.set_texture(tex)
     else:
         print("free")
+        PlayerData.state.interactables.erase(self)
         queue_free()
         exhausted =  true
     

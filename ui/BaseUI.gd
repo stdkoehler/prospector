@@ -13,8 +13,6 @@ func _ready():
     _c = PlayerData.connect("goldbar_changed", self, "set_goldbar")
     _c = PlayerData.connect("action_progress_changed", self, "set_action_progress")
     _c = PlayerData.connect("interactable_text_changed", self, "set_interactable_text")
-    _c = PlayerData.connect("inventory_opened", self, "hide_ui")
-    _c = PlayerData.connect("inventory_closed", self, "show_ui")
     _c = PlayerData.connect("stamina_changed", self, "update_stamina")
     
     $Toolbelt/ItemList.set_max_columns(6)

@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+signal digging_started(value)
+
 var Item = load("res://items/Item.gd")
 
 const ACCELERATION = 25
@@ -39,24 +41,67 @@ func _digging(item):
     
     return [exhausted, progress]
     
+#func _start_digging(gold_tile):
+#    self.velocity = Vector2.ZERO
+#    var item = PlayerData.inventory.get_active_item()
+#    PlayerData.state.digging_tile = gold_tile
+#
+#    var exhausted = false
+#    var progress = 0
+#
+#    var res = self._digging(item)
+#    if res == null:
+#        return
+#
+#    exhausted = res[0]
+#    progress = res[1]
+#
+#    PlayerData.state.current = PlayerData.State.STATE.DIGGING
+#
+#    self._post_action(exhausted, progress)
+    
 func _start_digging(gold_tile):
     self.velocity = Vector2.ZERO
     var item = PlayerData.inventory.get_active_item()
-    PlayerData.state.digging_tile = gold_tile
+    var nearest_bulk_storage = EnvironmentData.get_closest_bulk_storage(self.position)
+    if item == null or item.type != Item.ITEMTYPE.SHOVEL or PlayerData.state.stamina<=0 or nearest_bulk_storage == null:
+        self._reset_player_state()
+        return null
     
+    PlayerData.state.digging_tile = gold_tile
+
+    
+    set_physics_process(false)
+    print("_start_digging")
+    emit_signal("digging_started", null)
+    
+
+func _return_digging(result):
     var exhausted = false
     var progress = 0
+    var item = PlayerData.inventory.get_active_item()
     
     var res = self._digging(item)
     if res == null:
         return
-    
+
     exhausted = res[0]
     progress = res[1]
-    
+
     PlayerData.state.current = PlayerData.State.STATE.DIGGING
-    
-    self._post_action(exhausted, progress)
+
+    self._show_interaction_options()
+    print(PlayerData.state.digging_tile)
+    if !exhausted:
+        PlayerData.set_action_progress(progress)
+        print("_return_digging")
+        emit_signal("digging_started", null)
+    else:
+        print("Done")
+        $ActionTimer.stop()
+        PlayerData.set_action_progress(100)
+        PlayerData.state.current = PlayerData.State.STATE.IDLE
+        set_physics_process(true)
     
     
 func _panning(item):

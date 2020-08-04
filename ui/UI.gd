@@ -26,10 +26,12 @@ func _input(event):
 
 func open_inventory():
     $InventoryUI.visible = true
+    $BaseUI.hide_ui(null)
     PlayerData.state.current = PlayerData.state.STATE.INVENTORY
 
 func close_inventory():
     $InventoryUI.visible = false
+    $BaseUI.show_ui(null)
     PlayerData.state.current = PlayerData.state.STATE.IDLE
     
 

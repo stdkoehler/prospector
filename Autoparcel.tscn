@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://assets/floor_tiles/combined.tres" type="TileSet" id=1]
 [ext_resource path="res://Autoparcel.gd" type="Script" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://ui/PlacementUI.tscn" type="PackedScene" id=12]
 [ext_resource path="res://ui/MenuUI.tscn" type="PackedScene" id=13]
 [ext_resource path="res://ui/UI.gd" type="Script" id=14]
+[ext_resource path="res://ui/MinigameUI.tscn" type="PackedScene" id=15]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 11.0
@@ -151,6 +152,8 @@ visible = false
 mouse_filter = 2
 
 [node name="MenuUI" parent="UI" instance=ExtResource( 13 )]
+
+[node name="MinigameUI" parent="UI" instance=ExtResource( 15 )]
 
 [node name="Camera2D2" type="Camera2D" parent="."]
 current = true
