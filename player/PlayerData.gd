@@ -92,12 +92,6 @@ signal goldbar_changed(value)
 signal action_progress_changed(value)
 signal interactable_text_changed(text)
 
-signal inventory_opened(value)
-signal inventory_closed(value)
-
-signal menu_opened(value)
-signal menu_closed(value)
-
 signal stamina_changed(value)
 
 
@@ -157,22 +151,6 @@ func set_action_progress(value):
     
 func set_interactable_text(text):
     emit_signal('interactable_text_changed', text)
-    
-func open_inventory(value):
-    self.state.set_state(self.State.STATE.INVENTORY)
-    emit_signal('inventory_opened', value)
-    
-func close_inventory(value):
-    self.state.set_state(self.State.STATE.IDLE)
-    emit_signal('inventory_closed', value)
-    
-func open_menu(value):
-    self.state.set_state(self.State.STATE.MENU)
-    emit_signal('menu_opened', value)
-    
-func close_menu(value):
-    self.state.set_state(self.State.STATE.IDLE)
-    emit_signal('menu_closed', value)
     
 func dec_stamina(_value):
     if self.state.stamina > 0:

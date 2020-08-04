@@ -15,11 +15,6 @@ var empty_slot_texture = ResourceLoader.load("res://assets/tools/icon_none.png")
 
 
 func _ready():
-    var _c = null
-    _c = PlayerData.connect("inventory_opened", self, "open_inventory")
-    _c = PlayerData.connect("inventory_closed", self, "close_inventory")
-    
-    
     $Panel/ItemListBackpack.set_max_columns(6)
     $Panel/ItemListBackpack.set_fixed_icon_size(Vector2(32,32))
     $Panel/ItemListBackpack.set_icon_mode($Panel/ItemListBackpack.ICON_MODE_TOP)
@@ -36,12 +31,6 @@ func _ready():
     set_process(false)
     set_process_input(true)
     
-    
-func open_inventory(_value):
-    self.visible = true
-    
-func close_inventory(_value):
-    self.visible = false
     
     
 func update_slot(idx):

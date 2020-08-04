@@ -14,24 +14,18 @@ func _ready():
     var _c
     _c = $ActionTimer.connect("timeout", self, "_on_timeout")
     PlayerData.player = self
-    PlayerData.state.current = PlayerData.state.STATE.IDLE
-    self._close_all()
+    self._reset_player_state()
     
-    
-    
-    
-func _close_all():
+func _reset_player_state():
     PlayerData.state.current = PlayerData.State.STATE.IDLE
     PlayerData.set_action_progress(100)
-    PlayerData.close_inventory("")
-    PlayerData.close_menu("")
     $ActionTimer.stop()
     
 
 func _digging(item):
     var nearest_bulk_storage = EnvironmentData.get_closest_bulk_storage(self.position)
     if item == null or item.type != Item.ITEMTYPE.SHOVEL or PlayerData.state.stamina<=0 or nearest_bulk_storage == null:
-        self._close_all()
+        self._reset_player_state()
         return null
 
     var res = PlayerData.state.digging_tile.dig(item)
@@ -67,7 +61,7 @@ func _start_digging(gold_tile):
     
 func _panning(item):
     if item == null or item.type != Item.ITEMTYPE.PAN or PlayerData.state.stamina<=0:
-        self._close_all()
+        self._reset_player_state()
         return null
 
     var res = PlayerData.state.panning_item.pan(item)
@@ -154,14 +148,11 @@ func _physics_process(_delta):
         #if object.is_in_group("Interactable") && Input.is_action_pressed('ui_interact'):
             #object.do_something() #This would be where your inraction occurs
             
-    var closed_inventory = false
-
+    if PlayerData.state.current != PlayerData.state.STATE.IDLE:
+        if Input.is_action_just_pressed("ui_cancel"):
+            self._reset_player_state()
+            
     match PlayerData.state.current:
-        
-        PlayerData.State.STATE.INVENTORY:
-            if Input.is_action_just_pressed('ui_inventory'):
-                self._close_all()
-                closed_inventory = true
     
         PlayerData.State.STATE.IDLE:
             
@@ -219,17 +210,6 @@ func _physics_process(_delta):
             velocity = velocity.move_toward(Vector2.ZERO, FRICTION)
             $AnimationPlayer.play("IdleDown")
         
-    if Input.is_action_just_pressed("ui_cancel"):
-        if PlayerData.state.current == PlayerData.state.STATE.IDLE:
-            PlayerData.open_menu("")
-            PlayerData.state.current = PlayerData.state.STATE.MENU
-        else:
-            self._close_all()
-        
-    # we have to check if we just closed the inventory otherwise it will close in the state machine and open again here
-    if Input.is_action_just_pressed('ui_inventory') and not closed_inventory:
-        self._close_all()
-        PlayerData.open_inventory("")
         
         
 func _show_interaction_options():
