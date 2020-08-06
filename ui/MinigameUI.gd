@@ -15,7 +15,7 @@ const DIRECTION = {
 var direction = DIRECTION.RIGHT
 
 const LENGTH = 64
-var length = -LENGTH
+var length = LENGTH
 
 export var penalty_threshold = 4.5
 export var velocity = 300
@@ -24,7 +24,7 @@ var random_velocity = 100
 var random_angle = PI*(randi()%360)/180
 
 var running = false
-var ticks = 0
+var ticks = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -50,10 +50,10 @@ func _process(delta):
         GlobalManager.MINIGAME.REACTIONGAME:
             var vel = self.velocity + self.random_velocity
             
-            if self.length >= self.LENGTH:
+            if self.length > self.LENGTH:
                 self.direction = self.DIRECTION.LEFT
                 self.ticks+=1
-            if self.length <= -self.LENGTH:
+            if self.length < -self.LENGTH:
                 self.direction = self.DIRECTION.RIGHT
                 self.ticks+=1
             
@@ -89,7 +89,9 @@ func start_game(type, value):
             self.visible = true
             self.random_velocity = randi()%50
             self.random_angle = PI*(randi()%360)/180
-            self.length = -self.LENGTH
+            self.length = self.LENGTH
+            self.direction = self.DIRECTION.LEFT
+            self.ticks = 0
             $RandomTimer.set_wait_time(0.25+EnvironmentData.random_number_generator.randf())
             $RandomTimer.start()
             yield($RandomTimer, "timeout")
@@ -131,7 +133,8 @@ func _input(event):
                     sprite.position = $ReactionGame/Cursor.position
                     $ReactionGame/Hits.add_child(sprite)
                     #print(str(self.ticks) + ' ' + str(distance))
-                    var penalty = self.ticks * distance - self.penalty_threshold
+                    print("ticks " + str(self.ticks))
+                    var penalty = (1+0.5*self.ticks) * distance - self.penalty_threshold
                     self._reset()
                     emit_signal(sig, penalty)
                     
@@ -169,6 +172,5 @@ func _reset():
     $ReactionGame.visible = false
     $ReactionGame/Cursor.visible = false
     $RandomTimer.stop()
-    self.ticks = 0
     
 
