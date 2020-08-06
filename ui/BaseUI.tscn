@@ -50,10 +50,10 @@ bbcode_text = "[right]INTERACT (E)[/right]"
 text = "INTERACT (E)"
 
 [node name="Currency" type="Panel" parent="."]
-margin_left = 512.0
-margin_top = 16.0
-margin_right = 552.0
-margin_bottom = 56.0
+margin_left = 534.0
+margin_top = 7.0
+margin_right = 574.0
+margin_bottom = 47.0
 theme = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -272,15 +272,35 @@ __meta__ = {
 }
 
 [node name="PlayerStats" type="Panel" parent="."]
-margin_left = 262.0
-margin_top = 1.0
-margin_right = 425.0
-margin_bottom = 41.0
+margin_left = 5.0
+margin_top = 6.0
+margin_right = 315.0
+margin_bottom = 46.0
 theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="StaminaBar" type="ProgressBar" parent="PlayerStats"]
-margin_right = 197.0
-margin_bottom = 19.0
+[node name="Grid" type="GridContainer" parent="PlayerStats"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayerStats/Grid"]
+margin_right = 53.0
+margin_bottom = 15.0
+size_flags_vertical = 5
+text = "Stamina"
+
+[node name="StaminaBar" type="ProgressBar" parent="PlayerStats/Grid"]
+margin_left = 57.0
+margin_right = 310.0
+margin_bottom = 15.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
 theme = ExtResource( 1 )
 value = 100.0
 rounded = true

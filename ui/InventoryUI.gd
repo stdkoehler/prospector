@@ -62,18 +62,15 @@ func _input(event) -> void:
     if self.visible:
         if (event is InputEventMouseButton):
             if (event.is_action_pressed("ui_lmb")):
-                print("?")
                 lmb_released = false
                 pickup_mousepos = get_viewport().get_mouse_position()
             if (event.is_action_released("ui_lmb")):
                 move_merge_item()
                 end_drag_item()
-                print("!")
     
         if (event is InputEventMouseMotion):
             if cursor_inside_itemlist:
                 active_idx = $Panel/ItemListBackpack.get_item_at_position($Panel/ItemListBackpack.get_local_mouse_position(),true)
-                print(active_idx)
                 if (active_idx >= 0):
                     #$Panel/ItemListBackpack.select(active_idx, true)
                     if (currently_dragging or lmb_released):
@@ -129,16 +126,14 @@ func move_merge_item():
         
 
 func _on_ItemListBackpack_mouse_entered():
-    print("enter")
     cursor_inside_itemlist = true
 
 
 func _on_ItemListBackpack_mouse_exited():
-    print("exit")
     #for i in range(12):
     #    $Panel/ItemListBackpack.select(i, false)
     cursor_inside_itemlist = false
 
 
 func _on_ItemListBackpack_item_selected(_index):
-    print("selected")
+    pass

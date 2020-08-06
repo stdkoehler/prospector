@@ -8,6 +8,7 @@ func _ready():
 
 
 func _on_LeaveParcel_pressed():
+    PlayerData.state.stamina = 100
     GlobalManager.goto_scene("res://Menu.tscn")
 
 

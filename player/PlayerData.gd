@@ -152,9 +152,9 @@ func set_action_progress(value):
 func set_interactable_text(text):
     emit_signal('interactable_text_changed', text)
     
-func dec_stamina(_value):
+func dec_stamina(stamina):
     if self.state.stamina > 0:
-        self.state.stamina -= 1
+        self.state.stamina -= stamina
     emit_signal('stamina_changed', self.state.stamina)
     
     

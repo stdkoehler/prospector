@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 signal digging_started(value)
+signal panning_started(value)
 
 var Item = load("res://items/Item.gd")
 
@@ -22,16 +23,16 @@ func _reset_player_state():
     PlayerData.state.current = PlayerData.State.STATE.IDLE
     PlayerData.set_action_progress(100)
     $ActionTimer.stop()
+    set_physics_process(true)
     
 
-func _digging(item):
+func _digging(item, efficiency_bonus):
     var nearest_bulk_storage = EnvironmentData.get_closest_bulk_storage(self.position)
     if item == null or item.type != Item.ITEMTYPE.SHOVEL or PlayerData.state.stamina<=0 or nearest_bulk_storage == null:
         self._reset_player_state()
         return null
 
-    var res = PlayerData.state.digging_tile.dig(item)
-    PlayerData.dec_stamina(1)
+    var res = PlayerData.state.digging_tile.dig(item, efficiency_bonus)
     var amount = res[0]
     var gold = res[1]
     var exhausted = res[2]
@@ -41,24 +42,20 @@ func _digging(item):
     
     return [exhausted, progress]
     
-#func _start_digging(gold_tile):
-#    self.velocity = Vector2.ZERO
-#    var item = PlayerData.inventory.get_active_item()
-#    PlayerData.state.digging_tile = gold_tile
-#
-#    var exhausted = false
-#    var progress = 0
-#
-#    var res = self._digging(item)
-#    if res == null:
-#        return
-#
-#    exhausted = res[0]
-#    progress = res[1]
-#
-#    PlayerData.state.current = PlayerData.State.STATE.DIGGING
-#
-#    self._post_action(exhausted, progress)
+func _panning(item, efficiency_bonus):
+    if item == null or item.type != Item.ITEMTYPE.PAN or PlayerData.state.stamina<=0:
+        self._reset_player_state()
+        return null
+
+    var res = PlayerData.state.panning_item.pan(item, efficiency_bonus)
+    #var amount = res[0]
+    var gold = res[1]
+    var exhausted = res[2]
+
+    PlayerData.inc_goldore(gold)
+    var progress = 100*(1-PlayerData.state.panning_item.amount_dirt/PlayerData.state.panning_item.amount_limit)
+    
+    return [exhausted, progress]
     
 func _start_digging(gold_tile):
     self.velocity = Vector2.ZERO
@@ -68,20 +65,48 @@ func _start_digging(gold_tile):
         self._reset_player_state()
         return null
     
+    PlayerData.state.current = PlayerData.State.STATE.DIGGING
     PlayerData.state.digging_tile = gold_tile
-
     
     set_physics_process(false)
-    print("_start_digging")
-    emit_signal("digging_started", null)
+    emit_signal("digging_started", 'start')
+    
+func _start_panning(panning_item):
+    self.velocity = Vector2.ZERO
+    var item = PlayerData.inventory.get_active_item()
+    if item == null or item.type != Item.ITEMTYPE.PAN or PlayerData.state.stamina<=0:
+        self._reset_player_state()
+        return null
+    
+    PlayerData.state.panning_item = panning_item
+    PlayerData.state.current = PlayerData.State.STATE.PANNING
+    
+    set_physics_process(false)
+    emit_signal("panning_started", 'start')
     
 
-func _return_digging(result):
+func _return_digging(penalty):
+    if penalty == null:
+        # the wait time is required because we want to reset the player state
+        # if we do not use the timer, the input signals are running parallel
+        # which means the  state might already be reset, when the input triggers
+        # UI.gd or the player's physic_process leading to undesired actions
+        # e.g. directly start digging the next tile on ui_interact
+        # or opening the menu on ui_cancel
+        $ActionTimer.set_wait_time(0.1)
+        $ActionTimer.start()
+        return
+    
     var exhausted = false
     var progress = 0
     var item = PlayerData.inventory.get_active_item()
     
-    var res = self._digging(item)
+    var stamina = clamp(1+penalty, 0, 1.5)
+    var efficiency_bonus = clamp(-penalty, 1, 1.75)
+    print("Penalty: " + str(penalty) + "; Stamina: " + str(stamina) + "; EfficiencyBonus: " + str(efficiency_bonus))
+    PlayerData.dec_stamina(stamina)
+    
+    var res = self._digging(item, efficiency_bonus)
     if res == null:
         return
 
@@ -91,82 +116,58 @@ func _return_digging(result):
     PlayerData.state.current = PlayerData.State.STATE.DIGGING
 
     self._show_interaction_options()
-    print(PlayerData.state.digging_tile)
     if !exhausted:
         PlayerData.set_action_progress(progress)
-        print("_return_digging")
         emit_signal("digging_started", null)
     else:
-        print("Done")
-        $ActionTimer.stop()
-        PlayerData.set_action_progress(100)
-        PlayerData.state.current = PlayerData.State.STATE.IDLE
-        set_physics_process(true)
-    
-    
-func _panning(item):
-    if item == null or item.type != Item.ITEMTYPE.PAN or PlayerData.state.stamina<=0:
-        self._reset_player_state()
-        return null
-
-    var res = PlayerData.state.panning_item.pan(item)
-    PlayerData.dec_stamina(1)
-    #var amount = res[0]
-    var gold = res[1]
-    var exhausted = res[2]
-
-    PlayerData.inc_goldore(gold)
-    
-    var progress = 100*(1-PlayerData.state.panning_item.amount_dirt/PlayerData.state.panning_item.amount_limit)
-    
-    return [exhausted, progress]
-    
-func _start_panning(panning_item):
-    self.velocity = Vector2.ZERO
-    var item = PlayerData.inventory.get_active_item()
-    PlayerData.state.panning_item = panning_item
-    
-    var exhausted = false
-    var progress = 0
-    
-    var res = self._panning(item)
-    if res == null:
+        $ActionTimer.set_wait_time(0.1)
+        $ActionTimer.start()
+        
+func _return_panning(penalty):
+    if penalty == null:
+        # the wait time is required because we want to reset the player state
+        # if we do not use the timer, the input signals are running parallel
+        # which means the  state might already be reset, when the input triggers
+        # UI.gd or the player's physic_process leading to undesired actions
+        # e.g. directly start digging the next tile on ui_interact
+        # or opening the menu on ui_cancel
+        $ActionTimer.set_wait_time(0.1)
+        $ActionTimer.start()
         return
     
-    exhausted = res[0]
-    progress = res[1]
-    
-    PlayerData.state.current = PlayerData.State.STATE.PANNING
-    
-    self._post_action(exhausted, progress)
-    
-func _on_timeout():
-    var item = PlayerData.inventory.get_active_item()
-    
     var exhausted = false
     var progress = 0
+    var item = PlayerData.inventory.get_active_item()
     
-    match PlayerData.state.current:
-        PlayerData.state.STATE.DIGGING:
-            var res = self._digging(item)
-            if res != null:
-                exhausted = res[0]
-                progress = res[1]
-            else:
-                exhausted = true # this happens when container is full
-            
+    var stamina = clamp(1+penalty, 0, 1.5)
+    var efficiency_bonus = clamp(-penalty, 1, 1.75)
+    print("Penalty: " + str(penalty) + "; Stamina: " + str(stamina) + "; EfficiencyBonus: " + str(efficiency_bonus))
+    PlayerData.dec_stamina(stamina)
+    
+    var res = self._panning(item, efficiency_bonus)
+    if res == null:
+        return
 
-        PlayerData.state.STATE.PANNING:
-            var res = self._panning(item)
-            if res != null:
-                exhausted = res[0]
-                progress = res[1]
-            else:
-                exhausted = true # this happens when container is full
-                
-            #PlayerData.inc_goldore(gold)
-            
-    self._post_action(exhausted, progress)
+    exhausted = res[0]
+    progress = res[1]
+
+    PlayerData.state.current = PlayerData.State.STATE.PANNING
+
+    self._show_interaction_options()
+    if !exhausted:
+        PlayerData.set_action_progress(progress)
+        emit_signal("panning_started", null)
+    else:
+        $ActionTimer.set_wait_time(0.1)
+        $ActionTimer.start()
+    
+    
+
+    
+
+    
+func _on_timeout():
+    self._reset_player_state()
     
 func _post_action(exhausted, progress):
     self._show_interaction_options()
@@ -176,7 +177,6 @@ func _post_action(exhausted, progress):
         $ActionTimer.set_wait_time(1)
         $ActionTimer.start()
     else:
-        print("Done")
         $ActionTimer.stop()
         PlayerData.set_action_progress(100)
         PlayerData.state.current = PlayerData.State.STATE.IDLE
@@ -193,7 +193,8 @@ func _physics_process(_delta):
         #if object.is_in_group("Interactable") && Input.is_action_pressed('ui_interact'):
             #object.do_something() #This would be where your inraction occurs
             
-    if PlayerData.state.current != PlayerData.state.STATE.IDLE:
+    if PlayerData.state.current != PlayerData.state.STATE.IDLE and \
+        PlayerData.state.current != PlayerData.state.STATE.DIGGING:
         if Input.is_action_just_pressed("ui_cancel"):
             self._reset_player_state()
             

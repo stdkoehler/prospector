@@ -6,6 +6,7 @@ func _input(event):
     if PlayerData.state.current == PlayerData.state.STATE.IDLE \
         or PlayerData.state.current == PlayerData.state.STATE.MENU \
         or PlayerData.state.current == PlayerData.state.STATE.INVENTORY:
+        
         if Input.is_action_just_pressed('ui_inventory'):
             if $InventoryUI.visible == true:
                 self.close_inventory()

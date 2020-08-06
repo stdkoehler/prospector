@@ -132,4 +132,4 @@ func _update_toolbelt():
             $Toolbelt/ItemList.set_item_tooltip_enabled(idx, false)
             
 func update_stamina(value):
-    $PlayerStats/StaminaBar.value = value
+    $PlayerStats/Grid/StaminaBar.value = value

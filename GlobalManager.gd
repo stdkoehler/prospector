@@ -2,6 +2,14 @@ extends Node
 
 var current_scene = null
 
+const MINIGAME = {
+    'TIME': 0,
+    'REACTIONGAME': 1
+   }
+
+var minigame_digging = MINIGAME.REACTIONGAME
+var minigame_panning = MINIGAME.REACTIONGAME
+
 func _ready():
     var root = get_tree().get_root()
     current_scene = root.get_child(root.get_child_count() - 1)

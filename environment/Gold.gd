@@ -29,7 +29,6 @@ func _update_gold():
         var tex = load("res://assets/gold/gold_minimal.png")
         $Sprite.set_texture(tex)
     else:
-        print("free")
         PlayerData.state.interactables.erase(self)
         queue_free()
         exhausted =  true
@@ -47,7 +46,7 @@ func initialize(pos, richness):
     
     
     
-func dig(item):
+func dig(item, efficiency_bonus):
     
     if item.type != Item.ITEMTYPE.SHOVEL:
         return
@@ -57,8 +56,8 @@ func dig(item):
         var cell = map.world_to_map(self.position)
         map.set_cellv (cell, 2 )
     
-    var efficiency = clamp(EnvironmentData.random_number_generator.randfn(item.efficiency, 0.1), 0, 1)
-    print('Effiency ', str(efficiency))
+    var efficiency = clamp(efficiency_bonus*EnvironmentData.random_number_generator.randfn(item.efficiency, 0.1), 0, 1)
+    #print('Effiency: ' +  str(efficiency) + 'EfficiencyBonus: ' + str(efficiency_bonus))
     var gold = item.power*amount_gold/amount_dirt
     self.amount_dirt -= item.power
     self.amount_gold -= gold

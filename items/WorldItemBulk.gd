@@ -45,10 +45,8 @@ func bulk_storage_avalaible():
 
 func _changed():
     $Panel/Filled.value = self.get_percent_filled()
-        
-    print($Panel/Filled.value)
     var tx = self.item.texture_path.split(".")
-    if $Panel/Filled.value > 99:
+    if $Panel/Filled.value > 75:
         self._set_texture(tx[0]+'_shadow_100.png')
     elif $Panel/Filled.value >= 50:
         self._set_texture(tx[0]+'_shadow_50.png')
@@ -56,13 +54,13 @@ func _changed():
         self._set_texture(tx[0]+'_shadow.png')
 
 
-func pan(item):
+func pan(item, efficiency_bonus):
     
     if item.type != ItemScript.ITEMTYPE.PAN or self.amount_dirt <= 0:
         return [item.power, 0, true]
         
     var exhausted = false
-    var efficiency = clamp(EnvironmentData.random_number_generator.randfn(item.efficiency, 0.1), 0, 1)
+    var efficiency = clamp(efficiency_bonus*EnvironmentData.random_number_generator.randfn(item.efficiency, 0.1), 0, 1)
     var gold = item.power*self.amount_gold/self.amount_dirt
     self.amount_dirt -= item.power
     self.amount_gold -= gold

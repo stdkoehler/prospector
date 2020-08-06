@@ -79,24 +79,91 @@ bbcode_text = "0 oz"
 text = "0 oz"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_left = 248.608
-margin_top = 158.522
-margin_right = 383.608
-margin_bottom = 202.522
+margin_left = 249.0
+margin_top = 159.0
+margin_right = 437.0
+margin_bottom = 203.0
 theme = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="RentParcel" type="Button" parent="VBoxContainer"]
-margin_right = 135.0
+margin_right = 188.0
 margin_bottom = 17.0
 text = "Rent Parcel (0.1 oz)"
 
 [node name="SmeltOre" type="Button" parent="VBoxContainer"]
 margin_top = 21.0
-margin_right = 135.0
+margin_right = 188.0
 margin_bottom = 38.0
 text = "Smelt Ore"
+
+[node name="Options" type="Panel" parent="."]
+margin_left = 247.0
+margin_top = 225.0
+margin_right = 437.0
+margin_bottom = 316.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBox" type="VBoxContainer" parent="Options"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 15
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Options" type="Label" parent="Options/VBox"]
+margin_right = 190.0
+margin_bottom = 15.0
+size_flags_vertical = 1
+text = "Options"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Minigame" type="GridContainer" parent="Options/VBox"]
+margin_top = 30.0
+margin_right = 190.0
+margin_bottom = 91.0
+size_flags_vertical = 3
+custom_constants/hseparation = 15
+columns = 2
+
+[node name="Digging" type="Label" parent="Options/VBox/Minigame"]
+margin_top = 1.0
+margin_right = 50.0
+margin_bottom = 16.0
+text = "Digging"
+
+[node name="DiggingOption" type="OptionButton" parent="Options/VBox/Minigame"]
+margin_left = 65.0
+margin_right = 190.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "Time"
+items = [ "Time", null, false, 0, null, "Reaction Game", null, false, 1, null ]
+selected = 0
+
+[node name="Panning" type="Label" parent="Options/VBox/Minigame"]
+margin_top = 22.0
+margin_right = 50.0
+margin_bottom = 37.0
+text = "Panning"
+
+[node name="PanningOption" type="OptionButton" parent="Options/VBox/Minigame"]
+margin_left = 65.0
+margin_top = 21.0
+margin_right = 190.0
+margin_bottom = 38.0
+text = "Time"
+items = [ "Time", null, false, 0, null, "Reaction Game", null, false, 1, null ]
+selected = 0
 [connection signal="pressed" from="VBoxContainer/RentParcel" to="." method="_on_RentParcel_pressed"]
 [connection signal="pressed" from="VBoxContainer/SmeltOre" to="." method="_on_SmeltOre_pressed"]
+[connection signal="item_selected" from="Options/VBox/Minigame/DiggingOption" to="." method="_on_DiggingOption_item_selected"]
+[connection signal="item_selected" from="Options/VBox/Minigame/PanningOption" to="." method="_on_PanningOption_item_selected"]
