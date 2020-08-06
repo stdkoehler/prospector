@@ -12,18 +12,18 @@ const FRICTION = 75
 var velocity = Vector2.ZERO
 var last_velocity = Vector2.ZERO
 
+var accept_input = true
+
 
 func _ready():
-    var _c
-    _c = $ActionTimer.connect("timeout", self, "_on_timeout")
     PlayerData.player = self
     self._reset_player_state()
     
 func _reset_player_state():
-    PlayerData.state.current = PlayerData.State.STATE.IDLE
+    PlayerData.state.set_state(PlayerData.State.STATE.IDLE)
     PlayerData.set_action_progress(100)
-    $ActionTimer.stop()
     set_physics_process(true)
+    
     
 
 func _digging(item, efficiency_bonus):
@@ -65,7 +65,7 @@ func _start_digging(gold_tile):
         self._reset_player_state()
         return null
     
-    PlayerData.state.current = PlayerData.State.STATE.DIGGING
+    PlayerData.state.set_state(PlayerData.State.STATE.DIGGING)
     PlayerData.state.digging_tile = gold_tile
     
     set_physics_process(false)
@@ -79,7 +79,7 @@ func _start_panning(panning_item):
         return null
     
     PlayerData.state.panning_item = panning_item
-    PlayerData.state.current = PlayerData.State.STATE.PANNING
+    PlayerData.state.set_state(PlayerData.State.STATE.PANNING)
     
     set_physics_process(false)
     emit_signal("panning_started", 'start')
@@ -87,14 +87,7 @@ func _start_panning(panning_item):
 
 func _return_digging(penalty):
     if penalty == null:
-        # the wait time is required because we want to reset the player state
-        # if we do not use the timer, the input signals are running parallel
-        # which means the  state might already be reset, when the input triggers
-        # UI.gd or the player's physic_process leading to undesired actions
-        # e.g. directly start digging the next tile on ui_interact
-        # or opening the menu on ui_cancel
-        $ActionTimer.set_wait_time(0.1)
-        $ActionTimer.start()
+        self._reset_player_state()
         return
     
     var exhausted = false
@@ -113,26 +106,18 @@ func _return_digging(penalty):
     exhausted = res[0]
     progress = res[1]
 
-    PlayerData.state.current = PlayerData.State.STATE.DIGGING
+    PlayerData.state.set_state(PlayerData.State.STATE.DIGGING)
 
     self._show_interaction_options()
     if !exhausted:
         PlayerData.set_action_progress(progress)
         emit_signal("digging_started", null)
     else:
-        $ActionTimer.set_wait_time(0.1)
-        $ActionTimer.start()
+        self._reset_player_state()
         
 func _return_panning(penalty):
     if penalty == null:
-        # the wait time is required because we want to reset the player state
-        # if we do not use the timer, the input signals are running parallel
-        # which means the  state might already be reset, when the input triggers
-        # UI.gd or the player's physic_process leading to undesired actions
-        # e.g. directly start digging the next tile on ui_interact
-        # or opening the menu on ui_cancel
-        $ActionTimer.set_wait_time(0.1)
-        $ActionTimer.start()
+        self._reset_player_state()
         return
     
     var exhausted = false
@@ -151,40 +136,15 @@ func _return_panning(penalty):
     exhausted = res[0]
     progress = res[1]
 
-    PlayerData.state.current = PlayerData.State.STATE.PANNING
+    PlayerData.state.set_state(PlayerData.State.STATE.PANNING)
 
     self._show_interaction_options()
     if !exhausted:
         PlayerData.set_action_progress(progress)
         emit_signal("panning_started", null)
     else:
-        $ActionTimer.set_wait_time(0.1)
-        $ActionTimer.start()
-    
-    
+        self._reset_player_state()
 
-    
-
-    
-func _on_timeout():
-    self._reset_player_state()
-    
-func _post_action(exhausted, progress):
-    self._show_interaction_options()
-    
-    if !exhausted:
-        PlayerData.set_action_progress(progress)
-        $ActionTimer.set_wait_time(1)
-        $ActionTimer.start()
-    else:
-        $ActionTimer.stop()
-        PlayerData.set_action_progress(100)
-        PlayerData.state.current = PlayerData.State.STATE.IDLE
-    
-    
-
-    
-    
 
 func _physics_process(_delta):
     #if $RayCast2D.is_colliding():
@@ -192,11 +152,6 @@ func _physics_process(_delta):
     #    print(object)
         #if object.is_in_group("Interactable") && Input.is_action_pressed('ui_interact'):
             #object.do_something() #This would be where your inraction occurs
-            
-    if PlayerData.state.current != PlayerData.state.STATE.IDLE and \
-        PlayerData.state.current != PlayerData.state.STATE.DIGGING:
-        if Input.is_action_just_pressed("ui_cancel"):
-            self._reset_player_state()
             
     match PlayerData.state.current:
     
@@ -211,16 +166,6 @@ func _physics_process(_delta):
             if Input.is_action_just_pressed("ui_up"):
                 $RayCast2D.rotation_degrees = 270
         
-            if Input.is_action_just_pressed("ui_interact"):
-                if PlayerData.inventory.get_active_item().type == Item.ITEMTYPE.SHOVEL\
-                    and self._digging_possible():
-                    self._start_digging(PlayerData.state.interactables[0])
-                elif PlayerData.inventory.get_active_item().type == Item.ITEMTYPE.PAN\
-                    and self._panning_possible():
-                    var pannables = PlayerData.state.get_pannable_storage()
-                    self._start_panning(pannables[0])
-                else:
-                    pass
                 
             var input_vector = Vector2.ZERO
             input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
@@ -256,7 +201,22 @@ func _physics_process(_delta):
             velocity = velocity.move_toward(Vector2.ZERO, FRICTION)
             $AnimationPlayer.play("IdleDown")
         
-        
+func _input(event):
+#    if PlayerData.state.current != PlayerData.state.STATE.IDLE and \
+#        PlayerData.state.current != PlayerData.state.STATE.DIGGING:
+#        if Input.is_action_just_pressed("ui_cancel"):
+#            self._reset_player_state()
+    
+    if Input.is_action_just_pressed("ui_interact"):
+        if PlayerData.inventory.get_active_item().type == Item.ITEMTYPE.SHOVEL\
+            and self._digging_possible():
+            self._start_digging(PlayerData.state.interactables[0])
+        elif PlayerData.inventory.get_active_item().type == Item.ITEMTYPE.PAN\
+            and self._panning_possible():
+            var pannables = PlayerData.state.get_pannable_storage()
+            self._start_panning(pannables[0])
+        else:
+            pass
         
 func _show_interaction_options():
     var options_text = []

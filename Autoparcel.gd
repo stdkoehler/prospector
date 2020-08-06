@@ -25,6 +25,9 @@ func _ready():
     EnvironmentData.worlditems = $YSort/WorldItems
     
     var _c = null
+    _c = PlayerData.state.connect("ui_activated", $UI, "_activate_ui")
+    _c = PlayerData.state.connect("ui_deactivated", $UI, "_deactivate_ui")
+    
     _c = $UI/BaseUI.connect("new_action_item_selected", $UI/PlacementUI, "_check_placable_selected")
     _c = $UI/BaseUI.connect("new_action_item_selected", $YSort/Player, "_show_interaction_options")
     _c = $UI/BaseUI.connect("placement_enabled", $UI/PlacementUI, "_enable_placement")

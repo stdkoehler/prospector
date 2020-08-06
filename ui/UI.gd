@@ -45,3 +45,9 @@ func close_menu():
     $MenuUI.visible = false
     $BaseUI.lock = false
     PlayerData.state.current = PlayerData.state.STATE.IDLE
+    
+func _activate_ui(value):
+    self.set_process_input(true)
+    
+func _deactivate_ui(value):
+    self.set_process_input(false)

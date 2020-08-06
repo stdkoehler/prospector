@@ -1,8 +1,21 @@
 extends Node
 
+signal goldore_changed(value)
+signal goldbar_changed(value)
+signal action_progress_changed(value)
+signal interactable_text_changed(text)
+
+signal stamina_changed(value)
+
+
+
+
 var Item = load("res://items/Item.gd")
 
 class State:
+    signal ui_activated(value)
+    signal ui_deactivated(value)
+    
     const STATE = {
     'MENU': 0,
     'INVENTORY': 1,
@@ -31,10 +44,21 @@ class State:
     # be deleted on idle and menufreeze
     func set_state(state):
         current = state
-        if state == STATE.IDLE:
-            digging_tile = null
-        if state == STATE.INVENTORY:
-            digging_tile = null
+        match state:
+            STATE.IDLE:
+                digging_tile = null
+                emit_signal("ui_activated", null)
+            STATE.INVENTORY:
+                digging_tile = null
+                emit_signal("ui_activated", null)
+            STATE.MENU:
+                digging_tile = null
+                emit_signal("ui_activated", null)
+            STATE.DIGGING:
+                emit_signal("ui_deactivated", null)
+            STATE.PANNING:
+                emit_signal("ui_deactivated", null)
+            
            
     func get_pannable_storage():
         var available = []
@@ -87,16 +111,13 @@ var inventory = Inventory.new()
 
 
 
-signal goldore_changed(value)
-signal goldbar_changed(value)
-signal action_progress_changed(value)
-signal interactable_text_changed(text)
-
-signal stamina_changed(value)
-
 
 
 func _ready():
+    var _c
+    state.connect('ui_activated', self, "_ui_activated")
+    state.connect('ui_deactivated', self, "_ui_deactivated")
+    
     var file = File.new()
     file.open("res://tools.json", file.READ)
     var text = file.get_as_text()
@@ -158,4 +179,8 @@ func dec_stamina(stamina):
     emit_signal('stamina_changed', self.state.stamina)
     
     
-
+func _ui_activated(value):
+    self.player.set_process_input(true)
+    
+func _ui_deactivated(value):
+    self.player.set_process_input(false)
