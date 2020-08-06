@@ -35,4 +35,6 @@ __meta__ = {
 position = Vector2( 0, 64 )
 texture = ExtResource( 3 )
 
+[node name="Hits" type="Node2D" parent="ReactionGame"]
+
 [node name="RandomTimer" type="Timer" parent="."]

@@ -12,19 +12,17 @@ const FRICTION = 75
 var velocity = Vector2.ZERO
 var last_velocity = Vector2.ZERO
 
-var accept_input = true
-
 
 func _ready():
     PlayerData.player = self
     self._reset_player_state()
-    
+
+
 func _reset_player_state():
     PlayerData.state.set_state(PlayerData.State.STATE.IDLE)
     PlayerData.set_action_progress(100)
     set_physics_process(true)
-    
-    
+
 
 func _digging(item, efficiency_bonus):
     var nearest_bulk_storage = EnvironmentData.get_closest_bulk_storage(self.position)
@@ -41,7 +39,8 @@ func _digging(item, efficiency_bonus):
     var progress = 100*(1-PlayerData.state.digging_tile.amount_dirt)
     
     return [exhausted, progress]
-    
+
+
 func _panning(item, efficiency_bonus):
     if item == null or item.type != Item.ITEMTYPE.PAN or PlayerData.state.stamina<=0:
         self._reset_player_state()
@@ -56,7 +55,8 @@ func _panning(item, efficiency_bonus):
     var progress = 100*(1-PlayerData.state.panning_item.amount_dirt/PlayerData.state.panning_item.amount_limit)
     
     return [exhausted, progress]
-    
+
+
 func _start_digging(gold_tile):
     self.velocity = Vector2.ZERO
     var item = PlayerData.inventory.get_active_item()
@@ -70,7 +70,8 @@ func _start_digging(gold_tile):
     
     set_physics_process(false)
     emit_signal("digging_started", 'start')
-    
+
+
 func _start_panning(panning_item):
     self.velocity = Vector2.ZERO
     var item = PlayerData.inventory.get_active_item()
@@ -83,7 +84,7 @@ func _start_panning(panning_item):
     
     set_physics_process(false)
     emit_signal("panning_started", 'start')
-    
+
 
 func _return_digging(penalty):
     if penalty == null:
@@ -113,8 +114,10 @@ func _return_digging(penalty):
         PlayerData.set_action_progress(progress)
         emit_signal("digging_started", null)
     else:
+        emit_signal("digging_started", 'stop')
         self._reset_player_state()
-        
+
+
 func _return_panning(penalty):
     if penalty == null:
         self._reset_player_state()
@@ -143,6 +146,7 @@ func _return_panning(penalty):
         PlayerData.set_action_progress(progress)
         emit_signal("panning_started", null)
     else:
+        emit_signal("panning_started", 'stop')
         self._reset_player_state()
 
 
@@ -236,28 +240,32 @@ func _show_interaction_options():
             text += "\n"
         text += options_text[i]
         
-        
     PlayerData.set_interactable_text(text)
+            
             
 func _on_gold_entered(gold):
     PlayerData.state.interactables.append(gold)
     gold.get_node("Line2D").visible = true
     self._show_interaction_options()
     
+    
 func _on_gold_exited(gold):
     gold.get_node("Line2D").visible = false
     PlayerData.state.interactables.erase(gold)
     self._show_interaction_options()
+    
     
 func _on_worlditem_entered(worlditem):
     PlayerData.state.worlditems.append(worlditem)
     worlditem.get_node("Line2D").visible = true
     self._show_interaction_options()
     
+    
 func _on_worlditem_exited(worlditem):
     worlditem.get_node("Line2D").visible = false
     PlayerData.state.worlditems.erase(worlditem)
     self._show_interaction_options()
+    
     
 func _digging_possible():
     var item = PlayerData.inventory.get_active_item()
@@ -267,6 +275,7 @@ func _digging_possible():
         return len(PlayerData.state.interactables)>0 \
             and PlayerData.state.interactables[0].type == EnvironmentData.TYPE.DIGGABLE \
             and item.type == Item.ITEMTYPE.SHOVEL
+
 
 func _panning_possible():
     var item = PlayerData.inventory.get_active_item()

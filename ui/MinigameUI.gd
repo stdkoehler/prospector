@@ -4,12 +4,6 @@ signal digging_returned(value)
 signal panning_returned(value)
 
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
 var current_game = null
 
 # ReactionGame
@@ -70,10 +64,18 @@ func _process(delta):
     
 func start_digging_game(value):
     self.current_game = 'digging'
+    if value == 'stop':
+        self._clean(GlobalManager.minigame_digging)
+        return
+        
     self.start_game(GlobalManager.minigame_digging, value)
     
 func start_panning_game(value):
     self.current_game = 'panning'
+    if value == 'stop':
+        self._clean(GlobalManager.minigame_panning)
+        return
+        
     self.start_game(GlobalManager.minigame_panning, value)
             
 func start_game(type, value):
@@ -118,6 +120,10 @@ func _input(event):
                 if Input.is_action_just_pressed('ui_interact'):
                     set_process(false)
                     var distance = sqrt(abs($ReactionGame/Cursor.position.x - 128/2))
+                    var sprite = Sprite.new()
+                    sprite.texture = ResourceLoader.load("res://assets/ui/crosshair_hit.png")
+                    sprite.position = $ReactionGame/Cursor.position
+                    $ReactionGame/Hits.add_child(sprite)
                     #print(str(self.ticks) + ' ' + str(distance))
                     var penalty = self.ticks * distance - self.penalty_threshold
                     self._reset()
@@ -127,6 +133,7 @@ func _input(event):
         if Input.is_action_just_pressed("ui_cancel"):
             set_process(false)
             self._reset()
+            self._clean(type)
             emit_signal(sig, null)
             
 func _on_timeout():
@@ -143,6 +150,12 @@ func _on_timeout():
         GlobalManager.MINIGAME.TIME:
             self._reset()
             emit_signal(sig, 0)
+
+func _clean(type):
+    match type:
+        GlobalManager.MINIGAME.REACTIONGAME:
+            for sprite in $ReactionGame/Hits.get_children():
+                sprite.queue_free()
 
 func _reset():
     self.running = false
