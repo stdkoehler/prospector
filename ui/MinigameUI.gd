@@ -13,12 +13,18 @@ const DIRECTION = {
    }
 
 var direction = DIRECTION.RIGHT
-export var penalty_threshold = 5
+
+const LENGTH = 64
+var length = -LENGTH
+
+export var penalty_threshold = 4.5
 export var velocity = 300
+
 var random_velocity = 100
+var random_angle = PI*(randi()%360)/180
+
 var running = false
 var ticks = 0
-var init_pos = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -27,8 +33,6 @@ func _ready():
     
     $ReactionGame.visible = false
     $ReactionGame/Cursor.visible = false
-    init_pos = $ReactionGame/Cursor.position
-    
     
     pass # Replace with function body.
 
@@ -45,21 +49,21 @@ func _process(delta):
         
         GlobalManager.MINIGAME.REACTIONGAME:
             var vel = self.velocity + self.random_velocity
-            var pos0 = $ReactionGame/Cursor.position
-            if pos0.x >= 128:
-                direction = DIRECTION.LEFT
-                self.ticks+=1
-            if pos0.x <= 0:
-                direction = DIRECTION.RIGHT
-                self.ticks+=1
-                
-            var pos1 = pos0
-            if direction == DIRECTION.RIGHT:
-                pos1 += Vector2(delta*vel, 0)
-            else:
-                pos1 -= Vector2(delta*vel,0)
             
-            $ReactionGame/Cursor.position = pos1
+            if self.length >= self.LENGTH:
+                self.direction = self.DIRECTION.LEFT
+                self.ticks+=1
+            if self.length <= -self.LENGTH:
+                self.direction = self.DIRECTION.RIGHT
+                self.ticks+=1
+            
+            if self.direction == self.DIRECTION.RIGHT:
+                self.length += delta*vel
+            if self.direction == self.DIRECTION.LEFT:
+                self.length -= delta*vel
+                
+            $ReactionGame/Cursor.position = Vector2(LENGTH+self.length*cos(self.random_angle),
+                                                    LENGTH+self.length*sin(self.random_angle))
     
     
 func start_digging_game(value):
@@ -84,6 +88,8 @@ func start_game(type, value):
             $ReactionGame.visible = true
             self.visible = true
             self.random_velocity = randi()%50
+            self.random_angle = PI*(randi()%360)/180
+            self.length = -self.LENGTH
             $RandomTimer.set_wait_time(0.25+EnvironmentData.random_number_generator.randf())
             $RandomTimer.start()
             yield($RandomTimer, "timeout")
@@ -119,7 +125,7 @@ func _input(event):
             if self.visible and self.running:
                 if Input.is_action_just_pressed('ui_interact'):
                     set_process(false)
-                    var distance = sqrt(abs($ReactionGame/Cursor.position.x - 128/2))
+                    var distance = sqrt($ReactionGame/Cursor.position.distance_to(Vector2(self.LENGTH,self.LENGTH)))
                     var sprite = Sprite.new()
                     sprite.texture = ResourceLoader.load("res://assets/ui/crosshair_hit.png")
                     sprite.position = $ReactionGame/Cursor.position
@@ -162,7 +168,6 @@ func _reset():
     self.visible = false
     $ReactionGame.visible = false
     $ReactionGame/Cursor.visible = false
-    $ReactionGame/Cursor.position = init_pos
     $RandomTimer.stop()
     self.ticks = 0
     

@@ -96,7 +96,7 @@ func _return_digging(penalty):
     var item = PlayerData.inventory.get_active_item()
     
     var stamina = clamp(1+penalty, 0, 1.5)
-    var efficiency_bonus = clamp(-penalty, 1, 1.75)
+    var efficiency_bonus = clamp(1 - 0.33*penalty, 1, 1.75)
     print("Penalty: " + str(penalty) + "; Stamina: " + str(stamina) + "; EfficiencyBonus: " + str(efficiency_bonus))
     PlayerData.dec_stamina(stamina)
     
@@ -128,7 +128,7 @@ func _return_panning(penalty):
     var item = PlayerData.inventory.get_active_item()
     
     var stamina = clamp(1+penalty, 0, 1.5)
-    var efficiency_bonus = clamp(-penalty, 1, 1.75)
+    var efficiency_bonus = clamp(1 - 0.33*penalty, 1, 1.75)
     print("Penalty: " + str(penalty) + "; Stamina: " + str(stamina) + "; EfficiencyBonus: " + str(efficiency_bonus))
     PlayerData.dec_stamina(stamina)
     
