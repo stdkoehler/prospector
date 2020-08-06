@@ -1,0 +1,52 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/themes/HelpUI.tres" type="Theme" id=1]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WindowDialog" type="WindowDialog" parent="."]
+visible = true
+margin_left = 110.0
+margin_top = 83.0
+margin_right = 386.0
+margin_bottom = 239.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="WindowDialog"]
+margin_left = 113.0
+margin_top = -14.0
+margin_right = 168.0
+margin_bottom = 1.0
+text = "Tutorial"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckBox" type="CheckBox" parent="WindowDialog"]
+margin_left = 74.8734
+margin_top = 113.447
+margin_right = 209.873
+margin_bottom = 153.447
+text = "Don't show again"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="WindowDialog"]
+margin_left = 10.0
+margin_top = 3.0
+margin_right = 270.0
+margin_bottom = 113.0
+rect_min_size = Vector2( 240, 110 )
+text = "The text dsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
+__meta__ = {
+"_edit_use_anchors_": false
+}
