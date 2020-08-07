@@ -1,7 +1,8 @@
 extends KinematicBody2D
 
-signal digging_started(value)
-signal panning_started(value)
+signal minigame_action_started(action, state)
+
+signal tutorial_popup()
 
 var Item = load("res://items/Item.gd")
 
@@ -62,6 +63,7 @@ func _start_digging(gold_tile):
     var item = PlayerData.inventory.get_active_item()
     var nearest_bulk_storage = EnvironmentData.get_closest_bulk_storage(self.position)
     if item == null or item.type != Item.ITEMTYPE.SHOVEL or PlayerData.state.stamina<=0 or nearest_bulk_storage == null:
+        emit_signal("tutorial_popup", GlobalManager.TUTORIALPOPUP.DIGGING_BULK)
         self._reset_player_state()
         return null
     
@@ -69,7 +71,7 @@ func _start_digging(gold_tile):
     PlayerData.state.digging_tile = gold_tile
     
     set_physics_process(false)
-    emit_signal("digging_started", 'start')
+    emit_signal("minigame_action_started", GlobalManager.ACTION.DIGGING, GlobalManager.ACTIONSTATE.START)
 
 
 func _start_panning(panning_item):
@@ -83,11 +85,11 @@ func _start_panning(panning_item):
     PlayerData.state.set_state(PlayerData.State.STATE.PANNING)
     
     set_physics_process(false)
-    emit_signal("panning_started", 'start')
+    emit_signal("minigame_action_started", GlobalManager.ACTION.PANNING, GlobalManager.ACTIONSTATE.START)
 
 
-func _return_digging(penalty):
-    if penalty == null:
+func _return_action(action, penalty, state):
+    if state == GlobalManager.ACTIONSTATE.STOP:
         self._reset_player_state()
         return
     
@@ -100,54 +102,32 @@ func _return_digging(penalty):
     print("Penalty: " + str(penalty) + "; Stamina: " + str(stamina) + "; EfficiencyBonus: " + str(efficiency_bonus))
     PlayerData.dec_stamina(stamina)
     
-    var res = self._digging(item, efficiency_bonus)
-    if res == null:
-        return
-
-    exhausted = res[0]
-    progress = res[1]
-
-    PlayerData.state.set_state(PlayerData.State.STATE.DIGGING)
-
-    self._show_interaction_options()
-    if !exhausted:
-        PlayerData.set_action_progress(progress)
-        emit_signal("digging_started", null)
-    else:
-        emit_signal("digging_started", 'stop')
-        self._reset_player_state()
-
-
-func _return_panning(penalty):
-    if penalty == null:
-        self._reset_player_state()
-        return
-    
-    var exhausted = false
-    var progress = 0
-    var item = PlayerData.inventory.get_active_item()
-    
-    var stamina = clamp(1+penalty, 0, 1.5)
-    var efficiency_bonus = clamp(1 - 0.33*penalty, 1, 1.75)
-    print("Penalty: " + str(penalty) + "; Stamina: " + str(stamina) + "; EfficiencyBonus: " + str(efficiency_bonus))
-    PlayerData.dec_stamina(stamina)
-    
-    var res = self._panning(item, efficiency_bonus)
-    if res == null:
-        return
-
-    exhausted = res[0]
-    progress = res[1]
-
-    PlayerData.state.set_state(PlayerData.State.STATE.PANNING)
+    match action:
+        GlobalManager.ACTION.DIGGING:
+            var res = self._digging(item, efficiency_bonus)
+            if res == null:
+                return
+            exhausted = res[0]
+            progress = res[1]
+            PlayerData.state.set_state(PlayerData.State.STATE.DIGGING)
+            
+        GlobalManager.ACTION.PANNING:
+            var res = self._panning(item, efficiency_bonus)
+            if res == null:
+                return
+            exhausted = res[0]
+            progress = res[1]
+            PlayerData.state.set_state(PlayerData.State.STATE.PANNING)
 
     self._show_interaction_options()
     if !exhausted:
         PlayerData.set_action_progress(progress)
-        emit_signal("panning_started", null)
+        emit_signal("minigame_action_started", action, GlobalManager.ACTIONSTATE.ACTIVE)
     else:
-        emit_signal("panning_started", 'stop')
+        emit_signal("minigame_action_started", action, GlobalManager.ACTIONSTATE.STOP)
         self._reset_player_state()
+
+
 
 
 func _physics_process(_delta):
@@ -212,15 +192,20 @@ func _input(event):
 #            self._reset_player_state()
     
     if Input.is_action_just_pressed("ui_interact"):
-        if PlayerData.inventory.get_active_item().type == Item.ITEMTYPE.SHOVEL\
-            and self._digging_possible():
-            self._start_digging(PlayerData.state.interactables[0])
-        elif PlayerData.inventory.get_active_item().type == Item.ITEMTYPE.PAN\
-            and self._panning_possible():
-            var pannables = PlayerData.state.get_pannable_storage()
-            self._start_panning(pannables[0])
-        else:
-            pass
+        if PlayerData.inventory.get_active_item().type == Item.ITEMTYPE.SHOVEL:
+            if self._digging_possible():
+                self._start_digging(PlayerData.state.interactables[0])
+                return
+    
+        elif PlayerData.inventory.get_active_item().type == Item.ITEMTYPE.PAN:
+            if self._panning_possible():
+                var pannables = PlayerData.state.get_pannable_storage()
+                self._start_panning(pannables[0])
+                return
+        
+        if PlayerData.inventory.get_active_item().type != Item.ITEMTYPE.SHOVEL \
+            and len(PlayerData.state.interactables) > 0:
+                emit_signal("tutorial_popup", GlobalManager.TUTORIALPOPUP.DIGGING_TOOL)
         
 func _show_interaction_options():
     var options_text = []

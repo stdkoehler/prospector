@@ -1,9 +1,26 @@
-[gd_resource type="Theme" load_steps=11 format=2]
+[gd_resource type="Theme" load_steps=21 format=2]
 
 [ext_resource path="res://assets/themes/western_pixel.tres" type="DynamicFont" id=1]
-[ext_resource path="res://assets/ui/crosshair.png" type="Texture" id=2]
+[ext_resource path="res://assets/ui/checkbox_ch.png" type="Texture" id=2]
+[ext_resource path="res://assets/ui/checkbox_eh.png" type="Texture" id=3]
+[ext_resource path="res://assets/ui/checkbox_e.png" type="Texture" id=4]
+[ext_resource path="res://assets/ui/checkbox_c.png" type="Texture" id=5]
+
+[sub_resource type="StyleBoxEmpty" id=10]
+
+[sub_resource type="StyleBoxEmpty" id=11]
+
+[sub_resource type="StyleBoxEmpty" id=12]
+
+[sub_resource type="StyleBoxEmpty" id=13]
+
+[sub_resource type="StyleBoxEmpty" id=14]
+
+[sub_resource type="StyleBoxEmpty" id=15]
 
 [sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="StyleBoxEmpty" id=9]
 
 [sub_resource type="StyleBoxEmpty" id=2]
 
@@ -21,7 +38,7 @@ bg_color = Color( 0.6, 0.6, 0.6, 0.188235 )
 [sub_resource type="StyleBoxFlat" id=7]
 
 [sub_resource type="StyleBoxFlat" id=8]
-bg_color = Color( 0.560784, 0.47451, 0.356863, 0.458824 )
+bg_color = Color( 0.458824, 0.360784, 0.2, 1 )
 border_color = Color( 0.8, 0.8, 0.8, 0.266667 )
 expand_margin_top = 20.0
 
@@ -35,16 +52,16 @@ CheckBox/colors/font_color_pressed = Color( 1, 1, 1, 1 )
 CheckBox/constants/check_vadjust = 0
 CheckBox/constants/hseparation = 4
 CheckBox/fonts/font = ExtResource( 1 )
-CheckBox/icons/checked = ExtResource( 2 )
+CheckBox/icons/checked = ExtResource( 5 )
 CheckBox/icons/radio_checked = ExtResource( 2 )
-CheckBox/icons/radio_unchecked = ExtResource( 2 )
-CheckBox/icons/unchecked = ExtResource( 2 )
-CheckBox/styles/disabled = null
-CheckBox/styles/focus = null
-CheckBox/styles/hover = null
-CheckBox/styles/hover_pressed = null
-CheckBox/styles/normal = null
-CheckBox/styles/pressed = null
+CheckBox/icons/radio_unchecked = ExtResource( 3 )
+CheckBox/icons/unchecked = ExtResource( 4 )
+CheckBox/styles/disabled = SubResource( 10 )
+CheckBox/styles/focus = SubResource( 11 )
+CheckBox/styles/hover = SubResource( 12 )
+CheckBox/styles/hover_pressed = SubResource( 13 )
+CheckBox/styles/normal = SubResource( 14 )
+CheckBox/styles/pressed = SubResource( 15 )
 CheckButton/colors/font_color = Color( 0.88, 0.88, 0.88, 1 )
 CheckButton/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
 CheckButton/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
@@ -63,10 +80,23 @@ CheckButton/styles/hover = null
 CheckButton/styles/hover_pressed = null
 CheckButton/styles/normal = null
 CheckButton/styles/pressed = null
+Dialogs/constants/button_margin = 32
+Dialogs/constants/margin = 8
 MarginContainer/constants/margin_bottom = 0
 MarginContainer/constants/margin_left = 0
 MarginContainer/constants/margin_right = 0
 MarginContainer/constants/margin_top = 0
+MenuButton/colors/font_color = Color( 0.88, 0.88, 0.88, 1 )
+MenuButton/colors/font_color_disabled = Color( 1, 1, 1, 0.3 )
+MenuButton/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
+MenuButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+MenuButton/constants/hseparation = 3
+MenuButton/fonts/font = null
+MenuButton/styles/disabled = null
+MenuButton/styles/focus = null
+MenuButton/styles/hover = null
+MenuButton/styles/normal = null
+MenuButton/styles/pressed = null
 Panel/styles/panel = SubResource( 1 )
 PanelContainer/styles/panel = null
 PopupDialog/styles/panel = null
@@ -88,8 +118,19 @@ PopupMenu/styles/labeled_separator_right = null
 PopupMenu/styles/panel = null
 PopupMenu/styles/panel_disabled = null
 PopupMenu/styles/separator = null
-PopupPanel/styles/panel = null
+PopupPanel/styles/panel = SubResource( 9 )
 ScrollContainer/styles/bg = SubResource( 2 )
+ToolButton/colors/font_color = Color( 0.88, 0.88, 0.88, 1 )
+ToolButton/colors/font_color_disabled = Color( 0.9, 0.95, 1, 0.3 )
+ToolButton/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
+ToolButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+ToolButton/constants/hseparation = 3
+ToolButton/fonts/font = null
+ToolButton/styles/disabled = null
+ToolButton/styles/focus = null
+ToolButton/styles/hover = null
+ToolButton/styles/normal = null
+ToolButton/styles/pressed = null
 VScrollBar/icons/decrement = null
 VScrollBar/icons/decrement_highlight = null
 VScrollBar/icons/increment = null

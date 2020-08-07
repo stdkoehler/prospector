@@ -33,10 +33,10 @@ func _ready():
     _c = $UI/BaseUI.connect("placement_enabled", $UI/PlacementUI, "_enable_placement")
     
     
-    _c = $YSort/Player.connect("digging_started", $UI/MinigameUI, "start_digging_game")
-    _c = $UI/MinigameUI.connect("digging_returned", $YSort/Player, "_return_digging")
-    _c = $YSort/Player.connect("panning_started", $UI/MinigameUI, "start_panning_game")
-    _c = $UI/MinigameUI.connect("panning_returned", $YSort/Player, "_return_panning")
+    _c = $YSort/Player.connect("minigame_action_started", $UI/MinigameUI, "_start_action")
+    _c = $UI/MinigameUI.connect("minigame_action_returned", $YSort/Player, "_return_action")
+    
+    _c = $YSort/Player.connect("tutorial_popup", $UI/HelpUI, "_popup")
     
     randomize()
     dirt_patch_noise = OpenSimplexNoise.new()

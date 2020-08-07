@@ -2,6 +2,19 @@ extends Node
 
 var current_scene = null
 
+## Minigame
+
+const ACTION = {
+    'DIGGING': 0,
+    'PANNING': 1
+   }
+
+const ACTIONSTATE = {
+    'START': 0,
+    'STOP': 1,
+    'ACTIVE': 2
+   }
+
 const MINIGAME = {
     'TIME': 0,
     'REACTIONGAME': 1
@@ -9,6 +22,22 @@ const MINIGAME = {
 
 var minigame_digging = MINIGAME.REACTIONGAME
 var minigame_panning = MINIGAME.REACTIONGAME
+
+## end Minigame
+
+## Tutorial
+
+const TUTORIALPOPUP = {
+    'DIGGING_BULK': 0,
+    'DIGGING_TOOL': 1
+   }
+
+var show_dict = {
+    self.TUTORIALPOPUP.DIGGING_BULK: true,
+    self.TUTORIALPOPUP.DIGGING_TOOL: true
+   }
+
+##
 
 func _ready():
     var root = get_tree().get_root()

@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/themes/HelpUI.tres" type="Theme" id=1]
+[ext_resource path="res://assets/tutorial/digging_bulk.png" type="Texture" id=2]
+[ext_resource path="res://assets/ui/close_button.png" type="Texture" id=3]
+
+[node name="TutorialPopupWindow" type="WindowDialog"]
+visible = true
+margin_left = 110.0
+margin_top = 83.0
+margin_right = 507.0
+margin_bottom = 273.0
+theme = ExtResource( 1 )
+custom_icons/close_highlight = ExtResource( 3 )
+custom_icons/close = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = 179.46
+margin_top = -18.1975
+margin_right = 234.46
+margin_bottom = -3.19748
+text = "Tutorial"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckBox" type="CheckBox" parent="."]
+margin_left = 10.2034
+margin_top = 149.186
+margin_right = 153.203
+margin_bottom = 189.186
+text = "Don't show again"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_left = 10.0
+margin_top = 13.0
+margin_right = 210.0
+margin_bottom = 130.0
+rect_min_size = Vector2( 200, 110 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_left = 220.934
+margin_top = 12.5735
+margin_right = 380.934
+margin_bottom = 170.574
+texture = ExtResource( 2 )

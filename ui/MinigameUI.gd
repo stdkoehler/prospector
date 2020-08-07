@@ -1,9 +1,9 @@
 extends Control
 
-signal digging_returned(value)
-signal panning_returned(value)
+signal minigame_action_returned(action, penalty, state)
 
 
+var current_action = null
 var current_game = null
 
 # ReactionGame
@@ -34,18 +34,14 @@ func _ready():
     $ReactionGame.visible = false
     $ReactionGame/Cursor.visible = false
     
+    var _c = $RandomTimer.connect("timeout", self, "_on_timeout")
+    
     pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-    var type = null
-    if self.current_game == 'digging':
-        type = GlobalManager.minigame_digging
-    elif self.current_game == 'panning':
-        type = GlobalManager.minigame_panning
-    
-    match type:
+    match self.current_game:
         
         GlobalManager.MINIGAME.REACTIONGAME:
             var vel = self.velocity + self.random_velocity
@@ -66,24 +62,25 @@ func _process(delta):
                                                     LENGTH+self.length*sin(self.random_angle))
     
     
-func start_digging_game(value):
-    self.current_game = 'digging'
-    if value == 'stop':
-        self._clean(GlobalManager.minigame_digging)
-        return
-        
-    self.start_game(GlobalManager.minigame_digging, value)
-    
-func start_panning_game(value):
-    self.current_game = 'panning'
-    if value == 'stop':
-        self._clean(GlobalManager.minigame_panning)
-        return
-        
-    self.start_game(GlobalManager.minigame_panning, value)
+func _start_action(action, state):
+    self.current_action = action
+    match action:
+        GlobalManager.ACTION.DIGGING:
+            self.current_game = GlobalManager.minigame_digging
             
-func start_game(type, value):
-    match type:
+        GlobalManager.ACTION.PANNING:
+            self.current_game = GlobalManager.minigame_panning
+            
+    # end game if we receive stop
+    if state == GlobalManager.ACTIONSTATE.STOP:
+        self._clean()
+        return
+        
+    self._start_game(state)
+    
+            
+func _start_game(state):
+    match self.current_game:
         GlobalManager.MINIGAME.REACTIONGAME:
             $ReactionGame.visible = true
             self.visible = true
@@ -102,26 +99,16 @@ func start_game(type, value):
             
         GlobalManager.MINIGAME.TIME:
             self.visible = true
-            if value == 'start':
+            if state == GlobalManager.ACTIONSTATE.START:
                 $RandomTimer.set_wait_time(0.05)
             else:
                 $RandomTimer.set_wait_time(0.75)
             $RandomTimer.one_shot = true
-            var _c = $RandomTimer.connect("timeout", self, "_on_timeout")
             $RandomTimer.start()
     
     
 func _input(event):
-    var type = null
-    var sig = null
-    if self.current_game == 'digging':
-        type = GlobalManager.minigame_digging
-        sig = "digging_returned"
-    elif self.current_game == 'panning':
-        type = GlobalManager.minigame_panning
-        sig = "panning_returned"
-    
-    match type:
+    match self.current_game:
         
         GlobalManager.MINIGAME.REACTIONGAME:
             if self.visible and self.running:
@@ -136,35 +123,29 @@ func _input(event):
                     print("ticks " + str(self.ticks))
                     var penalty = (1+0.5*self.ticks) * distance - self.penalty_threshold
                     self._reset()
-                    emit_signal(sig, penalty)
+                    emit_signal("minigame_action_returned", self.current_action, penalty, GlobalManager.ACTIONSTATE.ACTIVE)
                     
     if self.visible:
         if Input.is_action_just_pressed("ui_cancel"):
             set_process(false)
             self._reset()
-            self._clean(type)
-            emit_signal(sig, null)
-            
+            self._clean()
+            emit_signal("minigame_action_returned", self.current_action, null, GlobalManager.ACTIONSTATE.STOP)
+
+
 func _on_timeout():
-    var type = null
-    var sig = null
-    if self.current_game == 'digging':
-        type = GlobalManager.minigame_digging
-        sig = "digging_returned"
-    elif self.current_game == 'panning':
-        type = GlobalManager.minigame_panning
-        sig = "panning_returned"
-        
-    match type:
+    match self.current_game:
         GlobalManager.MINIGAME.TIME:
             self._reset()
-            emit_signal(sig, 0)
+            emit_signal("minigame_action_returned", self.current_action, 0, GlobalManager.ACTIONSTATE.ACTIVE)
 
-func _clean(type):
-    match type:
+
+func _clean():
+    match self.current_game:
         GlobalManager.MINIGAME.REACTIONGAME:
             for sprite in $ReactionGame/Hits.get_children():
                 sprite.queue_free()
+
 
 func _reset():
     self.running = false
