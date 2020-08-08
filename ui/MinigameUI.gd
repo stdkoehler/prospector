@@ -26,6 +26,13 @@ var random_angle = PI*(randi()%360)/180
 var running = false
 var ticks = null
 
+# MathGame
+
+var timer = 0
+var a = 1
+var b = 1
+var cpos = 1
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
     set_process(false)
@@ -34,7 +41,14 @@ func _ready():
     $ReactionGame.visible = false
     $ReactionGame/Cursor.visible = false
     
-    var _c = $RandomTimer.connect("timeout", self, "_on_timeout")
+    $MathGame.visible = false
+    var btn = null
+    var _c = null
+    for i in range(1,13):
+        btn = self.get_node("MathGame/Vbox/Solution/s"+str(i))
+        _c = btn.connect("pressed", self, "_on_math_solution_pressed", [btn])
+    
+    _c = $RandomTimer.connect("timeout", self, "_on_timeout")
     
     pass # Replace with function body.
 
@@ -60,6 +74,9 @@ func _process(delta):
                 
             $ReactionGame/Cursor.position = Vector2(LENGTH+self.length*cos(self.random_angle),
                                                     LENGTH+self.length*sin(self.random_angle))
+                                                
+        GlobalManager.MINIGAME.MATHGAME:
+            self.timer += delta
     
     
 func _start_action(action, state):
@@ -105,6 +122,29 @@ func _start_game(state):
                 $RandomTimer.set_wait_time(0.75)
             $RandomTimer.one_shot = true
             $RandomTimer.start()
+            
+        GlobalManager.MINIGAME.MATHGAME:
+            self.visible = true
+            $MathGame.visible = true
+            self.timer = 0
+            self.a = 1+randi()%10
+            self.b = 1+randi()%10
+            var sol = self.a*self.b
+            self.cpos = 1+randi()%12
+            $MathGame/Vbox/Formula.text = str(self.a) + 'x' + str(self.b)
+            var btn = null
+            for i in range(1,13):
+                btn = self.get_node("MathGame/Vbox/Solution/s"+str(i))
+                btn.set_modulate(Color('FFFFFF'))
+                var candidate = 1+randi()%100
+                while candidate == sol:
+                    candidate = 1+randi()%100
+                btn.text = str(candidate)
+                
+            btn = self.get_node("MathGame/Vbox/Solution/s"+str(self.cpos))
+            
+            btn.text = str(self.a*self.b)
+            set_process(true)
             
     
     
@@ -153,6 +193,18 @@ func _reset():
     self.visible = false
     $ReactionGame.visible = false
     $ReactionGame/Cursor.visible = false
+    $MathGame.visible = false
     $RandomTimer.stop()
     
 
+
+
+func _on_math_solution_pressed(btn):
+    var sol = int(btn.name.split('s')[1])
+    if sol == self.cpos:
+        var penalty = self.timer-3
+        self._reset()
+        emit_signal("minigame_action_returned", self.current_action, penalty, GlobalManager.ACTIONSTATE.ACTIVE)
+    else:
+        self.timer += 0.5
+        btn.set_modulate(Color('ac3232'))

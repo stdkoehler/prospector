@@ -146,7 +146,7 @@ margin_right = 190.0
 margin_bottom = 17.0
 size_flags_horizontal = 3
 text = "Time"
-items = [ "Time", null, false, 0, null, "Reaction Game", null, false, 1, null ]
+items = [ "Time", null, false, 0, null, "Reaction Game", null, false, 1, null, "Math Game", null, false, 2, null ]
 selected = 0
 
 [node name="Panning" type="Label" parent="Options/VBox/Minigame"]
@@ -161,7 +161,7 @@ margin_top = 21.0
 margin_right = 190.0
 margin_bottom = 38.0
 text = "Time"
-items = [ "Time", null, false, 0, null, "Reaction Game", null, false, 1, null ]
+items = [ "Time", null, false, 0, null, "Reaction Game", null, false, 1, null, "Math Game", null, false, 2, null ]
 selected = 0
 [connection signal="pressed" from="VBoxContainer/RentParcel" to="." method="_on_RentParcel_pressed"]
 [connection signal="pressed" from="VBoxContainer/SmeltOre" to="." method="_on_SmeltOre_pressed"]
