@@ -63,7 +63,8 @@ func _start_digging(gold_tile):
     var item = PlayerData.inventory.get_active_item()
     var nearest_bulk_storage = EnvironmentData.get_closest_bulk_storage(self.position)
     if item == null or item.type != Item.ITEMTYPE.SHOVEL or PlayerData.state.stamina<=0 or nearest_bulk_storage == null:
-        emit_signal("tutorial_popup", GlobalManager.TUTORIALPOPUP.DIGGING_BULK)
+        if nearest_bulk_storage == null:
+            emit_signal("tutorial_popup", GlobalManager.TUTORIALPOPUP.DIGGING_BULK)
         self._reset_player_state()
         return null
     

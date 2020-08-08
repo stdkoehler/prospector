@@ -17,7 +17,8 @@ const ACTIONSTATE = {
 
 const MINIGAME = {
     'TIME': 0,
-    'REACTIONGAME': 1
+    'REACTIONGAME': 1,
+    'MATHGAME': 2
    }
 
 var minigame_digging = MINIGAME.REACTIONGAME
@@ -71,3 +72,31 @@ func _deferred_goto_scene(path):
 
     # Optionally, to make it compatible with the SceneTree.change_scene() API.
     get_tree().set_current_scene(current_scene)
+    
+func _notification(event):
+    if event == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
+        self._save_on_quit()
+    
+func _save_on_quit():
+    
+    var save_game = File.new()
+    save_game.open("user://savegame.save", File.WRITE)
+    
+    var save_data = {
+        'inventory': PlayerData.inventory.store_to_savedict(),
+        'show_dict': self.show_dict
+       }
+    save_game.store_line(to_json(save_data))
+    save_game.close()
+    print('save on exit')
+    
+func load_save():
+    var save_game = File.new()
+    if not save_game.file_exists("user://savegame.save"):
+        return null # Error! We don't have a save to load.
+    
+    save_game.open("user://savegame.save", File.READ)
+    var save_data = parse_json(save_game.get_line())
+    
+    self.show_dict = save_data['show_dict']
+    PlayerData.inventory.update_from_savedict(save_data['inventory'])

@@ -67,9 +67,12 @@ class State:
             if wi.type==EnvironmentData.TYPE.PANNABLE and wi.amount_dirt>0:
                 available.append(wi)
         return available
+        
 
 
 class Inventory:
+    var Item = load("res://items/Item.gd")
+    
     var inventory_backpack = {}
     var active_toolbelt_slot = 0
     const BACKPACKSIZE = 4*6
@@ -103,6 +106,43 @@ class Inventory:
             return self.inventory_backpack[self.active_toolbelt_slot]
         else:
             return null
+            
+    func store_to_savedict():
+        var inventory_backpack_save = {}
+        for idx in self.inventory_backpack.keys():
+            inventory_backpack_save[idx] = self.inventory_backpack[idx].id
+            
+        
+        var inventory_dict = {
+        'inventory_backpack': inventory_backpack_save,
+        'active_toolbelt_slot': self.active_toolbelt_slot,
+        'goldore': self.goldore,
+        'goldbar': self.goldbar
+        }
+        return inventory_dict
+        
+    func update_from_savedict(inventory_dict):
+        self.active_toolbelt_slot = inventory_dict['active_toolbelt_slot']
+        self.goldore = inventory_dict['goldore']
+        self.goldbar = inventory_dict['goldbar']
+        
+        var file = File.new()
+        file.open("res://tools.json", file.READ)
+        var text = file.get_as_text()
+        var tools = JSON.parse(text).result
+        file.close()
+        
+        self.inventory_backpack = {}
+        var itemjson = null
+        for idx in inventory_dict['inventory_backpack']:
+            itemjson = tools[inventory_dict['inventory_backpack'][idx]]
+            idx = int(idx) # json stores keys as string
+            if itemjson['type'] == 'container':
+                self.inventory_backpack[idx] = Item.ContainerItem.new(itemjson)
+            else:
+                self.inventory_backpack[idx] = Item.ToolItem.new(itemjson)
+                
+        
     
 
 var player = null
@@ -184,3 +224,5 @@ func _ui_activated(value):
     
 func _ui_deactivated(value):
     self.player.set_process_input(false)
+    
+

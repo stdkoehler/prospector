@@ -8,6 +8,8 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+    GlobalManager.load_save()
+    
     self.set_goldore(PlayerData.inventory.goldore)
     self.set_goldbar(PlayerData.inventory.goldbar)
     

@@ -17,6 +17,8 @@ _global_script_class_icons={
 
 config/name="Prospector"
 run/main_scene="res://Menu.tscn"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="Prospector"
 config/icon="res://icon.png"
 
 [autoload]

@@ -56,7 +56,7 @@ func _ready():
     gold_noise.lacunarity = 1.5
     gold_noise.persistence = 0.75
     
-    _generate_world()
+    self._generate_world()
     
     
 func _generate_world():

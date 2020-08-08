@@ -105,6 +105,7 @@ func _start_game(state):
                 $RandomTimer.set_wait_time(0.75)
             $RandomTimer.one_shot = true
             $RandomTimer.start()
+            
     
     
 func _input(event):
