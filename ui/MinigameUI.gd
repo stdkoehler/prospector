@@ -139,11 +139,11 @@ func _start_game(state):
                 var candidate = 1+randi()%100
                 while candidate == sol:
                     candidate = 1+randi()%100
-                btn.text = str(candidate)
+                btn.set_text(str(candidate))
                 
             btn = self.get_node("MathGame/Vbox/Solution/s"+str(self.cpos))
             
-            btn.text = str(self.a*self.b)
+            btn.set_text(str(self.a*self.b))
             set_process(true)
             
     

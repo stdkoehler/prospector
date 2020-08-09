@@ -1,12 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/ui/target.png" type="Texture" id=1]
 [ext_resource path="res://assets/themes/UI.theme" type="Theme" id=2]
 [ext_resource path="res://assets/ui/crosshair.png" type="Texture" id=3]
 [ext_resource path="res://ui/MinigameUI.gd" type="Script" id=4]
-
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.458824, 0.360784, 0.2, 1 )
+[ext_resource path="res://ui/minigame/TextureButton.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/ui/minigame/mathgame_border.png" type="Texture" id=9]
 
 [node name="MinigameUI" type="Control"]
 anchor_right = 1.0
@@ -46,10 +45,17 @@ texture = ExtResource( 3 )
 [node name="MathGame" type="Panel" parent="."]
 margin_left = 167.0
 margin_top = 98.0
-margin_right = 467.0
-margin_bottom = 224.0
+margin_right = 487.0
+margin_bottom = 258.0
 theme = ExtResource( 2 )
-custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="MathGame"]
+margin_right = 320.0
+margin_bottom = 160.0
+texture = ExtResource( 9 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -57,14 +63,17 @@ __meta__ = {
 [node name="Vbox" type="VBoxContainer" parent="MathGame"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 5.0
-margin_right = -5.0
+margin_left = 21.0
+margin_top = 8.0
+margin_right = -21.0
+margin_bottom = -18.0
+custom_constants/separation = 13
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Formula" type="Label" parent="MathGame/Vbox"]
-margin_right = 290.0
+margin_right = 278.0
 margin_bottom = 15.0
 size_flags_vertical = 0
 text = "Math"
@@ -74,100 +83,71 @@ __meta__ = {
 }
 
 [node name="Solution" type="GridContainer" parent="MathGame/Vbox"]
-margin_top = 19.0
-margin_right = 290.0
-margin_bottom = 126.0
+margin_top = 28.0
+margin_right = 278.0
+margin_bottom = 134.0
 size_flags_vertical = 3
+custom_constants/vseparation = 6
+custom_constants/hseparation = 6
 columns = 4
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="s1" type="Button" parent="MathGame/Vbox/Solution"]
-margin_right = 69.0
-margin_bottom = 25.0
-rect_min_size = Vector2( 0, 25 )
-size_flags_horizontal = 3
+[node name="s1" parent="MathGame/Vbox/Solution" instance=ExtResource( 5 )]
 
-[node name="s2" type="Button" parent="MathGame/Vbox/Solution"]
-margin_left = 73.0
-margin_right = 142.0
-margin_bottom = 25.0
-rect_min_size = Vector2( 0, 25 )
-size_flags_horizontal = 3
+[node name="s2" parent="MathGame/Vbox/Solution" instance=ExtResource( 5 )]
+margin_left = 71.0
+margin_right = 136.0
 
-[node name="s3" type="Button" parent="MathGame/Vbox/Solution"]
-margin_left = 146.0
-margin_right = 215.0
-margin_bottom = 25.0
-rect_min_size = Vector2( 0, 25 )
-size_flags_horizontal = 3
+[node name="s3" parent="MathGame/Vbox/Solution" instance=ExtResource( 5 )]
+margin_left = 142.0
+margin_right = 207.0
 
-[node name="s4" type="Button" parent="MathGame/Vbox/Solution"]
-margin_left = 219.0
-margin_right = 288.0
-margin_bottom = 25.0
-rect_min_size = Vector2( 0, 25 )
-size_flags_horizontal = 3
+[node name="s4" parent="MathGame/Vbox/Solution" instance=ExtResource( 5 )]
+margin_left = 213.0
+margin_right = 278.0
 
-[node name="s5" type="Button" parent="MathGame/Vbox/Solution"]
-margin_top = 29.0
-margin_right = 69.0
-margin_bottom = 54.0
-rect_min_size = Vector2( 0, 25 )
-size_flags_horizontal = 3
+[node name="s5" parent="MathGame/Vbox/Solution" instance=ExtResource( 5 )]
+margin_top = 36.0
+margin_bottom = 66.0
 
-[node name="s6" type="Button" parent="MathGame/Vbox/Solution"]
-margin_left = 73.0
-margin_top = 29.0
-margin_right = 142.0
-margin_bottom = 54.0
-rect_min_size = Vector2( 0, 25 )
-size_flags_horizontal = 3
+[node name="s6" parent="MathGame/Vbox/Solution" instance=ExtResource( 5 )]
+margin_left = 71.0
+margin_top = 36.0
+margin_right = 136.0
+margin_bottom = 66.0
 
-[node name="s7" type="Button" parent="MathGame/Vbox/Solution"]
-margin_left = 146.0
-margin_top = 29.0
-margin_right = 215.0
-margin_bottom = 54.0
-rect_min_size = Vector2( 0, 25 )
-size_flags_horizontal = 3
+[node name="s7" parent="MathGame/Vbox/Solution" instance=ExtResource( 5 )]
+margin_left = 142.0
+margin_top = 36.0
+margin_right = 207.0
+margin_bottom = 66.0
 
-[node name="s8" type="Button" parent="MathGame/Vbox/Solution"]
-margin_left = 219.0
-margin_top = 29.0
-margin_right = 288.0
-margin_bottom = 54.0
-rect_min_size = Vector2( 0, 25 )
-size_flags_horizontal = 3
+[node name="s8" parent="MathGame/Vbox/Solution" instance=ExtResource( 5 )]
+margin_left = 213.0
+margin_top = 36.0
+margin_right = 278.0
+margin_bottom = 66.0
 
-[node name="s9" type="Button" parent="MathGame/Vbox/Solution"]
-margin_top = 58.0
-margin_right = 69.0
-margin_bottom = 83.0
-rect_min_size = Vector2( 0, 25 )
-size_flags_horizontal = 3
+[node name="s9" parent="MathGame/Vbox/Solution" instance=ExtResource( 5 )]
+margin_top = 72.0
+margin_bottom = 102.0
 
-[node name="s10" type="Button" parent="MathGame/Vbox/Solution"]
-margin_left = 73.0
-margin_top = 58.0
-margin_right = 142.0
-margin_bottom = 83.0
-rect_min_size = Vector2( 0, 25 )
-size_flags_horizontal = 3
+[node name="s10" parent="MathGame/Vbox/Solution" instance=ExtResource( 5 )]
+margin_left = 71.0
+margin_top = 72.0
+margin_right = 136.0
+margin_bottom = 102.0
 
-[node name="s11" type="Button" parent="MathGame/Vbox/Solution"]
-margin_left = 146.0
-margin_top = 58.0
-margin_right = 215.0
-margin_bottom = 83.0
-rect_min_size = Vector2( 0, 25 )
-size_flags_horizontal = 3
+[node name="s11" parent="MathGame/Vbox/Solution" instance=ExtResource( 5 )]
+margin_left = 142.0
+margin_top = 72.0
+margin_right = 207.0
+margin_bottom = 102.0
 
-[node name="s12" type="Button" parent="MathGame/Vbox/Solution"]
-margin_left = 219.0
-margin_top = 58.0
-margin_right = 288.0
-margin_bottom = 83.0
-rect_min_size = Vector2( 0, 25 )
-size_flags_horizontal = 3
+[node name="s12" parent="MathGame/Vbox/Solution" instance=ExtResource( 5 )]
+margin_left = 213.0
+margin_top = 72.0
+margin_right = 278.0
+margin_bottom = 102.0
