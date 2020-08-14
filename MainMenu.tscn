@@ -1,0 +1,135 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/themes/UI.theme" type="Theme" id=1]
+[ext_resource path="res://MainMenu.gd" type="Script" id=2]
+[ext_resource path="res://assets/ui/menu.png" type="Texture" id=3]
+[ext_resource path="res://assets/themes/western_pixel_24.tres" type="DynamicFont" id=4]
+[ext_resource path="res://assets/ui/title.png" type="Texture" id=5]
+
+[sub_resource type="StyleBoxTexture" id=1]
+texture = ExtResource( 3 )
+region_rect = Rect2( 0, 0, 640, 360 )
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Panel"]
+visible = false
+margin_left = 219.024
+margin_top = 24.0
+margin_right = 429.024
+margin_bottom = 71.0
+custom_fonts/font = ExtResource( 4 )
+text = "Prospector"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Grid" type="GridContainer" parent="Panel"]
+margin_left = 219.024
+margin_top = 123.0
+margin_right = 461.024
+margin_bottom = 303.0
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Slot1" type="Button" parent="Panel/Grid"]
+margin_right = 205.0
+margin_bottom = 57.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Slot 1"
+
+[node name="Delete1" type="Button" parent="Panel/Grid"]
+margin_left = 209.0
+margin_right = 241.0
+margin_bottom = 57.0
+rect_min_size = Vector2( 32, 32 )
+size_flags_vertical = 3
+disabled = true
+text = "X"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Slot2" type="Button" parent="Panel/Grid"]
+margin_top = 61.0
+margin_right = 205.0
+margin_bottom = 118.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Slot 2"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Delete2" type="Button" parent="Panel/Grid"]
+margin_left = 209.0
+margin_top = 61.0
+margin_right = 241.0
+margin_bottom = 118.0
+rect_min_size = Vector2( 32, 32 )
+size_flags_vertical = 3
+disabled = true
+text = "X"
+
+[node name="Slot3" type="Button" parent="Panel/Grid"]
+margin_top = 122.0
+margin_right = 205.0
+margin_bottom = 179.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Slot 3"
+
+[node name="Delete3" type="Button" parent="Panel/Grid"]
+margin_left = 209.0
+margin_top = 122.0
+margin_right = 241.0
+margin_bottom = 179.0
+rect_min_size = Vector2( 32, 32 )
+size_flags_vertical = 3
+disabled = true
+text = "X"
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="Panel"]
+margin_left = 219.024
+margin_top = 141.0
+margin_right = 419.024
+margin_bottom = 211.0
+window_title = "Confirm Delete"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Panel"]
+margin_left = 219.024
+margin_top = 40.0
+margin_right = 426.024
+margin_bottom = 80.0
+texture = ExtResource( 5 )
+stretch_mode = 3
+[connection signal="pressed" from="Panel/Grid/Slot1" to="." method="_on_Slot1_pressed"]
+[connection signal="pressed" from="Panel/Grid/Delete1" to="." method="_on_Delete1_pressed"]
+[connection signal="pressed" from="Panel/Grid/Slot2" to="." method="_on_Slot2_pressed"]
+[connection signal="pressed" from="Panel/Grid/Delete2" to="." method="_on_Delete2_pressed"]
+[connection signal="pressed" from="Panel/Grid/Slot3" to="." method="_on_Slot3_pressed"]
+[connection signal="pressed" from="Panel/Grid/Delete3" to="." method="_on_Delete3_pressed"]
+[connection signal="confirmed" from="Panel/ConfirmationDialog" to="." method="_on_ConfirmationDialog_confirmed"]

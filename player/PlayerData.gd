@@ -157,7 +157,11 @@ func _ready():
     var _c
     state.connect('ui_activated', self, "_ui_activated")
     state.connect('ui_deactivated', self, "_ui_deactivated")
+    self.reset()
     
+
+
+func reset():
     var file = File.new()
     file.open("res://tools.json", file.READ)
     var text = file.get_as_text()
@@ -180,8 +184,6 @@ func _ready():
     self.inventory.put_item(11, Item.ContainerItem.new(tools['chest']))
     
     self.inventory.goldbar = 0.5
-    
-
 
 func set_goldore(value):
     self.inventory.goldore = value

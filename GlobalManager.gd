@@ -1,6 +1,9 @@
 extends Node
 
 var current_scene = null
+var current_save = null
+var time_played = null
+var time_start = null
 
 ## Minigame
 
@@ -43,6 +46,12 @@ var show_dict = {
 func _ready():
     var root = get_tree().get_root()
     current_scene = root.get_child(root.get_child_count() - 1)
+    
+func reset():
+    self.show_dict = {
+    self.TUTORIALPOPUP.DIGGING_BULK: true,
+    self.TUTORIALPOPUP.DIGGING_TOOL: true
+   }
 
 func goto_scene(path):
     # This function will usually be called from a signal callback,
@@ -75,28 +84,49 @@ func _deferred_goto_scene(path):
     
 func _notification(event):
     if event == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
-        self._save_on_quit()
+        self.save_on_quit()
     
-func _save_on_quit():
+func save_on_quit():
+    if self.current_save != null:
+        var time_current_session = OS.get_unix_time()-self.time_start
+        
+        var save_game = File.new()
+        save_game.open("user://" + self.current_save, File.WRITE)
+        
+        var save_data = {
+            'time_played': self.time_played + time_current_session,
+            'inventory': PlayerData.inventory.store_to_savedict(),
+            'show_dict': self.show_dict
+        }
+        save_game.store_line(to_json(save_data))
+        save_game.close()
+        print('save on exit')
     
+func save_exists(filename):
     var save_game = File.new()
-    save_game.open("user://savegame.save", File.WRITE)
+    if save_game.file_exists("user://" + filename):
+        save_game.open("user://" + filename, File.READ)
+        var save_data = parse_json(save_game.get_line())
+        return save_data['time_played']
+    else:
+        return null
+        
     
-    var save_data = {
-        'inventory': PlayerData.inventory.store_to_savedict(),
-        'show_dict': self.show_dict
-       }
-    save_game.store_line(to_json(save_data))
-    save_game.close()
-    print('save on exit')
-    
-func load_save():
+func load_save(filename):
     var save_game = File.new()
-    if not save_game.file_exists("user://savegame.save"):
+    if not save_game.file_exists("user://" + filename):
         return null # Error! We don't have a save to load.
     
-    save_game.open("user://savegame.save", File.READ)
+    save_game.open("user://" + filename, File.READ)
     var save_data = parse_json(save_game.get_line())
     
-    self.show_dict = save_data['show_dict']
+    self.update_from_savedict(save_data['show_dict'])
     PlayerData.inventory.update_from_savedict(save_data['inventory'])
+
+func delete_save(filename):
+    var dir = Directory.new()
+    dir.remove("user://" + filename)
+    
+func update_from_savedict(show):
+    for idx in show:
+        self.show_dict[int(idx)] = show[idx]

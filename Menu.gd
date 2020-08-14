@@ -8,8 +8,6 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-    GlobalManager.load_save()
-    
     self.set_goldore(PlayerData.inventory.goldore)
     self.set_goldbar(PlayerData.inventory.goldbar)
     
@@ -44,11 +42,20 @@ func set_goldbar(value):
 
 
 
-
-
 func _on_DiggingOption_item_selected(id):
     GlobalManager.minigame_digging = id
 
 
 func _on_PanningOption_item_selected(id):
     GlobalManager.minigame_panning = id
+    
+    
+func _unhandled_input(event):
+    if Input.is_action_just_pressed("ui_cancel"):
+        $ConfirmationDialog.popup()
+
+
+func _on_ConfirmationDialog_confirmed():
+    GlobalManager.save_on_quit()
+    GlobalManager.current_save = null
+    GlobalManager.goto_scene("res://MainMenu.tscn")

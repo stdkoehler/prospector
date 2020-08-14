@@ -4,6 +4,7 @@
 [ext_resource path="res://assets/tutorial/digging_tool.png" type="Texture" id=2]
 
 [node name="DiggingTool" instance=ExtResource( 1 )]
+visible = false
 
 [node name="RichTextLabel" parent="." index="3"]
 text = "If you want to dig, select a shovel in your toolbelt. Use keyboard keys 1 to 6 to change the selected position."

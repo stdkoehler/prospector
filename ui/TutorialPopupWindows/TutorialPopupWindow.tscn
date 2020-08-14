@@ -5,7 +5,6 @@
 [ext_resource path="res://assets/ui/close_button.png" type="Texture" id=3]
 
 [node name="TutorialPopupWindow" type="WindowDialog"]
-visible = true
 margin_left = 110.0
 margin_top = 83.0
 margin_right = 507.0

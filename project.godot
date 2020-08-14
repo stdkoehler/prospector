@@ -16,10 +16,10 @@ _global_script_class_icons={
 [application]
 
 config/name="Prospector"
-run/main_scene="res://Menu.tscn"
+run/main_scene="res://MainMenu.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Prospector"
-config/icon="res://icon.png"
+config/icon="res://assets/icons/icon_goldbar.png"
 
 [autoload]
 
