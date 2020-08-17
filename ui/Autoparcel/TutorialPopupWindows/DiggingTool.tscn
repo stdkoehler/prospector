@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://ui/TutorialPopupWindows/TutorialPopupWindow.tscn" type="PackedScene" id=1]
+[ext_resource path="res://ui/Autoparcel/TutorialPopupWindows/TutorialPopupWindow.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/tutorial/digging_tool.png" type="Texture" id=2]
+
 
 [node name="DiggingTool" instance=ExtResource( 1 )]
 visible = false

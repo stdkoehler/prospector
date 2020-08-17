@@ -1,13 +1,14 @@
 [gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/themes/UI.theme" type="Theme" id=1]
-[ext_resource path="res://ui/BaseUI.gd" type="Script" id=2]
+[ext_resource path="res://ui/Autoparcel/BaseUI.gd" type="Script" id=2]
 [ext_resource path="res://assets/ui/mirror_inner.png" type="Texture" id=3]
 [ext_resource path="res://assets/icons/icon_goldbag.png" type="Texture" id=4]
 [ext_resource path="res://assets/ui/mirror.png" type="Texture" id=5]
 [ext_resource path="res://assets/icons/icon_goldbar.png" type="Texture" id=6]
 [ext_resource path="res://assets/tools/shovel/icon_shovel_steel.png" type="Texture" id=7]
 [ext_resource path="res://assets/ui/toolbelt.png" type="Texture" id=8]
+
 
 [sub_resource type="StyleBoxEmpty" id=1]
 

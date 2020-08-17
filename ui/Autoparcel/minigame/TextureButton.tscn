@@ -4,7 +4,8 @@
 [ext_resource path="res://assets/ui/minigame/mathgame_button_clicked.png" type="Texture" id=2]
 [ext_resource path="res://assets/ui/minigame/mathgame_button.png" type="Texture" id=3]
 [ext_resource path="res://assets/ui/minigame/mathgame_button_hover.png" type="Texture" id=4]
-[ext_resource path="res://ui/minigame/TextureButton.gd" type="Script" id=5]
+[ext_resource path="res://ui/Autoparcel/minigame/TextureButton.gd" type="Script" id=5]
+
 
 [node name="TextureButton" type="TextureButton"]
 margin_right = 65.0

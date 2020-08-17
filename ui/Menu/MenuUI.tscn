@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://assets/themes/UI.theme" type="Theme" id=1]
-[ext_resource path="res://ui/MenuUI.gd" type="Script" id=2]
+[ext_resource path="res://ui/Menu/MenuUI.gd" type="Script" id=2]
+
 
 [node name="MenuUI" type="Control"]
 visible = false

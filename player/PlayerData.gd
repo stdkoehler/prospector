@@ -107,6 +107,14 @@ class Inventory:
         else:
             return null
             
+    func get_free_slot():
+        for i in range(BACKPACKSIZE):
+            if !(i in self.inventory_backpack):
+                return i
+                
+        # no free slot
+        return -1
+            
     func store_to_savedict():
         var inventory_backpack_save = {}
         for idx in self.inventory_backpack.keys():
@@ -228,3 +236,19 @@ func _ui_deactivated(value):
     self.player.set_process_input(false)
     
 
+func add_item(id):
+    var file = File.new()
+    file.open("res://tools.json", file.READ)
+    var text = file.get_as_text()
+    var tools = JSON.parse(text).result
+    file.close()
+    
+    var idx = PlayerData.inventory.get_free_slot()
+    
+    if idx >= 0:
+        if tools[id]['type'] != 'container': 
+            self.inventory.put_item(idx, Item.ToolItem.new(tools[id]))
+        else:
+            self.inventory.put_item(idx, Item.ContainerItem.new(tools[id]))
+    
+    return idx

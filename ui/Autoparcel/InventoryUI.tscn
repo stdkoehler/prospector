@@ -1,12 +1,12 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/themes/UI.theme" type="Theme" id=1]
-[ext_resource path="res://ui/InventoryUI.gd" type="Script" id=2]
+[ext_resource path="res://ui/Autoparcel/InventoryUI.gd" type="Script" id=2]
 [ext_resource path="res://assets/ui/inventory.png" type="Texture" id=3]
 
-[sub_resource type="StyleBoxEmpty" id=1]
+[sub_resource type="StyleBoxEmpty" id=11]
 
-[sub_resource type="StyleBoxEmpty" id=2]
+[sub_resource type="StyleBoxEmpty" id=12]
 
 [node name="InventoryUI" type="Control"]
 anchor_right = 1.0
@@ -42,8 +42,8 @@ margin_top = 12.0
 margin_right = 400.0
 margin_bottom = 86.0
 rect_min_size = Vector2( 222, 170 )
-custom_styles/selected_focus = SubResource( 1 )
-custom_styles/selected = SubResource( 2 )
+custom_styles/selected_focus = SubResource( 11 )
+custom_styles/selected = SubResource( 12 )
 custom_colors/guide_color = Color( 0, 0, 0, 0 )
 custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
 custom_constants/vseparation = 4
