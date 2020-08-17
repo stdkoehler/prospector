@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/themes/UI.theme" type="Theme" id=1]
+[ext_resource path="res://ui/Autoparcel/MenuUI.gd" type="Script" id=2]
+
+[node name="MenuUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 278.112
+margin_top = 148.031
+margin_right = 361.112
+margin_bottom = 188.031
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Options" type="Button" parent="VBoxContainer"]
+margin_right = 83.0
+margin_bottom = 17.0
+text = "Options"
+
+[node name="LeaveParcel" type="Button" parent="VBoxContainer"]
+margin_top = 21.0
+margin_right = 83.0
+margin_bottom = 38.0
+text = "Leave Parcel"
+[connection signal="pressed" from="VBoxContainer/LeaveParcel" to="." method="_on_LeaveParcel_pressed"]

@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://assets/themes/UI.theme" type="Theme" id=1]
-[ext_resource path="res://ui/Hub/InteractionUI.gd" type="Script" id=2]
+[ext_resource path="res://ui/Hub/Hub_InteractionUI.gd" type="Script" id=2]
+
 
 [node name="InteractionUI" type="Control"]
 anchor_right = 1.0

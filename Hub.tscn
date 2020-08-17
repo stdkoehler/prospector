@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://assets/player/prospector_anim_spritesheet.png" type="Texture" id=1]
 [ext_resource path="res://assets/floor_tiles/combined.tres" type="TileSet" id=2]
@@ -7,10 +7,11 @@
 [ext_resource path="res://environment/ShopSign.tscn" type="PackedScene" id=5]
 [ext_resource path="res://environment/ParcelSign.tscn" type="PackedScene" id=6]
 [ext_resource path="res://environment/Rock.tscn" type="PackedScene" id=7]
-[ext_resource path="res://ui/Hub/ShopUI.tscn" type="PackedScene" id=8]
+[ext_resource path="res://ui/Hub/Hub_ShopUI.tscn" type="PackedScene" id=8]
 [ext_resource path="res://ui/Hub/HubUI.gd" type="Script" id=9]
-[ext_resource path="res://ui/Hub/InteractionUI.tscn" type="PackedScene" id=10]
+[ext_resource path="res://ui/Hub/Hub_InteractionUI.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Hub.gd" type="Script" id=11]
+[ext_resource path="res://ui/Hub/Hub_MenuUI.tscn" type="PackedScene" id=12]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 11.0
@@ -77,6 +78,8 @@ script = ExtResource( 9 )
 visible = false
 
 [node name="InteractionUI" parent="HubUI" instance=ExtResource( 10 )]
+
+[node name="MenuUI" parent="HubUI" instance=ExtResource( 12 )]
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource( 2 )
