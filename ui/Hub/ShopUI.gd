@@ -114,3 +114,8 @@ func _update(idx):
         $Panel/BuyButton.disabled = false
     else:
         $Panel/BuyButton.disabled = true
+        
+func reset_scroll():
+    $Panel/ItemList.get_v_scroll().value = 0
+        
+

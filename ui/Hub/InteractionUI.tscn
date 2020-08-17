@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/themes/UI.theme" type="Theme" id=1]
+[ext_resource path="res://ui/Hub/InteractionUI.gd" type="Script" id=2]
+
+[node name="InteractionUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Interaction" type="Panel" parent="."]
+margin_left = 377.0
+margin_top = 339.0
+margin_right = 633.0
+margin_bottom = 371.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Options" type="VBoxContainer" parent="Interaction"]
+margin_right = 256.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Text" type="RichTextLabel" parent="Interaction/Options"]
+margin_right = 256.0
+margin_bottom = 35.0
+rect_min_size = Vector2( 256, 35 )
+bbcode_enabled = true
+bbcode_text = "[right]INTERACT (E)[/right]"
+text = "INTERACT (E)"

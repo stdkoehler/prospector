@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+signal open_shop()
+signal open_parcel()
 
 const ACCELERATION = 25
 const MAX_SPEED = 200
@@ -20,16 +22,8 @@ func _reset_player_state():
     set_physics_process(true)
 
 
-
-
-
 func _physics_process(_delta):
-    #if $RayCast2D.is_colliding():
-    #    var object = $RayCast2D.get_collider()
-    #    print(object)
-        #if object.is_in_group("Interactable") && Input.is_action_pressed('ui_interact'):
-            #object.do_something() #This would be where your inraction occurs
-            
+    
     match PlayerData.state.current:
     
         PlayerData.State.STATE.IDLE:
@@ -70,5 +64,62 @@ func _physics_process(_delta):
                 #velocity = Vector2.ZERO
                 
             var _collider = move_and_slide(velocity)
+            
+func _input(event):
+#    if PlayerData.state.current != PlayerData.state.STATE.IDLE and \
+#        PlayerData.state.current != PlayerData.state.STATE.DIGGING:
+#        if Input.is_action_just_pressed("ui_cancel"):
+#            self._reset_player_state()
+    
+    if Input.is_action_just_pressed("ui_interact"):
+        if self._shop_possible():
+            emit_signal("open_shop")
+        elif self._parcel_possible():
+            emit_signal("open_parcel")
         
+func _show_interaction_options():
+    var options_text = ""
+    if self._shop_possible():
+        options_text = "Shop (E) "
+    elif self._parcel_possible():
+        options_text = "Parcel (E)"
         
+    PlayerData.set_interactable_text(options_text)
+        
+func _on_shopsign_entered(shopsign):
+    PlayerData.state.interactables = [shopsign]
+    shopsign.get_node("Line2D").visible = true
+    self._show_interaction_options()
+    
+    
+func _on_shopsign_exited(shopsign):
+    shopsign.get_node("Line2D").visible = false
+    PlayerData.state.interactables.erase(shopsign)
+    self._show_interaction_options()
+    
+func _on_parcelsign_entered(parcelsign):
+    PlayerData.state.interactables = [parcelsign]
+    parcelsign.get_node("Line2D").visible = true
+    self._show_interaction_options()
+    
+    
+func _on_parcelsign_exited(parcelsign):
+    parcelsign.get_node("Line2D").visible = false
+    PlayerData.state.interactables.erase(parcelsign)
+    self._show_interaction_options()
+    
+    
+func _shop_possible():
+    var shop = false
+    for interi in PlayerData.state.interactables:
+        if interi.get_name() == 'ShopSign':
+            shop = true
+    return shop
+
+
+func _parcel_possible():
+    var parcel = false
+    for interi in PlayerData.state.interactables:
+        if interi.get_name() == 'ParcelSign':
+            parcel = true
+    return parcel

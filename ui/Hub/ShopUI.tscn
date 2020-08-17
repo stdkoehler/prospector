@@ -6,13 +6,13 @@
 [ext_resource path="res://ui/Hub/ShopUI.gd" type="Script" id=7]
 [ext_resource path="res://assets/themes/western_pixel_6.tres" type="DynamicFont" id=8]
 
-[sub_resource type="StyleBoxEmpty" id=11]
+[sub_resource type="StyleBoxEmpty" id=1]
 
-[sub_resource type="StyleBoxEmpty" id=12]
+[sub_resource type="StyleBoxEmpty" id=2]
 
 [sub_resource type="StyleBoxEmpty" id=3]
 
-[sub_resource type="StyleBoxFlat" id=9]
+[sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -24,7 +24,7 @@ border_color = Color( 0.541176, 0.305882, 0.262745, 1 )
 
 [sub_resource type="StyleBoxEmpty" id=6]
 
-[sub_resource type="StyleBoxFlat" id=13]
+[sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 1
 border_width_top = 1
@@ -32,7 +32,7 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color( 0.541176, 0.305882, 0.262745, 1 )
 
-[sub_resource type="StyleBoxFlat" id=10]
+[sub_resource type="StyleBoxFlat" id=8]
 bg_color = Color( 0.4, 0.223529, 0.192157, 1 )
 
 [node name="ShopUI" type="Control"]
@@ -46,8 +46,10 @@ __meta__ = {
 [node name="Panel" type="Panel" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -218.0
-margin_bottom = -183.0
+margin_left = 56.0
+margin_top = 88.0
+margin_right = -50.0
+margin_bottom = -95.0
 theme = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -67,8 +69,8 @@ margin_top = 12.1801
 margin_right = 544.101
 margin_bottom = 182.18
 rect_min_size = Vector2( 222, 170 )
-custom_styles/selected_focus = SubResource( 11 )
-custom_styles/selected = SubResource( 12 )
+custom_styles/selected_focus = SubResource( 1 )
+custom_styles/selected = SubResource( 2 )
 custom_colors/guide_color = Color( 0, 0, 0, 0 )
 custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
 custom_constants/vseparation = 4
@@ -89,11 +91,11 @@ margin_top = 14.0
 margin_right = 260.0
 margin_bottom = 136.0
 custom_styles/cursor = SubResource( 3 )
-custom_styles/selected_focus = SubResource( 9 )
+custom_styles/selected_focus = SubResource( 4 )
 custom_styles/bg_focus = SubResource( 5 )
 custom_styles/cursor_unfocused = SubResource( 6 )
-custom_styles/selected = SubResource( 13 )
-custom_styles/bg = SubResource( 10 )
+custom_styles/selected = SubResource( 7 )
+custom_styles/bg = SubResource( 8 )
 custom_fonts/font = ExtResource( 8 )
 custom_colors/guide_color = Color( 0, 0, 0, 0 )
 __meta__ = {
