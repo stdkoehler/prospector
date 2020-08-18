@@ -153,6 +153,7 @@ visible = false
 mouse_filter = 2
 
 [node name="MenuUI" parent="UI" instance=ExtResource( 13 )]
+visible = false
 
 [node name="MinigameUI" parent="UI" instance=ExtResource( 15 )]
 

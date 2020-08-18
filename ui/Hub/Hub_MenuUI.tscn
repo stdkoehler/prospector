@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://assets/themes/UI.theme" type="Theme" id=1]
-[ext_resource path="res://ui/Autoparcel/MenuUI.gd" type="Script" id=2]
+[ext_resource path="res://ui/Hub/Hub_MenuUI.gd" type="Script" id=2]
 
 [node name="MenuUI" type="Control"]
 anchor_right = 1.0
@@ -26,9 +26,22 @@ margin_right = 83.0
 margin_bottom = 17.0
 text = "Options"
 
-[node name="LeaveParcel" type="Button" parent="VBoxContainer"]
+[node name="LeaveGame" type="Button" parent="VBoxContainer"]
 margin_top = 21.0
 margin_right = 83.0
 margin_bottom = 38.0
-text = "Leave Parcel"
-[connection signal="pressed" from="VBoxContainer/LeaveParcel" to="." method="_on_LeaveParcel_pressed"]
+text = "Leave Game"
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+margin_left = 247.0
+margin_top = 148.457
+margin_right = 447.0
+margin_bottom = 218.457
+theme = ExtResource( 1 )
+window_title = "Leave Game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_Options_pressed"]
+[connection signal="pressed" from="VBoxContainer/LeaveGame" to="." method="_on_LeaveGame_pressed"]
+[connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_ConfirmationDialog_confirmed"]

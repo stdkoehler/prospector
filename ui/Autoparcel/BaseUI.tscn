@@ -9,7 +9,6 @@
 [ext_resource path="res://assets/tools/shovel/icon_shovel_steel.png" type="Texture" id=7]
 [ext_resource path="res://assets/ui/toolbelt.png" type="Texture" id=8]
 
-
 [sub_resource type="StyleBoxEmpty" id=1]
 
 [sub_resource type="StyleBoxEmpty" id=2]

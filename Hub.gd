@@ -15,6 +15,8 @@ func _ready():
     
     $YSort/Player.connect("open_shop", $HubUI, "_on_shop_opened")
     $YSort/Player.connect("open_parcel", $HubUI, "_on_parcel_opened")
+    
+    $HubUI/MenuUI.connect("open_options", $HubUI, "_on_options_opened")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

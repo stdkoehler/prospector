@@ -1,19 +1,19 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://assets/themes/UI.theme" type="Theme" id=1]
-[ext_resource path="res://assets/icons/icon_goldbag.png" type="Texture" id=2]
-[ext_resource path="res://assets/icons/icon_goldbar.png" type="Texture" id=3]
-[ext_resource path="res://Menu.gd" type="Script" id=4]
-[ext_resource path="res://assets/ui/menu.png" type="Texture" id=5]
+[ext_resource path="res://assets/ui/menu.png" type="Texture" id=1]
+[ext_resource path="res://assets/themes/UI.theme" type="Theme" id=2]
+[ext_resource path="res://_Menu.gd" type="Script" id=3]
+[ext_resource path="res://assets/icons/icon_goldbar.png" type="Texture" id=4]
+[ext_resource path="res://assets/icons/icon_goldbag.png" type="Texture" id=5]
 
 [sub_resource type="StyleBoxTexture" id=1]
-texture = ExtResource( 5 )
+texture = ExtResource( 1 )
 region_rect = Rect2( 0, 0, 640, 360 )
 
 [node name="Menu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 4 )
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -21,7 +21,7 @@ __meta__ = {
 [node name="Options" type="Panel" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource( 1 )
+theme = ExtResource( 2 )
 custom_styles/panel = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -91,7 +91,7 @@ margin_left = 235.0
 margin_top = 140.994
 margin_right = 423.0
 margin_bottom = 184.994
-theme = ExtResource( 1 )
+theme = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -112,7 +112,7 @@ margin_left = 211.386
 margin_top = 87.0
 margin_right = 497.386
 margin_bottom = 122.0
-theme = ExtResource( 1 )
+theme = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -129,7 +129,7 @@ __meta__ = {
 [node name="icon_goldore" type="TextureRect" parent="Currency/Currency"]
 margin_right = 32.0
 margin_bottom = 35.0
-texture = ExtResource( 2 )
+texture = ExtResource( 5 )
 
 [node name="margin_goldore" type="MarginContainer" parent="Currency/Currency"]
 margin_left = 42.0
@@ -150,7 +150,7 @@ text = "0 oz"
 margin_left = 148.0
 margin_right = 180.0
 margin_bottom = 35.0
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 
 [node name="margin_goldbar" type="MarginContainer" parent="Currency/Currency"]
 margin_left = 190.0
@@ -176,7 +176,7 @@ margin_left = 247.0
 margin_top = 148.457
 margin_right = 447.0
 margin_bottom = 218.457
-theme = ExtResource( 1 )
+theme = ExtResource( 2 )
 window_title = "Leave Game"
 __meta__ = {
 "_edit_use_anchors_": false

@@ -1,0 +1,87 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/themes/UI.theme" type="Theme" id=1]
+[ext_resource path="res://ui/Hub/Hub_OptionsUI.gd" type="Script" id=2]
+[ext_resource path="res://assets/ui/menu.png" type="Texture" id=3]
+
+[sub_resource type="StyleBoxTexture" id=1]
+texture = ExtResource( 3 )
+region_rect = Rect2( 0, 0, 640, 360 )
+
+[node name="OptionsUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Options" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBox" type="VBoxContainer" parent="Options"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 235.0
+margin_top = 112.0
+margin_right = -217.0
+margin_bottom = -151.0
+custom_constants/separation = 15
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Options" type="Label" parent="Options/VBox"]
+margin_right = 188.0
+margin_bottom = 15.0
+size_flags_vertical = 1
+text = "Options"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Minigame" type="GridContainer" parent="Options/VBox"]
+margin_top = 30.0
+margin_right = 188.0
+margin_bottom = 97.0
+size_flags_vertical = 3
+custom_constants/hseparation = 15
+columns = 2
+
+[node name="Digging" type="Label" parent="Options/VBox/Minigame"]
+margin_top = 1.0
+margin_right = 50.0
+margin_bottom = 16.0
+text = "Digging"
+
+[node name="DiggingOption" type="OptionButton" parent="Options/VBox/Minigame"]
+margin_left = 65.0
+margin_right = 188.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "Time"
+items = [ "Time", null, false, 0, null, "Reaction Game", null, false, 1, null, "Math Game", null, false, 2, null ]
+selected = 0
+
+[node name="Panning" type="Label" parent="Options/VBox/Minigame"]
+margin_top = 22.0
+margin_right = 50.0
+margin_bottom = 37.0
+text = "Panning"
+
+[node name="PanningOption" type="OptionButton" parent="Options/VBox/Minigame"]
+margin_left = 65.0
+margin_top = 21.0
+margin_right = 188.0
+margin_bottom = 38.0
+text = "Time"
+items = [ "Time", null, false, 0, null, "Reaction Game", null, false, 1, null, "Math Game", null, false, 2, null ]
+selected = 0
+[connection signal="item_selected" from="Options/VBox/Minigame/DiggingOption" to="." method="_on_DiggingOption_item_selected"]
+[connection signal="item_selected" from="Options/VBox/Minigame/PanningOption" to="." method="_on_PanningOption_item_selected"]

@@ -1,0 +1,165 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://assets/themes/western_pixel_6.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/icons/icon_goldbar.png" type="Texture" id=2]
+[ext_resource path="res://assets/ui/Hub/parcelscreen.png" type="Texture" id=3]
+[ext_resource path="res://assets/themes/UI.theme" type="Theme" id=4]
+[ext_resource path="res://ui/Hub/Hub_ParcelUI.gd" type="Script" id=5]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.541176, 0.305882, 0.262745, 1 )
+
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[sub_resource type="StyleBoxEmpty" id=4]
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.541176, 0.305882, 0.262745, 1 )
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.4, 0.223529, 0.192157, 1 )
+
+[node name="ParcelUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_left = 56.0
+margin_top = 88.0
+margin_right = 590.0
+margin_bottom = 265.0
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Options" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Options"]
+margin_left = 368.0
+margin_top = 112.0
+margin_right = 556.0
+margin_bottom = 156.0
+theme = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SmeltOre" type="Button" parent="Options/VBoxContainer"]
+margin_right = 188.0
+margin_bottom = 17.0
+text = "Smelt Ore"
+
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 56.0
+margin_top = 88.0
+margin_right = -50.0
+margin_bottom = -95.0
+theme = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemList" type="ItemList" parent="Panel"]
+margin_left = 19.0
+margin_top = 14.0
+margin_right = 260.0
+margin_bottom = 136.0
+custom_styles/cursor = SubResource( 1 )
+custom_styles/selected_focus = SubResource( 2 )
+custom_styles/bg_focus = SubResource( 3 )
+custom_styles/cursor_unfocused = SubResource( 4 )
+custom_styles/selected = SubResource( 5 )
+custom_styles/bg = SubResource( 6 )
+custom_fonts/font = ExtResource( 1 )
+custom_colors/guide_color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="Panel"]
+margin_left = 19.0
+margin_top = 140.0
+margin_right = 134.0
+margin_bottom = 172.0
+columns = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cost" type="Label" parent="Panel/GridContainer"]
+margin_right = 45.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+size_flags_vertical = 7
+custom_colors/font_color = Color( 0.878431, 0.878431, 0.878431, 1 )
+text = "0.1/4.0"
+valign = 1
+
+[node name="TextureRect" type="TextureRect" parent="Panel/GridContainer"]
+margin_left = 49.0
+margin_right = 81.0
+margin_bottom = 32.0
+texture = ExtResource( 2 )
+
+[node name="GridContainer2" type="GridContainer" parent="Panel"]
+margin_left = 155.0
+margin_top = 147.0
+margin_right = 262.0
+margin_bottom = 164.0
+columns = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SpinBox" type="SpinBox" parent="Panel/GridContainer2"]
+margin_right = 64.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 64, 0 )
+min_value = 1.0
+max_value = 7.0
+value = 1.0
+rounded = true
+editable = false
+suffix = "days"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LeaseButton" type="Button" parent="Panel/GridContainer2"]
+margin_left = 68.0
+margin_right = 107.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+disabled = true
+text = "Lease"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="item_selected" from="Panel/ItemList" to="." method="_on_ItemList_item_selected"]
+[connection signal="value_changed" from="Panel/GridContainer2/SpinBox" to="." method="_on_SpinBox_value_changed"]
+[connection signal="pressed" from="Panel/GridContainer2/LeaseButton" to="." method="_on_LeaseButton_pressed"]

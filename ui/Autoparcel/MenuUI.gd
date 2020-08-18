@@ -8,7 +8,11 @@ func _ready():
 
 
 func _on_LeaveParcel_pressed():
+    $ConfirmationDialog.popup()
+    
+
+func _on_ConfirmationDialog_confirmed():
     PlayerData.state.stamina = 100
-    GlobalManager.goto_scene("res://Menu.tscn")
+    GlobalManager.goto_scene("res://Hub.tscn")
 
 
