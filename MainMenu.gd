@@ -14,6 +14,7 @@ func _ready():
     if  slotinfo == null:
         $Panel/Grid/Delete1.disabled = true
         $Panel/Grid/Slot1.text = "Slot 1"
+        self.time_played_slot1 = 0
     else:
         $Panel/Grid/Delete1.disabled = false
         $Panel/Grid/Slot1.text = "Slot 1 " + self._timeformat(slotinfo)
@@ -23,6 +24,7 @@ func _ready():
     if  slotinfo == null:
         $Panel/Grid/Delete2.disabled = true
         $Panel/Grid/Slot2.text = "Slot 2"
+        self.time_played_slot2 = 0
     else:
         $Panel/Grid/Delete2.disabled = false
         $Panel/Grid/Slot2.text = "Slot 2 " + self._timeformat(slotinfo)
@@ -32,6 +34,7 @@ func _ready():
     if  slotinfo == null:
         $Panel/Grid/Delete3.disabled = true
         $Panel/Grid/Slot3.text = "Slot 3"
+        self.time_played_slot3 = 0
     else:
         $Panel/Grid/Delete3.disabled = false
         $Panel/Grid/Slot3.text = "Slot 3 " + self._timeformat(slotinfo)

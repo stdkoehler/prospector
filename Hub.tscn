@@ -321,13 +321,13 @@ position = Vector2( 216, 133 )
 [node name="Rocks" type="YSort" parent="YSort"]
 
 [node name="Rock" parent="YSort/Rocks" instance=ExtResource( 7 )]
-position = Vector2( 224, 320 )
+position = Vector2( 241, 275 )
 
 [node name="Rock2" parent="YSort/Rocks" instance=ExtResource( 7 )]
-position = Vector2( 512, 152 )
+position = Vector2( 529, 147 )
 
 [node name="Rock3" parent="YSort/Rocks" instance=ExtResource( 7 )]
-position = Vector2( 152, 136 )
+position = Vector2( 113, 179.457 )
 
 [node name="BorderMap" type="TileMap" parent="YSort"]
 tile_set = SubResource( 6 )
