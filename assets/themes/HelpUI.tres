@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=21 format=2]
+[gd_resource type="Theme" load_steps=22 format=2]
 
 [ext_resource path="res://assets/themes/western_pixel.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/ui/checkbox_ch.png" type="Texture" id=2]
@@ -6,7 +6,7 @@
 [ext_resource path="res://assets/ui/checkbox_e.png" type="Texture" id=4]
 [ext_resource path="res://assets/ui/checkbox_c.png" type="Texture" id=5]
 
-[sub_resource type="StyleBoxEmpty" id=1]
+[sub_resource type="StyleBoxFlat" id=1]
 
 [sub_resource type="StyleBoxEmpty" id=2]
 
@@ -24,26 +24,39 @@
 
 [sub_resource type="StyleBoxEmpty" id=9]
 
-[sub_resource type="StyleBoxFlat" id=10]
-bg_color = Color( 0.792157, 0.760784, 0.631373, 1 )
+[sub_resource type="StyleBoxEmpty" id=10]
 
 [sub_resource type="StyleBoxFlat" id=11]
-bg_color = Color( 0.670588, 0.164706, 0.164706, 1 )
+bg_color = Color( 0.792157, 0.760784, 0.631373, 1 )
 
 [sub_resource type="StyleBoxFlat" id=12]
+bg_color = Color( 0.670588, 0.164706, 0.164706, 1 )
 
 [sub_resource type="StyleBoxFlat" id=13]
-bg_color = Color( 0.6, 0.6, 0.6, 0.188235 )
 
 [sub_resource type="StyleBoxFlat" id=14]
+bg_color = Color( 0.6, 0.6, 0.6, 0.188235 )
 
 [sub_resource type="StyleBoxFlat" id=15]
+
+[sub_resource type="StyleBoxFlat" id=16]
 bg_color = Color( 0.458824, 0.360784, 0.2, 1 )
 border_color = Color( 0.8, 0.8, 0.8, 0.266667 )
 expand_margin_top = 20.0
 
 [resource]
 default_font = ExtResource( 1 )
+Button/colors/font_color = Color( 0.88, 0.88, 0.88, 1 )
+Button/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
+Button/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
+Button/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+Button/constants/hseparation = 2
+Button/fonts/font = null
+Button/styles/disabled = null
+Button/styles/focus = null
+Button/styles/hover = null
+Button/styles/normal = null
+Button/styles/pressed = SubResource( 1 )
 CheckBox/colors/font_color = Color( 1, 1, 1, 1 )
 CheckBox/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
 CheckBox/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
@@ -56,12 +69,12 @@ CheckBox/icons/checked = ExtResource( 5 )
 CheckBox/icons/radio_checked = ExtResource( 2 )
 CheckBox/icons/radio_unchecked = ExtResource( 3 )
 CheckBox/icons/unchecked = ExtResource( 4 )
-CheckBox/styles/disabled = SubResource( 1 )
-CheckBox/styles/focus = SubResource( 2 )
-CheckBox/styles/hover = SubResource( 3 )
-CheckBox/styles/hover_pressed = SubResource( 4 )
-CheckBox/styles/normal = SubResource( 5 )
-CheckBox/styles/pressed = SubResource( 6 )
+CheckBox/styles/disabled = SubResource( 2 )
+CheckBox/styles/focus = SubResource( 3 )
+CheckBox/styles/hover = SubResource( 4 )
+CheckBox/styles/hover_pressed = SubResource( 5 )
+CheckBox/styles/normal = SubResource( 6 )
+CheckBox/styles/pressed = SubResource( 7 )
 CheckButton/colors/font_color = Color( 0.88, 0.88, 0.88, 1 )
 CheckButton/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
 CheckButton/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
@@ -97,7 +110,7 @@ MenuButton/styles/focus = null
 MenuButton/styles/hover = null
 MenuButton/styles/normal = null
 MenuButton/styles/pressed = null
-Panel/styles/panel = SubResource( 7 )
+Panel/styles/panel = SubResource( 8 )
 PanelContainer/styles/panel = null
 PopupDialog/styles/panel = null
 PopupMenu/colors/font_color = Color( 0.88, 0.88, 0.88, 1 )
@@ -118,8 +131,8 @@ PopupMenu/styles/labeled_separator_right = null
 PopupMenu/styles/panel = null
 PopupMenu/styles/panel_disabled = null
 PopupMenu/styles/separator = null
-PopupPanel/styles/panel = SubResource( 8 )
-ScrollContainer/styles/bg = SubResource( 9 )
+PopupPanel/styles/panel = SubResource( 9 )
+ScrollContainer/styles/bg = SubResource( 10 )
 ToolButton/colors/font_color = Color( 0.88, 0.88, 0.88, 1 )
 ToolButton/colors/font_color_disabled = Color( 0.9, 0.95, 1, 0.3 )
 ToolButton/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
@@ -135,11 +148,11 @@ VScrollBar/icons/decrement = null
 VScrollBar/icons/decrement_highlight = null
 VScrollBar/icons/increment = null
 VScrollBar/icons/increment_highlight = null
-VScrollBar/styles/grabber = SubResource( 10 )
-VScrollBar/styles/grabber_highlight = SubResource( 11 )
-VScrollBar/styles/grabber_pressed = SubResource( 12 )
-VScrollBar/styles/scroll = SubResource( 13 )
-VScrollBar/styles/scroll_focus = SubResource( 14 )
+VScrollBar/styles/grabber = SubResource( 11 )
+VScrollBar/styles/grabber_highlight = SubResource( 12 )
+VScrollBar/styles/grabber_pressed = SubResource( 13 )
+VScrollBar/styles/scroll = SubResource( 14 )
+VScrollBar/styles/scroll_focus = SubResource( 15 )
 WindowDialog/colors/title_color = Color( 0, 0, 0, 1 )
 WindowDialog/constants/close_h_ofs = 18
 WindowDialog/constants/close_v_ofs = 18
@@ -148,4 +161,4 @@ WindowDialog/constants/title_height = 20
 WindowDialog/fonts/title_font = null
 WindowDialog/icons/close = null
 WindowDialog/icons/close_highlight = null
-WindowDialog/styles/panel = SubResource( 15 )
+WindowDialog/styles/panel = SubResource( 16 )
