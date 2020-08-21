@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://assets/floor_tiles/combined.tres" type="TileSet" id=1]
 [ext_resource path="res://Autoparcel.gd" type="Script" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://ui/Autoparcel/UI.gd" type="Script" id=14]
 [ext_resource path="res://ui/Autoparcel/MinigameUI.tscn" type="PackedScene" id=15]
 [ext_resource path="res://ui/Autoparcel/HelpUI.tscn" type="PackedScene" id=16]
+[ext_resource path="res://assets/floor_tiles/fence.tres" type="TileSet" id=17]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 11.0
@@ -185,6 +186,12 @@ script = ExtResource( 11 )
 [node name="GoldContainer" type="Node2D" parent="."]
 
 [node name="YSort" type="YSort" parent="."]
+
+[node name="BorderMap" type="TileMap" parent="YSort"]
+tile_set = ExtResource( 17 )
+cell_size = Vector2( 32, 32 )
+cell_y_sort = true
+format = 1
 
 [node name="RockContainer" type="YSort" parent="YSort"]
 

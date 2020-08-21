@@ -60,7 +60,8 @@ func _enable_placement(flag):
     
 func _check_placable_selected():
     if self.visible:
-        if PlayerData.inventory.get_active_item().type == Item.ITEMTYPE.CONTAINER:
+        var item = PlayerData.inventory.get_active_item()
+        if item != null and item.type == Item.ITEMTYPE.CONTAINER:
             currently_placing = true
             $SpritePlace.visible = true
             var icon = ResourceLoader.load(PlayerData.inventory.get_active_item().texture_path)

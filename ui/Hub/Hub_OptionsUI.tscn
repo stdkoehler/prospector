@@ -55,31 +55,31 @@ custom_constants/hseparation = 15
 columns = 2
 
 [node name="Digging" type="Label" parent="Options/VBox/Minigame"]
-margin_top = 1.0
+margin_top = 2.0
 margin_right = 50.0
-margin_bottom = 16.0
+margin_bottom = 17.0
 text = "Digging"
 
 [node name="DiggingOption" type="OptionButton" parent="Options/VBox/Minigame"]
 margin_left = 65.0
 margin_right = 188.0
-margin_bottom = 17.0
+margin_bottom = 19.0
 size_flags_horizontal = 3
 text = "Time"
 items = [ "Time", null, false, 0, null, "Reaction Game", null, false, 1, null, "Math Game", null, false, 2, null ]
 selected = 0
 
 [node name="Panning" type="Label" parent="Options/VBox/Minigame"]
-margin_top = 22.0
+margin_top = 25.0
 margin_right = 50.0
-margin_bottom = 37.0
+margin_bottom = 40.0
 text = "Panning"
 
 [node name="PanningOption" type="OptionButton" parent="Options/VBox/Minigame"]
 margin_left = 65.0
-margin_top = 21.0
+margin_top = 23.0
 margin_right = 188.0
-margin_bottom = 38.0
+margin_bottom = 42.0
 text = "Time"
 items = [ "Time", null, false, 0, null, "Reaction Game", null, false, 1, null, "Math Game", null, false, 2, null ]
 selected = 0

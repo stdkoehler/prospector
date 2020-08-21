@@ -24,6 +24,7 @@ func close_shop():
     
 func _on_parcel_opened():
     $ParcelUI.reset_scroll()
+    $ParcelUI._update(null)
     $ParcelUI.visible = true
     
 func close_parcel():

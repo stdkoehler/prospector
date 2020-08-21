@@ -2,9 +2,11 @@
 
 [ext_resource path="res://ui/Autoparcel/TutorialPopupWindows/TutorialPopupWindow.tscn" type="PackedScene" id=1]
 
-
 [node name="DiggingBulk" instance=ExtResource( 1 )]
-visible = false
+visible = true
 
 [node name="RichTextLabel" parent="." index="3"]
-text = "You need to place a bucket near the tiles you want to dig up. If necessary, move a bucket into your toolbelt via inventory (I) and select it by keyboard keys 1 to 6."
+margin_top = 12.5735
+margin_bottom = 162.574
+rect_min_size = Vector2( 200, 150 )
+text = "You need to place a bucket near the tiles you want to dig up. If necessary, move a bucket into your toolbelt via inventory (I) and select it by keyboard keys 1 to 6 - It's also possible that the container is full. Then it's time to start panning!"

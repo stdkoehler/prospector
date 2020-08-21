@@ -49,29 +49,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Options" type="Panel" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-theme = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Options"]
-margin_left = 368.0
-margin_top = 112.0
-margin_right = 556.0
-margin_bottom = 156.0
-theme = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="SmeltOre" type="Button" parent="Options/VBoxContainer"]
-margin_right = 188.0
-margin_bottom = 17.0
-text = "Smelt Ore"
-
 [node name="Panel" type="Panel" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -138,7 +115,7 @@ __meta__ = {
 
 [node name="SpinBox" type="SpinBox" parent="Panel/GridContainer2"]
 margin_right = 64.0
-margin_bottom = 17.0
+margin_bottom = 19.0
 rect_min_size = Vector2( 64, 0 )
 min_value = 1.0
 max_value = 7.0
@@ -152,14 +129,30 @@ __meta__ = {
 
 [node name="LeaseButton" type="Button" parent="Panel/GridContainer2"]
 margin_left = 68.0
-margin_right = 107.0
-margin_bottom = 17.0
+margin_right = 109.0
+margin_bottom = 19.0
 size_flags_horizontal = 3
 disabled = true
 text = "Lease"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+margin_left = 312.0
+margin_top = 24.0
+margin_right = 500.0
+margin_bottom = 68.0
+theme = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SmeltOre" type="Button" parent="Panel/VBoxContainer"]
+margin_right = 188.0
+margin_bottom = 19.0
+text = "Smelt Ore"
 [connection signal="item_selected" from="Panel/ItemList" to="." method="_on_ItemList_item_selected"]
 [connection signal="value_changed" from="Panel/GridContainer2/SpinBox" to="." method="_on_SpinBox_value_changed"]
 [connection signal="pressed" from="Panel/GridContainer2/LeaseButton" to="." method="_on_LeaseButton_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/SmeltOre" to="." method="_on_SmeltOre_pressed"]

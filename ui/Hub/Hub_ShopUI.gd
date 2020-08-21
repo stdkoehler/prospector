@@ -110,7 +110,9 @@ func _update(idx):
         self._set_price(0)
         
     idx = PlayerData.inventory.get_free_slot()
-    if idx > 0 && cost != null && cost <= PlayerData.inventory.goldbar:
+    # check if there is a free slot and we can afford (owned gold-0.1 to make sure
+    # we can still rent a parcel after buying)
+    if idx > 0 && cost != null && cost <= (PlayerData.inventory.goldbar-0.1):
         $Panel/BuyButton.disabled = false
     else:
         $Panel/BuyButton.disabled = true

@@ -70,6 +70,12 @@ func _on_LeaseButton_pressed():
         cost = meta['cost_0'] + ($Panel/GridContainer2/SpinBox.value-1)*meta['cost_1']
         PlayerData.dec_goldbar(cost)
         GlobalManager.goto_scene("res://Autoparcel.tscn")
+        
+        
+func _on_SmeltOre_pressed():
+    PlayerData.inc_goldbar(0.5*PlayerData.inventory.goldore)
+    PlayerData.inventory.goldore = 0
+    self._update(null)
 
 
 

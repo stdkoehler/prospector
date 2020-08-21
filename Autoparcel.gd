@@ -113,14 +113,12 @@ func _generate_world():
             if      ((x == BORDER or x == WB-BORDER) and (y >= BORDER and y <= HB-BORDER)) \
                 or  ((y == BORDER or y == HB-BORDER) and (x >= BORDER and x <= WB-BORDER)):
                 $Navigation2D/RockNavigationMap.set_cellv(Vector2(x-W2, y-H2), 1)
-                var ri = rockres.instance()
-                ri.initialize(pos0 + 32*Vector2(x-W2, y-H2),2)
-                $YSort/RockContainer.add_child(ri)
+                $YSort/BorderMap.set_cellv(Vector2(x-W2, y-H2), 0)
             
             
     $GrassMap.update_bitmask_region()
     $GroundMap.update_bitmask_region()
-    
+    $YSort/BorderMap.update_bitmask_region()
     
 func _get_tile_index(_noise_sample):
     return TILES.Grass_Dry

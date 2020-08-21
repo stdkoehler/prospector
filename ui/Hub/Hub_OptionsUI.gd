@@ -2,8 +2,8 @@ extends Control
 
 
 func _ready():
-    GlobalManager.minigame_digging = $Options/VBox/Minigame/DiggingOption.get_selected_id()
-    GlobalManager.minigame_panning = $Options/VBox/Minigame/PanningOption.get_selected_id()
+    $Options/VBox/Minigame/DiggingOption.select(GlobalManager.minigame_digging)
+    $Options/VBox/Minigame/PanningOption.select(GlobalManager.minigame_panning)
 
 
 

@@ -177,21 +177,10 @@ func reset():
     file.close()
     
     self.inventory.put_item(0, Item.ToolItem.new(tools['wood_shovel']))
-    self.inventory.put_item(1, Item.ToolItem.new(tools['iron_studded_wood_shovel']))
-    self.inventory.put_item(2, Item.ToolItem.new(tools['iron_shovel']))
-    self.inventory.put_item(3, Item.ToolItem.new(tools['steel_shovel']))
-    self.inventory.put_item(4, Item.ToolItem.new(tools['full_steel_shovel']))
+    self.inventory.put_item(1, Item.ToolItem.new(tools['wood_pan']))
+    self.inventory.put_item(2, Item.ContainerItem.new(tools['small_bucket']))
     
-    self.inventory.put_item(5, Item.ToolItem.new(tools['wood_pan']))
-    self.inventory.put_item(6, Item.ToolItem.new(tools['iron_sheet_pan']))
-    self.inventory.put_item(7, Item.ToolItem.new(tools['iron_pan']))
-    self.inventory.put_item(8, Item.ToolItem.new(tools['blackcast_steel_pan']))
-    self.inventory.put_item(9, Item.ToolItem.new(tools['blackcast_steel_riffled_pan']))
-    
-    self.inventory.put_item(10, Item.ContainerItem.new(tools['small_bucket']))
-    self.inventory.put_item(11, Item.ContainerItem.new(tools['chest']))
-    
-    self.inventory.goldbar = 0.5
+    self.inventory.goldbar = 0.1
 
 func set_goldore(value):
     self.inventory.goldore = value
