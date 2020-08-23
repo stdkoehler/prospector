@@ -7,6 +7,8 @@ func _ready():
     $Autodestruct.one_shot = true
     var _c = $Autodestruct.connect("timeout", self, "_autodestruct")
     $Autodestruct.start()
+    if 'Shooting' in $AnimationPlayer.get_animation_list():
+        $AnimationPlayer.play('Shooting')
     
     
 func _autodestruct():

@@ -11,8 +11,12 @@ var player = null
 
 
 var canshoot = true
-var bullet_speed = 500
-var bullet = preload('res://environment/arena/Bullet.tscn')
+var canmove = true
+export var bullet_speed = 500
+export var bullet = preload('res://environment/arena/Bullet.tscn')
+
+export var SHOOTFRAME = 3
+export var MOVEFRAME = 4
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -21,19 +25,23 @@ func _ready():
 
 func _physics_process(delta):
     
-    var playerdistance = self.get_global_position().distance_to(self.player.get_global_position())
     
-    if playerdistance < 500 and playerdistance > 175:
-        var acc = ACCELERATION*self.get_global_position().direction_to(self.player.get_global_position())
-        velocity += acc
-        velocity = velocity.clamped(MAX_SPEED)
-    else:
-        velocity = velocity.move_toward(Vector2.ZERO, FRICTION)
+    if canmove == true:
+        #$AnimationPlayer.play("Idle")
+    
+        var playerdistance = self.get_global_position().distance_to(self.player.get_global_position())
         
-    if playerdistance <= 200:
-        self.shoot()
-    
-    var _collider = move_and_slide(velocity)
+        if playerdistance < 500 and playerdistance > 175:
+            var acc = ACCELERATION*self.get_global_position().direction_to(self.player.get_global_position())
+            velocity += acc
+            velocity = velocity.clamped(MAX_SPEED)
+        else:
+            velocity = velocity.move_toward(Vector2.ZERO, FRICTION)
+            
+        if playerdistance <= 200:
+            self.shoot()
+        
+        var _collider = move_and_slide(velocity)
 
 
 func _on_Hitbox_body_entered(body):
@@ -46,18 +54,28 @@ func _on_Hitbox_body_entered(body):
 
 func shoot():
     if self.canshoot:
+        $AnimationPlayer.play("Shoot")
+        self.canshoot = false
+        self.canmove = false
+        
+        
+
+func _on_Sprite_frame_changed():
+    if $Sprite.frame == SHOOTFRAME:
         var bullet_instance = bullet.instance()
         bullet_instance.collision_layer = 8
         bullet_instance.collision_mask = 8
         var dir = self.get_global_position().angle_to_point(self.player.get_global_position())+PI
         print(180*dir/PI)
         bullet_instance.position = Vector2(0,0) # when the object is our own child we don't need global position
-        bullet_instance.rotation_degrees = dir
+        bullet_instance.rotation_degrees = 180*(dir-PI/4)/PI
         bullet_instance.apply_impulse(Vector2(), Vector2(self.bullet_speed, 0).rotated(dir) )
         self.add_child(bullet_instance)
-        self.canshoot = false
         $Timer.start()
         #get_tree().get_root().call_deferred("add_child", bullet_instance)
+    if $Sprite.frame == MOVEFRAME:
+        self.canmove = true
+    
 
 
 func _on_Timer_timeout():

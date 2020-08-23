@@ -1,10 +1,10 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://PlayerArena.gd" type="Script" id=1]
+[ext_resource path="res://player/PlayerArena.gd" type="Script" id=1]
 [ext_resource path="res://Camera2D2.gd" type="Script" id=2]
 [ext_resource path="res://assets/floor_tiles/combined.tres" type="TileSet" id=3]
 [ext_resource path="res://assets/player/prospector_anim_spritesheet.png" type="Texture" id=4]
-[ext_resource path="res://environment/arena/Enemy.tscn" type="PackedScene" id=5]
+[ext_resource path="res://environment/arena/Comanche.tscn" type="PackedScene" id=5]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 11.0
@@ -123,6 +123,6 @@ collision_mask = 8
 [node name="HurtboxShape" type="CollisionShape2D" parent="YSort/Player/Hurtbox"]
 shape = SubResource( 6 )
 
-[node name="KinematicBody2D" parent="YSort" instance=ExtResource( 5 )]
-position = Vector2( 240, 184 )
+[node name="Comanche" parent="YSort" instance=ExtResource( 5 )]
+position = Vector2( 216, 160 )
 [connection signal="body_entered" from="YSort/Player/Hurtbox" to="YSort/Player" method="_on_Hurtbox_body_entered"]
