@@ -12,8 +12,10 @@ var player = null
 
 var canshoot = true
 var canmove = true
-export var bullet_speed = 500
 export var bullet = preload('res://environment/arena/Bullet.tscn')
+export var max_health = 100
+
+onready var health = max_health
 
 export var SHOOTFRAME = 3
 export var MOVEFRAME = 4
@@ -50,6 +52,9 @@ func _on_Hitbox_body_entered(body):
         var dir = body.get_linear_velocity().normalized()
         self.velocity += 350*dir
         body.queue_free()
+        self.health -= body.damage
+        if self.health <= 0:
+            self.queue_free()
 
 
 func shoot():
@@ -69,7 +74,7 @@ func _on_Sprite_frame_changed():
         print(180*dir/PI)
         bullet_instance.position = Vector2(0,0) # when the object is our own child we don't need global position
         bullet_instance.rotation_degrees = 180*(dir-PI/4)/PI
-        bullet_instance.apply_impulse(Vector2(), Vector2(self.bullet_speed, 0).rotated(dir) )
+        bullet_instance.apply_impulse(Vector2(), Vector2(bullet_instance.speed, 0).rotated(dir) )
         self.add_child(bullet_instance)
         $Timer.start()
         #get_tree().get_root().call_deferred("add_child", bullet_instance)

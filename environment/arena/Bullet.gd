@@ -1,5 +1,7 @@
 extends RigidBody2D
 
+export var damage = 20
+export var speed = 300
 
 
 func _ready():

@@ -29,6 +29,8 @@ tracks/0/keys = {
 }
 
 [node name="BulletComancheAxe" instance=ExtResource( 2 )]
+damage = 30
+speed = 500
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource( 1 )

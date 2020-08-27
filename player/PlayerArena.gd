@@ -8,7 +8,6 @@ const FRICTION = 75
 var velocity = Vector2.ZERO
 var last_velocity = Vector2.ZERO
 
-var bullet_speed = 500
 var bullet = preload('res://environment/arena/Bullet.tscn')
 
 
@@ -74,7 +73,11 @@ func _on_Hurtbox_body_entered(body):
         #self.queue_free()
         var dir = body.get_linear_velocity().normalized()
         self.velocity += 350*dir
+        PlayerData.dec_stamina(body.damage)
         body.queue_free()
+        if PlayerData.state.stamina <= 0:
+            PlayerData.state.stamina = 100
+            GlobalManager.goto_scene("res://Hub.tscn")
             
 func shoot():
     var bullet_instance = bullet.instance()
@@ -82,7 +85,7 @@ func shoot():
     var dir = playerpos.angle_to_point(get_global_mouse_position()) + PI
     bullet_instance.position = Vector2(0,0) # when the object is our own child we don't need global position
     bullet_instance.rotation_degrees = dir
-    bullet_instance.apply_impulse(Vector2(), Vector2(self.bullet_speed, 0).rotated(dir) )
+    bullet_instance.apply_impulse(Vector2(), Vector2(bullet_instance.speed, 0).rotated(dir) )
     self.add_child(bullet_instance)
     #get_tree().get_root().call_deferred("add_child", bullet_instance)
     
