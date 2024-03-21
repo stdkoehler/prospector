@@ -53,6 +53,7 @@ func _on_Hitbox_body_entered(body):
         self.velocity += 350*dir
         body.queue_free()
         self.health -= body.damage
+        print(self.health)
         if self.health <= 0:
             self.queue_free()
 
@@ -71,7 +72,6 @@ func _on_Sprite_frame_changed():
         bullet_instance.collision_layer = 8
         bullet_instance.collision_mask = 8
         var dir = self.get_global_position().angle_to_point(self.player.get_global_position())+PI
-        print(180*dir/PI)
         bullet_instance.position = Vector2(0,0) # when the object is our own child we don't need global position
         bullet_instance.rotation_degrees = 180*(dir-PI/4)/PI
         bullet_instance.apply_impulse(Vector2(), Vector2(bullet_instance.speed, 0).rotated(dir) )
